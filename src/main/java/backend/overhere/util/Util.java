@@ -1,7 +1,8 @@
 package backend.overhere.util;
 
-
-import backend.overhere.dto.request.RequestDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import backend.overhere.dto.dbInit.request.RequestDto;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,7 +17,6 @@ import java.util.List;
 public class Util {
 
     public static final String DOMAIN = "https://apis.data.go.kr/B551011/KorWithService1";
-
     public static final String ACCOMMODATION ="32";
     public static final String CULTURE_FACILITY ="14";
     public static final String FESTIVAL ="15";
@@ -26,6 +26,8 @@ public class Util {
     public static final String SHOPPING = "38";
 
     public static List<String> failedList = new ArrayList<>();
+
+    public static final ObjectMapper mapper = new ObjectMapper();
 
     @Value("${api.key}")
     private String key;
@@ -103,4 +105,11 @@ public class Util {
                 .build(true)
                 .toUri();
     }
+    public static Cookie createCookie(String key, String value){
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(12*60*60); // 12h
+        cookie.setHttpOnly(true);   //JS로 접근 불가, 탈취 위험 감소
+        return cookie;
+    }
+
 }

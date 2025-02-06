@@ -1,11 +1,10 @@
 package backend.overhere.controller;
 
-
-import backend.overhere.domain.TouristAttraction;
-import backend.overhere.dto.request.RequestDto;
-import backend.overhere.dto.response.urlResponse.ResponseDtoUrl3;
-import backend.overhere.service.DbInitService;
-import backend.overhere.service.TouristAttractionService;
+import backend.overhere.dto.dbInit.response.urlResponse.ResponseDtoUrl3;
+import backend.overhere.dto.dbInit.request.RequestDto;
+import backend.overhere.entity.TouristAttraction;
+import backend.overhere.service.dbInit.DbInitService;
+import backend.overhere.service.dbInit.TouristAttractionService;
 import backend.overhere.util.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
