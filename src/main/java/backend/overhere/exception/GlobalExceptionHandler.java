@@ -16,6 +16,11 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<?> duplicateEmailException(DuplicateEmailException ex){
+        return ErrorDto.settingResponse(HttpStatus.CONFLICT, ResponseStatus.EMAIL_DUPLICATE);
+    }
+
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<?> expiredJwtException(ExpiredJwtException ex){
         return ErrorDto.settingResponse(HttpStatus.UNAUTHORIZED, ResponseStatus.R_TOKEN_EXPIRED);

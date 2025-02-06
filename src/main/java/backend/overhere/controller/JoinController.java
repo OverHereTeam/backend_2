@@ -9,6 +9,7 @@ import backend.overhere.dto.SignUpResponseDto;
 import backend.overhere.dto.error.ErrorDto;
 import backend.overhere.entity.RefreshToken;
 import backend.overhere.entity.User;
+import backend.overhere.exception.DuplicateEmailException;
 import backend.overhere.exception.LoginFormException;
 import backend.overhere.repository.UserRepository;
 import backend.overhere.service.JoinService;
@@ -45,6 +46,11 @@ public class JoinController {
 
     @PostMapping("/join")
     public ResponseEntity<SignUpResponseDto> join(@RequestBody @Validated SignUpRequestDto request){
+        String email = request.getEmail();
+        User user = userService.findByEmailAndProvider(email,"LOCAL");
+        if(user!=null){
+            throw new DuplicateEmailException("Email Duplicate");
+        }
         joinService.join(request);
         SignUpResponseDto response = new SignUpResponseDto("Success");
         return ResponseEntity.status(HttpStatus.OK).body(response);

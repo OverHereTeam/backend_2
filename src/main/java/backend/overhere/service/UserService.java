@@ -5,6 +5,7 @@ import backend.overhere.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,5 +15,8 @@ public class UserService {
 
     public Optional<User> findById(Long id){
         return userRepository.findById(id);
+    }
+    public User findByEmailAndProvider(String email,String provider){
+        return userRepository.findByEmailAndProvider(email,provider);
     }
 }
