@@ -1,7 +1,7 @@
 package backend.overhere.service.auth;
 
 import backend.overhere.configuration.security.userDetails.CustomUserDetails;
-import backend.overhere.entity.User;
+import backend.overhere.domain.User;
 import backend.overhere.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

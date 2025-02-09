@@ -1,11 +1,10 @@
-package backend.overhere.service;
+package backend.overhere.service.api;
 
-import backend.overhere.entity.User;
+import backend.overhere.domain.User;
 import backend.overhere.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

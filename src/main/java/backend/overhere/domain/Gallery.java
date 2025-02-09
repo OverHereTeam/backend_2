@@ -1,4 +1,4 @@
-package backend.overhere.entity;
+package backend.overhere.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
 public class Gallery {
     @Id

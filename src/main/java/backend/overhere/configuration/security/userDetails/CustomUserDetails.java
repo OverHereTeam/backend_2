@@ -1,6 +1,8 @@
 package backend.overhere.configuration.security.userDetails;
 
-import backend.overhere.entity.User;
+import backend.overhere.domain.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -65,5 +67,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getId() {
+        return user.getId();
     }
 }

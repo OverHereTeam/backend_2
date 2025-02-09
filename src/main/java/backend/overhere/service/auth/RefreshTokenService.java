@@ -1,6 +1,6 @@
 package backend.overhere.service.auth;
 
-import backend.overhere.entity.RefreshToken;
+import backend.overhere.domain.RefreshToken;
 import backend.overhere.repository.RefreshTokenRepository;
 import backend.overhere.util.JwtUtil;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package backend.overhere.service.dbInit;
 
 import backend.overhere.dto.dbInit.response.urlResponse.ResponseDtoUrl3;
-import backend.overhere.entity.TouristAttraction;
+import backend.overhere.domain.TouristAttraction;
 import backend.overhere.repository.TouristAttractionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

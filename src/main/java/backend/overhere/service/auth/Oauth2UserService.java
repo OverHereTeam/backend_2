@@ -5,7 +5,7 @@ import backend.overhere.dto.oauth.response.GoogleResponse;
 import backend.overhere.dto.oauth.response.KaKaoResponse;
 import backend.overhere.dto.oauth.response.NaverResponse;
 import backend.overhere.dto.oauth.response.OAuth2Response;
-import backend.overhere.entity.User;
+import backend.overhere.domain.User;
 import backend.overhere.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

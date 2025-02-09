@@ -1,6 +1,6 @@
 package backend.overhere.configuration.security.userDetails;
 
-import backend.overhere.entity.User;
+import backend.overhere.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

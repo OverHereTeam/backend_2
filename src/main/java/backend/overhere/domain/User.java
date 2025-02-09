@@ -1,12 +1,14 @@
-package backend.overhere.entity;
+package backend.overhere.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -22,6 +24,10 @@ public class User {
 
     private String password;
 
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Like> likes = new ArrayList<>();
+
     //enum
     private String role;
 
@@ -31,5 +37,5 @@ public class User {
     //OAuth이면 provider에서의 Id, 일반 로그인이면 null
     private String providerId;
 
-    //회원가입 정책 따라서 필드 선언....
+
 }

@@ -1,7 +1,7 @@
-package backend.overhere.service;
+package backend.overhere.service.api;
 
 import backend.overhere.dto.SignUpRequestDto;
-import backend.overhere.entity.User;
+import backend.overhere.domain.User;
 import backend.overhere.repository.RefreshTokenRepository;
 import backend.overhere.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

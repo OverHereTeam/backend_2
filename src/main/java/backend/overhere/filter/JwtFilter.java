@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.overhere.common.ResponseStatus;
 import backend.overhere.configuration.security.userDetails.CustomUserDetails;
 import backend.overhere.dto.error.ErrorDto;
-import backend.overhere.entity.User;
+import backend.overhere.domain.User;
 import backend.overhere.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

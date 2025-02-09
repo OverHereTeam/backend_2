@@ -1,7 +1,6 @@
 package backend.overhere.repository;
 
-import backend.overhere.entity.RefreshToken;
-import jakarta.transaction.Transactional;
+import backend.overhere.domain.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package backend.overhere.entity;
+package backend.overhere.domain;
 
 
 import jakarta.persistence.*;
