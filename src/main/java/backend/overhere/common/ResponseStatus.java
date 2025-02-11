@@ -1,6 +1,8 @@
 package backend.overhere.common;
 
 public enum ResponseStatus {
+    SUCCESS("Success","SUCCESS"),
+    FAILED("Failed","FAILED"),
     A_TOKEN_EXPIRED("Access Token Expired", "ACCESS_TOKEN_EXPIRED"),
     R_TOKEN_EXPIRED("Refresh Token Expired", "REFRESH_TOKEN_EXPIRED"),
     LOCAL_LOGIN_FAILED("Invalid Email or Password", "CREDENTIALS_INVALID"),

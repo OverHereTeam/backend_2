@@ -25,6 +25,7 @@ public class NonObstacleInfo {
     private String wheelchair;
     private String restroom;
     private String audioguide;
+    private String exits;
 
 
 }

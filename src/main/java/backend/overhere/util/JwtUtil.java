@@ -15,7 +15,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
     private final Key key;
-    public static final int ACCESS_TOKEN_MINUTE = 10;
+    public static final int ACCESS_TOKEN_MINUTE = 60;
     public static final int REFRESH_TOKEN_HOURS = 72;
 
 

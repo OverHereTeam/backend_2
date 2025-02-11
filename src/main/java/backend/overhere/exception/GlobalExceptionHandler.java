@@ -50,4 +50,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> servletException(ServletException ex){
         return ErrorDto.settingResponse(HttpStatus.INTERNAL_SERVER_ERROR,ResponseStatus.SERVLET_ERROR);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> illegalArgumentException(IllegalArgumentException ex){
+        return ErrorDto.settingResponse(HttpStatus.BAD_REQUEST,ResponseStatus.FAILED);
+    }
+
+
 }
