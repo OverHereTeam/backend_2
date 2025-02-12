@@ -157,7 +157,8 @@ public class DbInitService {
     public NonObstacleInfo settingNonObstacleInfo(ResponseDtoUrl10 responseDtoUrl10){
         ResponseDtoUrl10.Item item = responseDtoUrl10.getResponse().getBody().getItems().getItem().get(0);
         return NonObstacleInfo.builder()
-                .elevator(emptyToNull(item.getElevator()))
+                .exits(emptyToNull(item.getExit()))
+                .parking(emptyToNull(item.getParking()))
                 .restroom(emptyToNull(item.getRestroom()))
                 .helpdog(emptyToNull(item.getHelpdog()))
                 .audioguide(emptyToNull(item.getAudioguide()))

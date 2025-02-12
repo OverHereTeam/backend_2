@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Gallery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

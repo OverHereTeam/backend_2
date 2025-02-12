@@ -4,6 +4,10 @@ import backend.overhere.dto.dbInit.response.urlResponse.ResponseDtoUrl3;
 import backend.overhere.domain.TouristAttraction;
 import backend.overhere.repository.TouristAttractionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,14 +17,39 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TouristAttractionService {
     private final TouristAttractionRepository touristAttractionRepository;
 
     //List 전부 Save
-    @Transactional
     public void saveTouristAttractions(List<TouristAttraction> touristAttractionList) {
         touristAttractionRepository.saveAll(touristAttractionList);
     }
+
+
+    public Page<TouristAttraction> getAttractionSearch(String areacode, String type, String searchParam, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Specification<TouristAttraction> spec = Specification.where(null);
+
+        // 지역 조건 추가
+        if (areacode != null) {
+            spec = spec.and(hasAreaCode(areacode));
+        }
+
+        // 유형 조건 추가
+        if (type != null) {
+            spec = spec.and(hasContentTypeId(type));
+        }
+
+        // 검색어 조건 추가
+        if (searchParam != null) {
+            spec = spec.and(hasSearchParam(searchParam));
+        }
+
+        return touristAttractionRepository.findAll(spec, pageable);
+    }
+
 
     //Dto 배열 List로 반환
     public List<TouristAttraction> toTouristAttractionList(ResponseDtoUrl3 responseDtoUrl3) {
@@ -48,6 +77,28 @@ public class TouristAttractionService {
         return touristAttractionList;
     }
 
+    // 지역 코드 조건
+    private Specification<TouristAttraction> hasAreaCode(String areaCode) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("areaCode"), areaCode);
+    }
+
+    // 유형 조건
+    private Specification<TouristAttraction> hasContentTypeId(String contentTypeId) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("contentTypeId"), contentTypeId);
+    }
+
+    // 검색어 조건 (제목, 개요 등을 포함하여 검색)
+    private Specification<TouristAttraction> hasSearchParam(String searchParam) {
+        return (root, query, criteriaBuilder) -> {
+            if (searchParam == null || searchParam.isEmpty()) {
+                return criteriaBuilder.conjunction(); // 검색어가 없으면 항상 참
+            }
+            return criteriaBuilder.or(
+                    criteriaBuilder.like(root.get("title"), "%" + searchParam + "%"),
+                    criteriaBuilder.like(root.get("overview"), "%" + searchParam + "%")
+            );
+        };
+    }
 
 
 

@@ -44,7 +44,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         refreshTokenService.updateExpiredTokens(id);
         refreshTokenService.addRefresh(id,refreshToken);
 
-        ResponseDto.settingResponse(response, HttpStatus.FOUND,ResponseStatus.LOCAL_LOGIN_SUCCESS,accessToken,refreshToken);
+        ResponseDto.settingResponse(response, HttpStatus.OK,ResponseStatus.LOCAL_LOGIN_SUCCESS,accessToken,refreshToken);
 
     }
 }

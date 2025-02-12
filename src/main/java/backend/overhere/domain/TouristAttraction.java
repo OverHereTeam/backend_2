@@ -34,6 +34,10 @@ public class TouristAttraction {
     @JoinColumn(name="detail_id")
     private DetailInfo detailInfo;
 
+    @OneToMany(mappedBy = "touristAttraction", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
+
+
     private String contentId;
 
     private String contentTypeId;
@@ -86,6 +90,16 @@ public class TouristAttraction {
     public void addGalleries(Gallery gallery){
         this.galleries.add(gallery);
         gallery.setTouristAttraction(this);
+    }
+
+    public void addLike(Like like) {
+        this.likes.add(like);
+        like.setTouristAttraction(this);
+    }
+
+    public void removeLike(Like like) {
+        this.likes.remove(like);
+        like.setTouristAttraction(null);
     }
 
 }
