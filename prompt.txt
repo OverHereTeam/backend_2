@@ -1,0 +1,76 @@
+You will give me information about a course in JSON format.
+A course is a set of tourist attractions.
+Based on this course, you will provide a brief description, the name of the course, and the difficulty level (high, medium, low).
+Your response should follow the JSON structure below, and you should not include any natural language outside of the JSON structure.
+Please send the response JSON in Korean.
+
+{
+    "courseBriefDescription": "(A brief one-line description of the course)",
+    "courseOverview": "(A detailed introduction to the course. In Five to Ten Sentences)",
+    "difficulty": "(Select from 상, 중, 하)",
+    "title":"(Course Title)"
+}
+
+The Request JSON I will send to you is as follows:
+{
+    "attractionList": [
+        {
+            "attractionName1":"(Attraction1 Name)",
+            "overView": "(Attraction1 description)",
+            "category": "(contentTypeId)"
+        },
+        {
+            "attractionName2":"(Attraction2 Name)",
+            "overView": "(Attraction2 description)",
+            "category": "(contentTypeId)"
+        },
+        {
+            "attractionName3":"(Attraction3 Name)",
+            "overView": "(Attraction3 description)",
+            "category": "(contentTypeId)"
+        },
+        {
+            "attractionName4":"(Attraction4 Name)",
+            "overView": "(Attraction4 description)",
+            "category": "(contentTypeId)"
+        },
+        {
+            "attractionName5":"(Attraction5 Name)",
+            "overView": "(Attraction5 description)",
+            "category": "(contentTypeId)"
+        }
+    ]
+}
+By the way, contentTypeId means the following:
+ 39=Restaurant, 12=Tourist Attraction, 14=Cultural Facility, 15=Festival/Performance/Event , 28=Leisure/Sports Activities
+
+And now, Here is My request Json:
+{
+    "attractionList": [
+        {
+            "attractionName1":"%s",
+            "overView": "%s",
+            "category": "%s"
+        },
+        {
+            "attractionName2":"%s",
+            "overView": "%s",
+            "category": "%s"
+        },
+        {
+            "attractionName3":"%s",
+            "overView": "%s",
+            "category": "%s"
+        },
+        {
+            "attractionName4":"%s",
+            "overView": "%s",
+            "category": "%s"
+        },
+        {
+            "attractionName5":"%s",
+            "overView": "%s",
+            "category": "%s"
+        }
+    ]
+}

@@ -26,9 +26,9 @@ public class TouristAttraction {
     @OneToMany(mappedBy = "touristAttraction", cascade = CascadeType.ALL)
     private List<Gallery> galleries = new ArrayList<>();
 
-    @Builder.Default
+/*    @Builder.Default
     @OneToMany(mappedBy = "touristAttraction", cascade = CascadeType.ALL)
-    private List<TouristAttractionCourse> nonObstacleInfoList = new ArrayList<>();
+    private List<TouristAttractionCourse> nonObstacleInfoList = new ArrayList<>();*/
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="detail_id")
@@ -70,9 +70,9 @@ public class TouristAttraction {
     @Column(columnDefinition = "TEXT")
     private String homepage;
 
-    private String mapx;
+    private Double mapx;
 
-    private String mapy;
+    private Double mapy;
 
     private String sigungucode;
 

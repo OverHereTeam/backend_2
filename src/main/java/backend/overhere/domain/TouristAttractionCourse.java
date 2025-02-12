@@ -1,12 +1,16 @@
 package backend.overhere.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Builder
+@AllArgsConstructor
 public class TouristAttractionCourse {
 
     @Id
@@ -21,5 +25,7 @@ public class TouristAttractionCourse {
     @ManyToOne
     @JoinColumn(name= "course_id")
     private Course course;
+
+    private Integer orders;
 
 }

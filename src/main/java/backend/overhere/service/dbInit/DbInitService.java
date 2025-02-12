@@ -195,8 +195,8 @@ public class DbInitService {
     public TouristAttraction settingTouristAttraction(ResponseDtoUrl6 responseDtoUrl6,TouristAttraction touristAttraction){
         ResponseDtoUrl6.Item item = responseDtoUrl6.getResponse().getBody().getItems().getItem().get(0);
         touristAttraction.setHomepage(item.getHomepage());
-        touristAttraction.setMapx(item.getMapx());
-        touristAttraction.setMapy(item.getMapy());
+        touristAttraction.setMapx(Double.parseDouble(item.getMapx()));
+        touristAttraction.setMapy(Double.parseDouble(item.getMapy()));
         touristAttraction.setSigungucode(item.getSigungucode());
         touristAttraction.setOverview(item.getOverview());
         return touristAttraction;
