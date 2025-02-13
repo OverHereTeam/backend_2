@@ -27,6 +27,8 @@ Chrome
 
 Mysql
 
+Swagger
+
 ## 실행 방법 
 .env 파일을 루트 디렉토리에 추가하여 주세요.
 
@@ -69,4 +71,16 @@ cd your-repository
 mysql -u root -p
 java -jar build/libs/<파일명>.jar
 ```
+
+## DB ERD
+
+![image](https://github.com/user-attachments/assets/1e5112ce-3673-4917-bf57-e68e93bbd2cf)
+
+
+## Swagger를 통한 API 확인
+```bash
+http://localhost:8080/swagger-ui/index.html#/
+```
+
+![image](https://github.com/user-attachments/assets/8fbc25c1-e357-4927-b8dd-ccbb7b1da226)
 
