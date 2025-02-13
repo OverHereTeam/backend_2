@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TouristAttractionRepository extends JpaRepository<TouristAttraction,Long> , JpaSpecificationExecutor<TouristAttraction> {
     public TouristAttraction findTouristAttractionByContentId(String contentId);
 
     // area_code를 기반으로 데이터를 가져오는 메서드 (페이징 포함)
     Page<TouristAttraction> findByAreaCode(String areaCode, Pageable pageable);
+
+    List<TouristAttraction> findByAreaCode(String areaCode);
 
     Page<TouristAttraction> findByContentTypeId(String type, Pageable pageable);
 

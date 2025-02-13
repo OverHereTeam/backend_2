@@ -61,6 +61,9 @@ spring:
     hibernate:
       ddl-auto: ${LOCAL_DDL_TYPE}
 
+gpt:
+  key: ${GPT_KEY}
+
 api:
   key: ${API_KEY}
 

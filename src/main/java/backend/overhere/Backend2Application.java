@@ -38,6 +38,7 @@ public class Backend2Application {
 		System.setProperty("LOCAL_DDL_TYPE", dotenv.get("LOCAL_DDL_TYPE"));
 
 		System.setProperty("API_KEY", dotenv.get("API_KEY"));
+		System.setProperty("GPT_KEY", dotenv.get("GPT_KEY"));
 	}
 
 }
