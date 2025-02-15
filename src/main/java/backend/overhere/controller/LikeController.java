@@ -6,7 +6,9 @@ import backend.overhere.common.ResponseStatus;
 import backend.overhere.dto.domain.LikeRequestDto;
 import backend.overhere.dto.domain.LikeResponseDto;
 import backend.overhere.service.api.LikeService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/likes")
 @RequiredArgsConstructor
+@Tag(name="회원관리 API", description = "회원가입, 로그아웃, Access Token 재발급 관련 API입니다.")
 public class LikeController {
 
     private final LikeService likeService;
 
     // 좋아요 추가 (POST: /api/v1/likes)
+    @Operation(summary = "좋아요 추가 API",description = "좋아요 추가 API 입니다.")
     @PostMapping
     public ResponseEntity<LikeResponseDto> addLike(@RequestBody LikeRequestDto requestDto,
                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -35,12 +39,14 @@ public class LikeController {
 
     // 사용자별 좋아요 전체 조회 (GET: /api/v1/likes)
     @GetMapping
+    @Operation(summary = "좋아요 전체 조회 API",description = "좋아요 전체 조회 API 입니다.")
     public ResponseEntity<List<LikeResponseDto>> getLikes(@AuthenticationPrincipal CustomUserDetails userDetails) {
         List<LikeResponseDto> likes = likeService.loadLikeAllByUserId(userDetails.getId());
         return ResponseEntity.ok(likes);
     }
 
     // 좋아요 업데이트 (PUT: /api/v1/likes/{touristAttractionId})
+    @Operation(summary = "좋아요 업데이트 API",description = "좋아요 업데이트 API 입니다.")
     @PutMapping("/{touristAttractionId}")
     public ResponseEntity<LikeResponseDto> updateLike(@PathVariable Long touristAttractionId,
                                                       @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -53,6 +59,7 @@ public class LikeController {
     }
 
     // 좋아요 삭제 (DELETE: /api/v1/likes/{touristAttractionId})
+    @Operation(summary = "좋아요 삭제 API",description = "좋아요 삭제 API 입니다.")
     @DeleteMapping("/{touristAttractionId}")
     public ResponseEntity<Void> deleteLike(@PathVariable Long touristAttractionId,
                                            @AuthenticationPrincipal CustomUserDetails userDetails) {

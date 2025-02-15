@@ -7,6 +7,8 @@ import backend.overhere.service.api.TouristAttractionCourseService;
 import backend.overhere.service.dbInit.TouristAttractionService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/api/v1")
+@Tag(name="관광지 DB 초기화 API", description = "공공 API를 통한 로컬 DB 초기화에 대한 설명입니다.")
 @RequiredArgsConstructor
 public class CourseGen {
     // 지구의 반지름 (단위: km)
@@ -29,6 +32,7 @@ public class CourseGen {
     private final GptApiClient gptApiClient;
     private final TouristAttractionService touristAttractionService;
     private final TouristAttractionRepository touristAttractionRepository;
+    @Operation(summary = "코스 DB 초기화 API",description = "코스를 관광지 데이터를 기반으로 만들고 Course 테이블의 over_view, distance, course_type, brief_description 데이터를 GPT를 통해 파싱후 자동 저장합니다.")
     @RequestMapping("/course-generator")
     public void coureGen(@RequestParam String areacode,@RequestParam int iter) {
 

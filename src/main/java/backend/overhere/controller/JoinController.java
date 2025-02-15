@@ -14,6 +14,8 @@ import backend.overhere.service.api.UserService;
 import backend.overhere.util.JwtUtil;
 import backend.overhere.util.Util;
 import io.jsonwebtoken.JwtException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name="회원관리 API", description = "회원가입, 로그아웃, Access Token 재발급 관련 API입니다. ")
 @Slf4j
 public class JoinController {
     private final JoinService joinService;
@@ -38,6 +41,7 @@ public class JoinController {
     private final UserService userService;
     private final Util util;
 
+    @Operation(summary = "회원가입 API",description = "회원가입 API입니다.")
     @PostMapping("/join")
     public ResponseEntity<SignUpResponseDto> join(@RequestBody @Validated SignUpRequestDto request){
         String email = request.getEmail();
@@ -50,12 +54,14 @@ public class JoinController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(summary = "로그인 테스트 API",description = "로그인 테스트 API입니다. 로그인 성공 시 query를 리턴합니다.")
     @GetMapping("/query")
     public String query(){
         return "query";
     }
 
     //AccessToken은 프론트쪽에서 지워버리고 RefreshToken만 받아 DB에서 삭제
+    @Operation(summary = "관광지 에러 재시도 초기화",description = "하드코딩으로 저장 실패한 요소를 다시 시도합니다. 재빌드 하세요.")
     @GetMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request){
         //Refresh Token 뽑기
@@ -77,6 +83,7 @@ public class JoinController {
         }
     }
 
+    @Operation(summary = "Access Token 재발급 API",description = "유효한 Refresh Token을 받고 Access Token을 재발급합니다.")
     @GetMapping("/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request,HttpServletResponse response){
         String refresh= jwtUtil.getRefreshToken(request);

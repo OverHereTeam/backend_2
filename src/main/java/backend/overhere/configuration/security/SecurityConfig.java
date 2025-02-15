@@ -30,7 +30,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 public class SecurityConfig {
 
     private final CustomUserDetailService loginService;
@@ -71,7 +71,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login","/","/join","/refresh","/error","/refresh","/logout","/favicon.ico").permitAll()
+                        .requestMatchers("/v3/api-docs/**","/swagger-resources/**","/swagger-ui/**","/login","/","/join","/refresh","/error","/refresh","/logout","/favicon.ico").permitAll()
                         .anyRequest().authenticated());
 
         http

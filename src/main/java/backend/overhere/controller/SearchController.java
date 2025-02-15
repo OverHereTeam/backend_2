@@ -7,6 +7,8 @@ import backend.overhere.dto.ResponseDto;
 import backend.overhere.dto.domain.SearchResponseDto;
 import backend.overhere.service.api.NonObstacleInfoService;
 import backend.overhere.service.dbInit.TouristAttractionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -21,12 +23,14 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/search")
+@Tag(name="검색 API", description = "각종 검색 API입니다.")
 @RequiredArgsConstructor
 public class SearchController {
     private final TouristAttractionService touristAttractionService;
     private final NonObstacleInfoService nonObstacleInfoService;
 
     // 지역, 유형을 가지고 해당 데이터들 페이징 기능
+    @Operation(summary = "무장애 기반 관광지 검색 API",description = "무장애 기반 관광지 검색 API 입니다.")
     @GetMapping("/non-obstacle")
     public ResponseEntity<ResponseDto<List<SearchResponseDto>>> searchTouristAttractionsByType(
             @RequestParam String type,
@@ -38,6 +42,7 @@ public class SearchController {
         return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, responseDtos);
     }
 
+    @Operation(summary = "관광지 검색 API",description = "지역,유형,검색어를 기반으로 검색합니다.")
     @GetMapping("/tourist-attraction")
     public ResponseEntity<ResponseDto<List<SearchResponseDto>>> searchTouristAttractions(
             @RequestParam(required = false) String areacode,
