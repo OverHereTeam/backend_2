@@ -3,6 +3,7 @@ package backend.overhere.controller;
 import backend.overhere.common.ResponseStatus;
 import backend.overhere.domain.NonObstacleInfo;
 import backend.overhere.domain.TouristAttraction;
+import backend.overhere.domain.enums.ObstacleType;
 import backend.overhere.dto.ResponseDto;
 import backend.overhere.dto.domain.SearchResponseDto;
 import backend.overhere.service.api.NonObstacleInfoService;
@@ -29,7 +30,7 @@ public class SearchController {
     // 지역, 유형을 가지고 해당 데이터들 페이징 기능
     @GetMapping("/non-obstacle")
     public ResponseEntity<ResponseDto<List<SearchResponseDto>>> searchTouristAttractionsByType(
-            @RequestParam String type,
+            @RequestParam ObstacleType type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size) {
 
@@ -57,28 +58,18 @@ public class SearchController {
             // TouristAttraction 객체가 포함된 경우
             if (item instanceof TouristAttraction) {
                 TouristAttraction touristAttraction = (TouristAttraction) item;
-                return createSearchResponseDto(touristAttraction);
+                return touristAttraction.toSearchResponseDto();
             }
             // NonObstacleInfo 객체가 포함된 경우
             else if (item instanceof NonObstacleInfo) {
                 NonObstacleInfo nonObstacleInfo = (NonObstacleInfo) item;
                 TouristAttraction touristAttraction = nonObstacleInfo.getTouristAttraction();
-                return createSearchResponseDto(touristAttraction);
+                return touristAttraction.toSearchResponseDto();
             }
             return null;
         }).collect(Collectors.toList());
     }
 
-    // 공통된 DTO 변환 메서드
-    private SearchResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
-        return SearchResponseDto.builder()
-                .contentTypeId(touristAttraction.getContentTypeId())
-                .title(touristAttraction.getTitle())
-                .areaCode(touristAttraction.getAreaCode())
-                .overView(touristAttraction.getOverview())
-                .contentId(touristAttraction.getId())
-                .thumbnailUrl(touristAttraction.getThumbnail1())
-                .build();
-    }
+
 }
 

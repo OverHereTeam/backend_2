@@ -1,6 +1,7 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.NonObstacleInfo;
+import backend.overhere.domain.enums.ObstacleType;
 import backend.overhere.repository.NonObstacleInfoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,22 +16,22 @@ import org.springframework.stereotype.Service;
 public class NonObstacleInfoService {
     private final NonObstacleInfoRepository nonObstacleInfoRepository;
 
-    public Page<NonObstacleInfo> getNonObstacleInfoByType(String type, int page, int size) {
+    public Page<NonObstacleInfo> getNonObstacleInfoByType(ObstacleType type, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
         // type 값에 따라 메서드 선택
         switch (type) {
-            case "helpdog":
+            case HELPDOG:
                 return nonObstacleInfoRepository.findByHelpdogIsNotNull(pageable);
-            case "parking":
+            case PARKING:
                 return nonObstacleInfoRepository.findByParkingIsNotNull(pageable);
-            case "wheelchair":
+            case WHEELCHAIR:
                 return nonObstacleInfoRepository.findByWheelchairIsNotNull(pageable);
-            case "restroom":
+            case RESTROOM:
                 return nonObstacleInfoRepository.findByRestroomIsNotNull(pageable);
-            case "audioguide":
+            case AUDIOGUIDE:
                 return nonObstacleInfoRepository.findByAudioguideIsNotNull(pageable);
-            case "exit":
+            case EXITS:
                 return nonObstacleInfoRepository.findByExitsIsNotNull(pageable);
             default:
                 throw new IllegalArgumentException("Invalid type: " + type);

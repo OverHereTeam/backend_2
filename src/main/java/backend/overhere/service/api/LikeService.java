@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class LikeService {
 
     private final LikesRepository likesRepository;

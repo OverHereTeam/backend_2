@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @AllArgsConstructor
-public class TouristAttractionCourse {
+public class TouristAttractionCourse {  //관광지 -코스 사이의 중간 테이블
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
