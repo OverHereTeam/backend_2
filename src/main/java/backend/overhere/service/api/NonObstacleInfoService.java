@@ -21,15 +21,15 @@ public class NonObstacleInfoService {
         // type 값에 따라 메서드 선택
         switch (type) {
             case "helpdog":
-                return nonObstacleInfoRepository.findByHelpdogIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByHelpdogIsTrue(pageable);
             case "parking":
-                return nonObstacleInfoRepository.findByParkingIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByParkingIsTrue(pageable);
             case "wheelchair":
-                return nonObstacleInfoRepository.findByWheelchairIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByWheelchairIsTrue(pageable);
             case "restroom":
-                return nonObstacleInfoRepository.findByRestroomIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByRestroomIsTrue(pageable);
             case "audioguide":
-                return nonObstacleInfoRepository.findByAudioguideIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByAudioguideIsTrue(pageable);
             case "exit":
                 return nonObstacleInfoRepository.findByExitsIsNotNull(pageable);
             default:

@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class DbInitService {
 
+    private final List<String> parkingTrueWords=  List.of("있음","가능");
     private final Util util;
     private final WebClient webClient;
     private final TouristAttractionRepository touristAttractionRepository;
@@ -76,6 +77,7 @@ public class DbInitService {
             settingTouristAttraction(responseDtoUrl6,touristAttraction);
 
             //NonObstacleInfo 엔터티 세팅
+            // True/False로 변환
             NonObstacleInfo nonObstacleInfo = settingNonObstacleInfo(responseDtoUrl10);
             touristAttraction.setNonObstacleInfo(nonObstacleInfo);
 
@@ -158,11 +160,11 @@ public class DbInitService {
         ResponseDtoUrl10.Item item = responseDtoUrl10.getResponse().getBody().getItems().getItem().get(0);
         return NonObstacleInfo.builder()
                 .exits(emptyToNull(item.getExit()))
-                .parking(emptyToNull(item.getParking()))
-                .restroom(emptyToNull(item.getRestroom()))
-                .helpdog(emptyToNull(item.getHelpdog()))
-                .audioguide(emptyToNull(item.getAudioguide()))
-                .wheelchair(emptyToNull(item.getWheelchair()))
+                .parking(containsPossibleWord(item.getParking(),parkingTrueWords))
+                .restroom(isFieldPresent(item.getRestroom()))
+                .helpdog(isFieldPresent(item.getHelpdog()))
+                .audioguide(isFieldPresent(item.getHelpdog()))
+                .wheelchair(isFieldPresent(item.getWheelchair()))
                 .build();
 
     }
@@ -215,12 +217,12 @@ public class DbInitService {
             TouristDto.Item item = temp.getItem().get(0);
              detailInfo = DetailInfo.builder()
                      .useTime(item.getUsetime())
-                     .stroller(item2.getStroller())
-                     .elevator(item2.getElevator())
-                     .lactationroom(item2.getLactationroom())
-                     .signguide(item2.getSignguide())
-                     .braileblock(item2.getBraileblock())
-                     .guidehuman(item2.getGuidehuman())
+                     .stroller(isFieldPresent(item2.getStroller()))
+                     .elevator(isFieldPresent(item2.getElevator()))
+                     .lactationroom(isFieldPresent(item2.getLactationroom()))
+                     .signguide(isFieldPresent(item2.getSignguide()))
+                     .braileblock(isFieldPresent(item2.getBraileblock()))
+                     .guidehuman(isFieldPresent(item2.getGuidehuman()))
                      .build();
         }
 
@@ -234,12 +236,12 @@ public class DbInitService {
             detailInfo=DetailInfo.builder()
                     .useTime(item.getUsetimeculture()+"\n"+item.getRestdateculture())
                     .useFee(item.getUsefee())
-                    .stroller(item2.getStroller())
-                    .elevator(item2.getElevator())
-                    .lactationroom(item2.getLactationroom())
-                    .signguide(item2.getSignguide())
-                    .braileblock(item2.getBraileblock())
-                    .guidehuman(item2.getGuidehuman())
+                    .stroller(isFieldPresent(item2.getStroller()))
+                    .elevator(isFieldPresent(item2.getElevator()))
+                    .lactationroom(isFieldPresent(item2.getLactationroom()))
+                    .signguide(isFieldPresent(item2.getSignguide()))
+                    .braileblock(isFieldPresent(item2.getBraileblock()))
+                    .guidehuman(isFieldPresent(item2.getGuidehuman()))
                     .build();
 
         }
@@ -253,12 +255,12 @@ public class DbInitService {
             detailInfo=DetailInfo.builder()
                     .useTime(item.getOpenperiod()+"\n"+item.getUsetimeleports()+"\n"+item.getRestdateleports())
                     .useFee(item.getUsefeeleports())
-                    .stroller(item2.getStroller())
-                    .elevator(item2.getElevator())
-                    .lactationroom(item2.getLactationroom())
-                    .signguide(item2.getSignguide())
-                    .braileblock(item2.getBraileblock())
-                    .guidehuman(item2.getGuidehuman())
+                    .stroller(isFieldPresent(item2.getStroller()))
+                    .elevator(isFieldPresent(item2.getElevator()))
+                    .lactationroom(isFieldPresent(item2.getLactationroom()))
+                    .signguide(isFieldPresent(item2.getSignguide()))
+                    .braileblock(isFieldPresent(item2.getBraileblock()))
+                    .guidehuman(isFieldPresent(item2.getGuidehuman()))
                     .build();
 
         }
@@ -272,12 +274,12 @@ public class DbInitService {
             detailInfo=DetailInfo.builder()
                     .useTime(item.getEventstartdate()+"\n"+item.getEventenddate())
                     .useFee(item.getUsetimefestival())
-                    .stroller(item2.getStroller())
-                    .elevator(item2.getElevator())
-                    .lactationroom(item2.getLactationroom())
-                    .signguide(item2.getSignguide())
-                    .braileblock(item2.getBraileblock())
-                    .guidehuman(item2.getGuidehuman())
+                    .stroller(isFieldPresent(item2.getStroller()))
+                    .elevator(isFieldPresent(item2.getElevator()))
+                    .lactationroom(isFieldPresent(item2.getLactationroom()))
+                    .signguide(isFieldPresent(item2.getSignguide()))
+                    .braileblock(isFieldPresent(item2.getBraileblock()))
+                    .guidehuman(isFieldPresent(item2.getGuidehuman()))
                     .build();
 
         }
@@ -290,12 +292,12 @@ public class DbInitService {
             RestaurantDto.Item item = temp.getItem().get(0);
             detailInfo=DetailInfo.builder()
                     .useTime(item.getOpentimefood()+"\n"+item.getRestdatefood())
-                    .stroller(item2.getStroller())
-                    .elevator(item2.getElevator())
-                    .lactationroom(item2.getLactationroom())
-                    .signguide(item2.getSignguide())
-                    .braileblock(item2.getBraileblock())
-                    .guidehuman(item2.getGuidehuman())
+                    .stroller(isFieldPresent(item2.getStroller()))
+                    .elevator(isFieldPresent(item2.getElevator()))
+                    .lactationroom(isFieldPresent(item2.getLactationroom()))
+                    .signguide(isFieldPresent(item2.getSignguide()))
+                    .braileblock(isFieldPresent(item2.getBraileblock()))
+                    .guidehuman(isFieldPresent(item2.getGuidehuman()))
                     .build();
         }
         else {
@@ -305,5 +307,17 @@ public class DbInitService {
         touristAttraction.setDetailInfo(detailInfo);
         return detailInfo;
     }
+
+    public static boolean containsPossibleWord(String input, List<String> words) {
+        if (input == null || words == null || words.isEmpty()) {
+            return false; // 예외 처리
+        }
+        return words.stream().anyMatch(input::contains);
+    }
+
+    public static boolean isFieldPresent(Object fieldValue) {
+        return fieldValue != null;
+    }
+
 }
 
