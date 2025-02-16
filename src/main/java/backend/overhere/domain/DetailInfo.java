@@ -48,18 +48,18 @@ public class DetailInfo {
 
 
     //nonObstacleInfo에서 가져와 추가해야할 것들
-    @Column(columnDefinition = "TEXT")
-    private String stroller;
-    @Column(columnDefinition = "TEXT")
-    private String elevator;
-    @Column(columnDefinition = "TEXT")
-    private String lactationroom;
-    @Column(columnDefinition = "TEXT")
-    private String signguide;
-    @Column(columnDefinition = "TEXT")
-    private String braileblock;
-    @Column(columnDefinition = "TEXT")
-    private String guidehuman;
+
+    private Boolean stroller;
+
+    private Boolean elevator;
+
+    private Boolean lactationroom;
+
+    private Boolean signguide;
+
+    private Boolean braileblock;
+
+    private Boolean guidehuman;
 
 
 

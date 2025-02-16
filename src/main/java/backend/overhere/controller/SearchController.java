@@ -30,6 +30,7 @@ public class SearchController {
     private final NonObstacleInfoService nonObstacleInfoService;
 
     // 지역, 유형을 가지고 해당 데이터들 페이징 기능
+    // 관광지 더 보러가기를 페이지 이동으로 하느냐 스크롤로 하느냐에 따라 달라짐
     @Operation(summary = "무장애 기반 관광지 검색 API",description = "무장애 기반 관광지 검색 API 입니다.")
     @GetMapping("/non-obstacle")
     public ResponseEntity<ResponseDto<List<SearchResponseDto>>> searchTouristAttractionsByType(
@@ -76,6 +77,7 @@ public class SearchController {
 
     // 공통된 DTO 변환 메서드
     private SearchResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
+        NonObstacleInfo nonObstacleInfo = touristAttraction.getNonObstacleInfo();
         return SearchResponseDto.builder()
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())
@@ -83,6 +85,12 @@ public class SearchController {
                 .overView(touristAttraction.getOverview())
                 .contentId(touristAttraction.getId())
                 .thumbnailUrl(touristAttraction.getThumbnail1())
+                .helpdog(nonObstacleInfo.getHelpdog())
+                .restroom(nonObstacleInfo.getRestroom())
+                .exits(nonObstacleInfo.getExits())
+                .parking(nonObstacleInfo.getParking())
+                .audioguide(nonObstacleInfo.getAudioguide())
+                .wheelchair(nonObstacleInfo.getWheelchair())
                 .build();
     }
 }

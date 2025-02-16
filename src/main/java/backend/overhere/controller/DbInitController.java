@@ -45,11 +45,11 @@ public class DbInitController {
     }
 
     @Operation(summary = "다수의 관광지 초기화",description = "Path Variable로 받은 다수의 관광지의 정보대로 공공API로부터 초기화시킵니다.")
-    @GetMapping("/perOne/{areaCode}/{numOfRows}/{pageNo}")
-    public String initDb(@PathVariable String areaCode, @PathVariable String numOfRows, @PathVariable String pageNo) throws UnsupportedEncodingException {
+    @GetMapping("/perOne/{apiAreaCode}/{numOfRows}/{pageNo}")
+    public String initDb(@PathVariable String apiAreaCode, @PathVariable String numOfRows, @PathVariable String pageNo) throws UnsupportedEncodingException {
         try {
             //pageNo에 있는 numOfRows만큼 하나씩 호출
-            RequestDto requestDto = RequestDto.builder().areaCode(areaCode).numOfRows(numOfRows).pageNo(pageNo).build();
+            RequestDto requestDto = RequestDto.builder().areaCode(apiAreaCode).numOfRows(numOfRows).pageNo(pageNo).build();
             URI uri3 = util.buildEncodedUrl3(requestDto);
             log.info("Attraction URI: {}",uri3.toString());
             ResponseDtoUrl3 responseDtoUrl3 = dbInitService.fetchTouristAttractionData(uri3);
@@ -69,7 +69,9 @@ public class DbInitController {
                     }
                     continue;
                 }
-                requestDto.setContentTypeId(touristAttraction.getContentTypeId());
+                areacodeSetting(touristAttraction, requestDto);
+
+
                 dbInitService.storeDbIndividually(touristAttraction, requestDto);
                 log.info("======================================끝============================================");
             }
@@ -79,6 +81,23 @@ public class DbInitController {
             log.error("TouristAttraction문제");
         }
         return "ok";
+    }
+
+
+    // 지역이 남도, 북도일 경우 조정 >> 남도를 북도 Code로 통일
+    private static void areacodeSetting(TouristAttraction touristAttraction, RequestDto requestDto) {
+        if(touristAttraction.getContentTypeId().equals("38")){
+            requestDto.setContentTypeId("37");
+        }
+        else if(touristAttraction.getContentTypeId().equals("36")){
+            requestDto.setContentTypeId("35");
+        }
+        else if (touristAttraction.getContentTypeId().equals("34")){
+            requestDto.setContentTypeId("33");
+        }
+        else{
+            requestDto.setContentTypeId(touristAttraction.getContentTypeId());
+        }
     }
 
     @Operation(summary = "관광지 에러 재시도 초기화",description = "하드코딩으로 저장 실패한 요소를 다시 시도합니다. 재빌드 하세요.")

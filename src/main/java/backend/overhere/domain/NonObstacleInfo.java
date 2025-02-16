@@ -18,13 +18,13 @@ public class NonObstacleInfo {
     @OneToOne(mappedBy = "nonObstacleInfo")
     private TouristAttraction touristAttraction;
 
-    private String helpdog;
+    private Boolean helpdog;
 
     //10번
-    private String parking;
-    private String wheelchair;
-    private String restroom;
-    private String audioguide;
+    private Boolean parking;
+    private Boolean wheelchair;
+    private Boolean restroom;
+    private Boolean audioguide;
     private String exits;
 
 
