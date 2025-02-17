@@ -17,7 +17,7 @@ import static backend.overhere.util.Util.mapper;
 
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseDto<T> {
+public class  ResponseDto<T> {
     private int status;
     private String code;
     private String message;

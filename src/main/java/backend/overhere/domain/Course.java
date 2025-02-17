@@ -17,7 +17,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="course_id")
-    private Long courseId;
+    private Long id;
 
     private String courseType;
 
@@ -32,7 +32,7 @@ public class Course {
     private double distance;
     public CourseResponseDto CoursetoDto() {
         return CourseResponseDto.builder()
-                .courseId(this.courseId)
+                .courseId(this.id)
                 .courseType(this.courseType)
                 .title(this.title)
                 .briefDescription(this.briefDescription)
