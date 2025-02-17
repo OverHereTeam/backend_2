@@ -1,13 +1,17 @@
 package backend.overhere.service.api;
 
+import backend.overhere.domain.Course;
 import backend.overhere.domain.Like;
 import backend.overhere.domain.TouristAttraction;
 import backend.overhere.domain.User;
-import backend.overhere.dto.domain.LikeResponseDto;
-import backend.overhere.repository.LikesRepository;
+import backend.overhere.dto.domain.CourseLikeRequestDto;
+import backend.overhere.dto.domain.CourseLikeResponseDto;
+import backend.overhere.dto.domain.TouristAttractionLikeResponseDto;
+import backend.overhere.repository.CourseRepository;
+import backend.overhere.repository.LikeRepository;
 import backend.overhere.repository.UserRepository;
 import backend.overhere.repository.TouristAttractionRepository;
-import backend.overhere.dto.domain.LikeRequestDto;
+import backend.overhere.dto.domain.TouristAttractionLikeRequestDto;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,13 +25,14 @@ import java.util.NoSuchElementException;
 @Transactional
 public class LikeService {
 
-    private final LikesRepository likesRepository;
+    private final LikeRepository likeRepository;
     private final UserRepository userRepository;
     private final TouristAttractionRepository touristAttractionRepository;
+    private final CourseRepository courseRepository;
 
     // 좋아요 추가 (생성)
-    public LikeResponseDto addLike(LikeRequestDto requestDto) {
-        if (isLikedByUser(requestDto.getUserId(), requestDto.getTouristAttractionId())) {
+    public TouristAttractionLikeResponseDto addTouristAttractionLike(TouristAttractionLikeRequestDto requestDto) {
+        if (isTouristAttractionLikedByUser(requestDto.getUserId(), requestDto.getTouristAttractionId())) {
             throw new IllegalArgumentException("Like already exists");
         }
 
@@ -39,51 +44,79 @@ public class LikeService {
         Like like = new Like();
         like.setUser(user);
         like.setTouristAttraction(touristAttraction);
-        likesRepository.save(like);
+        likeRepository.save(like);
 
-        return like.liketoDto();
+        return like.liketoTouristAttractionDto();
     }
 
     // 좋아요 전체 조회 (읽기 전용 트랜잭션)
     @Transactional(readOnly = true)
-    public List<LikeResponseDto> loadLikeAllByUserId(Long userId) {
+    public List<TouristAttractionLikeResponseDto> loadTouristAttractionLikeAllByUserId(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found"));
         List<Like> likes = user.getLikes();
-        List<LikeResponseDto> dtoList = new ArrayList<>();
+        List<TouristAttractionLikeResponseDto> dtoList = new ArrayList<>();
         for (Like like : likes) {
-            dtoList.add(like.liketoDto());
+            dtoList.add(like.liketoTouristAttractionDto());
         }
         return dtoList;
     }
 
     // 좋아요 업데이트 (예시: 토글 형식 - 좋아요가 있으면 삭제, 없으면 추가)
-    public LikeResponseDto updateLike(LikeRequestDto requestDto) {
-        if (isLikedByUser(requestDto.getUserId(), requestDto.getTouristAttractionId())) {
+    public TouristAttractionLikeResponseDto updateTouristAttractionLike(TouristAttractionLikeRequestDto requestDto) {
+        if (isTouristAttractionLikedByUser(requestDto.getUserId(), requestDto.getTouristAttractionId())) {
             // 이미 좋아요가 존재하면 삭제 후, 반환값은 삭제 전의 데이터 혹은 null 처리
-            deleteLike(requestDto);
+            deleteTouristAttractionLike(requestDto);
             return null; // 삭제 후에는 좋아요가 없는 상태
         } else {
             // 좋아요가 없으면 추가
-            return addLike(requestDto);
+            return addTouristAttractionLike(requestDto);
         }
     }
 
     // 좋아요 삭제
-    public void deleteLike(LikeRequestDto requestDto) {
-        Like like = likesRepository.findByUserIdAndTouristAttractionId(
+    public void deleteTouristAttractionLike(TouristAttractionLikeRequestDto requestDto) {
+        Like like = likeRepository.findByUserIdAndTouristAttractionId(
                 requestDto.getUserId(),
                 requestDto.getTouristAttractionId()
         ).orElseThrow(() -> new IllegalArgumentException("Like not found"));
-        likesRepository.delete(like);
+        likeRepository.delete(like);
     }
 
     // 좋아요 여부 확인
     @Transactional(readOnly = true)
-    public boolean isLikedByUser(Long userId, Long touristAttractionId) {
+    public boolean isTouristAttractionLikedByUser(Long userId, Long touristAttractionId) {
         User user = userRepository.findById(userId).orElse(null);
         TouristAttraction touristAttraction = touristAttractionRepository.findById(touristAttractionId).orElse(null);
         return user != null && touristAttraction != null
-                && likesRepository.existsByUserAndTouristAttraction(user, touristAttraction);
+                && likeRepository.existsByUserAndTouristAttraction(user, touristAttraction);
+    }
+
+    // 좋아요 추가 (생성)
+    public CourseLikeResponseDto addCourseLike(CourseLikeRequestDto requestDto) {
+        if (isCourseLikedByUser(requestDto.getUserId(), requestDto.getCourseId())) {
+            throw new IllegalArgumentException("Like already exists");
+        }
+
+        User user = userRepository.findById(requestDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Course course = courseRepository.findById(requestDto.getCourseId())
+                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
+
+        Like like = new Like();
+        like.setUser(user);
+        like.setCourse(course);
+        likeRepository.save(like);
+
+        return like.liketoCourseDto();
+    }
+
+    // 좋아요 여부 확인
+    @Transactional(readOnly = true)
+    public boolean isCourseLikedByUser(Long userId, Long courseId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Course course = courseRepository.findById(courseId).orElse(null);
+        return user != null && course != null
+                && likeRepository.existsByUserAndCourse(user, course);
     }
 }

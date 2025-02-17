@@ -1,5 +1,6 @@
 package backend.overhere.service.dbInit;
 
+import backend.overhere.dto.dbInit.request.RequestDto;
 import backend.overhere.dto.dbInit.response.urlResponse.ResponseDtoUrl3;
 import backend.overhere.domain.TouristAttraction;
 import backend.overhere.repository.TouristAttractionRepository;
@@ -60,7 +61,7 @@ public class TouristAttractionService {
             TouristAttraction touristAttraction = TouristAttraction.builder()
                     .contentId(item.getContentid())
                     .contentTypeId(item.getContenttypeid())
-                    .areaCode(item.getAreacode())
+                    .areaCode(areacodeSetting(item.getAreacode()))
                     .cat1(item.getCat1())
                     .cat2(item.getCat2())
                     .cat3(item.getCat3())
@@ -75,6 +76,22 @@ public class TouristAttractionService {
         });
 
         return touristAttractionList;
+    }
+
+    // 지역이 남도, 북도일 경우 조정 >> 남도를 북도 Code로 통일
+    private static String areacodeSetting(String areaCode) {
+        if(areaCode.equals("38")){
+            return "37";
+        }
+        else if(areaCode.equals("36")){
+            return "35";
+        }
+        else if (areaCode.equals("34")){
+            return "33";
+        }
+        else{
+            return areaCode;
+        }
     }
 
     // 지역 코드 조건

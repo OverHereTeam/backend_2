@@ -54,15 +54,15 @@ public class TouristAttraction {
 
     private String thumbnail2;
 
-    @Column(columnDefinition = "TEXT")
+
     private String title;
+
 
     private String tel;
 
-    @Column(columnDefinition = "TEXT")
+
     private String address1;
 
-    @Column(columnDefinition = "TEXT")
     private String address2;
 
     private Long view;

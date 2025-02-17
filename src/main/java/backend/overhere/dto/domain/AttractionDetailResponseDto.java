@@ -13,12 +13,12 @@ public class AttractionDetailResponseDto {
     private Long contentId;
     private String overView;
     private String useFee;
-    private String brailleBlock;
-    private String elevator;
-    private String guideHuman;
-    private String signGuide;
-    private String stroller;
-    private String lactationroom;
+    private Boolean brailleBlock;
+    private Boolean elevator;
+    private Boolean guideHuman;
+    private Boolean signGuide;
+    private Boolean stroller;
+    private Boolean lactationroom;
 
     public static AttractionDetailResponseDto from(TouristAttraction attraction) {
         DetailInfo detailInfo = attraction.getDetailInfo();

@@ -40,15 +40,15 @@ public class AttractionInfoResponseDto {
     private String title;
 
     // 무장애 편의정보
-    private String helpDog;
+    private Boolean helpDog;
 
-    private String restRoom;
+    private Boolean restRoom;
 
-    private String wheelchair;
+    private Boolean wheelchair;
 
-    private String audioGuide;
+    private Boolean audioGuide;
 
-    private String parking;
+    private Boolean parking;
 
     public static AttractionInfoResponseDto from(TouristAttraction attraction) {
         return AttractionInfoResponseDto.builder()

@@ -15,14 +15,16 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long courseId;
+    private Long id;
 
     private String courseType;
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String briefDescription;
 
+    @Column(columnDefinition = "TEXT")
     private String overView;
 
     private String difficulty;

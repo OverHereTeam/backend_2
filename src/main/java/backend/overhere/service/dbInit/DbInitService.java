@@ -161,10 +161,10 @@ public class DbInitService {
         return NonObstacleInfo.builder()
                 .exits(emptyToNull(item.getExit()))
                 .parking(containsPossibleWord(item.getParking(),parkingTrueWords))
-                .restroom(isFieldPresent(item.getRestroom()))
-                .helpdog(isFieldPresent(item.getHelpdog()))
-                .audioguide(isFieldPresent(item.getHelpdog()))
-                .wheelchair(isFieldPresent(item.getWheelchair()))
+                .restroom(!item.getRestroom().isBlank())
+                .helpdog(!item.getHelpdog().isBlank())
+                .audioguide(!item.getHelpdog().isBlank())
+                .wheelchair(!item.getWheelchair().isBlank())
                 .build();
 
     }
@@ -201,6 +201,7 @@ public class DbInitService {
         touristAttraction.setMapy(Double.parseDouble(item.getMapy()));
         touristAttraction.setSigungucode(item.getSigungucode());
         touristAttraction.setOverview(item.getOverview());
+        touristAttraction.setView(0L);
         return touristAttraction;
     }
 
@@ -217,12 +218,12 @@ public class DbInitService {
             TouristDto.Item item = temp.getItem().get(0);
              detailInfo = DetailInfo.builder()
                      .useTime(item.getUsetime())
-                     .stroller(isFieldPresent(item2.getStroller()))
-                     .elevator(isFieldPresent(item2.getElevator()))
-                     .lactationroom(isFieldPresent(item2.getLactationroom()))
-                     .signguide(isFieldPresent(item2.getSignguide()))
-                     .braileblock(isFieldPresent(item2.getBraileblock()))
-                     .guidehuman(isFieldPresent(item2.getGuidehuman()))
+                     .stroller(!item2.getStroller().isBlank())
+                     .elevator(!item2.getElevator().isBlank())
+                     .lactationroom(!item2.getLactationroom().isBlank())
+                     .signguide(!item2.getSignguide().isBlank())
+                     .braileblock(!item2.getBraileblock().isBlank())
+                     .guidehuman(!item2.getGuidehuman().isBlank())
                      .build();
         }
 

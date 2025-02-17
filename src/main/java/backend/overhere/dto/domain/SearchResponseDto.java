@@ -12,9 +12,9 @@ public class SearchResponseDto {
     private Long contentId;
     private String contentTypeId;
     private String thumbnailUrl;
-    private Boolean helpdog;
 
-    //10번
+
+    private Boolean helpdog;
     private Boolean parking;
     private Boolean wheelchair;
     private Boolean restroom;

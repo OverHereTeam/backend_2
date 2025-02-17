@@ -82,7 +82,6 @@ public class SearchController {
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())
                 .areaCode(touristAttraction.getAreaCode())
-                .overView(touristAttraction.getOverview())
                 .contentId(touristAttraction.getId())
                 .thumbnailUrl(touristAttraction.getThumbnail1())
                 .helpdog(nonObstacleInfo.getHelpdog())

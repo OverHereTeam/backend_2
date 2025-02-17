@@ -59,6 +59,7 @@ public class DbInitController {
             for (TouristAttraction touristAttraction : touristAttractionList) {
                 log.info("===================================={}번째 시작=====================================",++count);
                 requestDto.setContentId(touristAttraction.getContentId());
+                requestDto.setContentTypeId(touristAttraction.getContentTypeId());
 
                 if(touristAttraction.getContentTypeId().equals(Util.SHOPPING) || touristAttraction.getContentTypeId().equals(Util.ACCOMMODATION)){
                     if(touristAttraction.getContentTypeId().equals(Util.SHOPPING)){
@@ -69,7 +70,6 @@ public class DbInitController {
                     }
                     continue;
                 }
-                areacodeSetting(touristAttraction, requestDto);
 
 
                 dbInitService.storeDbIndividually(touristAttraction, requestDto);
@@ -81,23 +81,6 @@ public class DbInitController {
             log.error("TouristAttraction문제");
         }
         return "ok";
-    }
-
-
-    // 지역이 남도, 북도일 경우 조정 >> 남도를 북도 Code로 통일
-    private static void areacodeSetting(TouristAttraction touristAttraction, RequestDto requestDto) {
-        if(touristAttraction.getContentTypeId().equals("38")){
-            requestDto.setContentTypeId("37");
-        }
-        else if(touristAttraction.getContentTypeId().equals("36")){
-            requestDto.setContentTypeId("35");
-        }
-        else if (touristAttraction.getContentTypeId().equals("34")){
-            requestDto.setContentTypeId("33");
-        }
-        else{
-            requestDto.setContentTypeId(touristAttraction.getContentTypeId());
-        }
     }
 
     @Operation(summary = "관광지 에러 재시도 초기화",description = "하드코딩으로 저장 실패한 요소를 다시 시도합니다. 재빌드 하세요.")
