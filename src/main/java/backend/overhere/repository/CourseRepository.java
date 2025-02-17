@@ -1,11 +1,7 @@
 package backend.overhere.repository;
 
 import backend.overhere.domain.Course;
-import backend.overhere.domain.CourseLike;
-import backend.overhere.domain.Like;
 import backend.overhere.domain.TouristAttraction;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

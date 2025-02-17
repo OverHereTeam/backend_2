@@ -12,9 +12,8 @@ public interface NonObstacleInfoRepository extends JpaRepository<NonObstacleInfo
     Page<NonObstacleInfo> findByHelpdogIsTrue(Pageable pageable);
 
     // 다른 type들에 대해서도 찾아주는 메서드를 추가
-    Page<NonObstacleInfo> findByParkingIsTrue(Pageable pageable);
-    Page<NonObstacleInfo> findByWheelchairIsTrue(Pageable pageable);
-    Page<NonObstacleInfo> findByRestroomIsTrue(Pageable pageable);
-    Page<NonObstacleInfo> findByAudioguideIsTrue(Pageable pageable);
+
     Page<NonObstacleInfo> findByExitsIsNotNull(Pageable pageable);
+
+    Page<NonObstacleInfo> findByParkingIsNotNull(Pageable pageable);
 }

@@ -4,7 +4,7 @@ import backend.overhere.domain.Course;
 import backend.overhere.domain.TouristAttraction;
 import backend.overhere.repository.TouristAttractionRepository;
 import backend.overhere.service.api.TouristAttractionCourseService;
-import backend.overhere.service.dbInit.TouristAttractionService;
+import backend.overhere.service.api.TouristAttractionService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;

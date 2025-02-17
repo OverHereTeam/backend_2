@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class SearchResponseDto {
+public class TouristSearchResponseDto {
     private String title;
     private String areaCode;
     private String overView;

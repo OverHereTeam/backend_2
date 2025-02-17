@@ -7,8 +7,6 @@ import backend.overhere.dto.ResponseDto;
 import backend.overhere.dto.domain.SearchResponseDto;
 import backend.overhere.service.api.NonObstacleInfoService;
 import backend.overhere.service.dbInit.TouristAttractionService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

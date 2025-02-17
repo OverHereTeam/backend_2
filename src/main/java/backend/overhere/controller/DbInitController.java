@@ -4,7 +4,7 @@ import backend.overhere.dto.dbInit.response.urlResponse.ResponseDtoUrl3;
 import backend.overhere.dto.dbInit.request.RequestDto;
 import backend.overhere.domain.TouristAttraction;
 import backend.overhere.service.dbInit.DbInitService;
-import backend.overhere.service.dbInit.TouristAttractionService;
+import backend.overhere.service.api.TouristAttractionService;
 import backend.overhere.util.Util;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
