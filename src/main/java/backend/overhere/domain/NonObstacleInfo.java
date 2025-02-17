@@ -19,7 +19,6 @@ public class NonObstacleInfo {
     private TouristAttraction touristAttraction;
 
     private String helpdog;
-
     //10번
     private String parking;
     private String wheelchair;

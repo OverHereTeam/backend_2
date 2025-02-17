@@ -1,5 +1,7 @@
 package backend.overhere.domain;
 
+import backend.overhere.dto.domain.CourseResponseDto;
+import backend.overhere.dto.domain.LikeResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +17,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="course_id")
     private Long courseId;
 
     private String courseType;
@@ -28,5 +31,15 @@ public class Course {
     private String difficulty;
 
     private double distance;
-
+    public CourseResponseDto CoursetoDto() {
+        return CourseResponseDto.builder()
+                .courseId(this.courseId)
+                .courseType(this.courseType)
+                .title(this.title)
+                .briefDescription(this.briefDescription)
+                .overView(this.overView)
+                .difficulty(this.difficulty)
+                .distance(this.distance)
+                .build();
+    }
 }

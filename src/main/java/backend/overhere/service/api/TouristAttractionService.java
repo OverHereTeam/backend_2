@@ -1,4 +1,4 @@
-package backend.overhere.service.dbInit;
+package backend.overhere.service.api;
 
 import backend.overhere.dto.dbInit.response.urlResponse.ResponseDtoUrl3;
 import backend.overhere.domain.TouristAttraction;
@@ -26,7 +26,6 @@ public class TouristAttractionService {
         touristAttractionRepository.saveAll(touristAttractionList);
     }
 
-
     public Page<TouristAttraction> getAttractionSearch(String areacode, String type, String searchParam, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
 
@@ -41,14 +40,26 @@ public class TouristAttractionService {
         if (type != null) {
             spec = spec.and(hasContentTypeId(type));
         }
-
         // 검색어 조건 추가
         if (searchParam != null) {
             spec = spec.and(hasSearchParam(searchParam));
         }
-
         return touristAttractionRepository.findAll(spec, pageable);
     }
+
+//    public Page<TouristAttraction> getAttractionsByTitle(String searchQuery,int page, int size){
+//
+//        // 화이트 스페이스를 기준으로 검색어 분리
+//        List<String> tokens = Arrays.asList(searchQuery.trim().split("\\s+"));
+//
+//        // Pageable 설정 (페이지 크기 고정: 10)
+//        PageRequest pageable = PageRequest.of(page, size);
+//        // 검색 수행
+//        List<NewsDto> newsList = touristAttractionRepository.searchNewsByTitleTokens(tokens, pageable).getContent();
+//
+//        return new NewsPageResponse(newsList);
+//
+//    }
 
 
     //Dto 배열 List로 반환
