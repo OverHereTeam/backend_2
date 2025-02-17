@@ -92,31 +92,4 @@ public class LikeService {
                 && likeRepository.existsByUserAndTouristAttraction(user, touristAttraction);
     }
 
-    // 좋아요 추가 (생성)
-    public CourseLikeResponseDto addCourseLike(CourseLikeRequestDto requestDto) {
-        if (isCourseLikedByUser(requestDto.getUserId(), requestDto.getCourseId())) {
-            throw new IllegalArgumentException("Like already exists");
-        }
-
-        User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Course course = courseRepository.findById(requestDto.getCourseId())
-                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
-
-        Like like = new Like();
-        like.setUser(user);
-        like.setCourse(course);
-        likeRepository.save(like);
-
-        return like.liketoCourseDto();
-    }
-
-    // 좋아요 여부 확인
-    @Transactional(readOnly = true)
-    public boolean isCourseLikedByUser(Long userId, Long courseId) {
-        User user = userRepository.findById(userId).orElse(null);
-        Course course = courseRepository.findById(courseId).orElse(null);
-        return user != null && course != null
-                && likeRepository.existsByUserAndCourse(user, course);
-    }
 }

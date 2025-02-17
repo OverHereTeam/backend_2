@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class FaqDetailResponseDto {
-    private Long id;
+    private Long faqId;
     private String title;
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

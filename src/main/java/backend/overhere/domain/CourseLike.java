@@ -1,7 +1,6 @@
 package backend.overhere.domain;
 
 import backend.overhere.dto.domain.CourseLikeResponseDto;
-import backend.overhere.dto.domain.TouristAttractionLikeResponseDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "likes")
-public class Like {
+public class CourseLike {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")
@@ -21,19 +20,14 @@ public class Like {
     private User user;
 
     @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name="tourist_attraction_id")
-    private TouristAttraction touristAttraction;
+    @JoinColumn(name="course_id")
+    private Course course;
 
-    
-    public TouristAttractionLikeResponseDto liketoTouristAttractionDto()
+    public CourseLikeResponseDto liketoCourseDto()
     {
-        return TouristAttractionLikeResponseDto.builder()
+        return CourseLikeResponseDto.builder()
                 .likeId(this.id)
-                .touristAttractionId(this.touristAttraction.getId())
                 .username(this.user.getNickname())
                 .build();
     }
-
-
-    
 }

@@ -5,6 +5,7 @@ import backend.overhere.dto.domain.CourseLikeRequestDto;
 import backend.overhere.dto.domain.CourseLikeResponseDto;
 import backend.overhere.dto.domain.TouristAttractionLikeRequestDto;
 import backend.overhere.dto.domain.TouristAttractionLikeResponseDto;
+import backend.overhere.service.api.CourseLikeService;
 import backend.overhere.service.api.LikeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,6 +25,7 @@ import java.util.List;
 public class LikeController {
 
     private final LikeService likeService;
+    private final CourseLikeService courseLikeService;
 
     // 좋아요 추가 (POST: /api/v1/likes)
     @Operation(summary = "관광지 좋아요 추가 API",description = "관광지 좋아요 추가 API 입니다.")
@@ -75,7 +77,7 @@ public class LikeController {
     public ResponseEntity<CourseLikeResponseDto> addCourseLike(@RequestBody CourseLikeRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         // Spring Security 컨텍스트에서 얻은 사용자 정보를 requestDto에 설정
         requestDto.setUserId(userDetails.getId());
-        CourseLikeResponseDto response = likeService.addCourseLike(requestDto);
+        CourseLikeResponseDto response = courseLikeService.addCourseLike(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

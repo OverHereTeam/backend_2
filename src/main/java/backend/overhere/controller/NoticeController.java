@@ -25,14 +25,14 @@ public class NoticeController {
 
     @Operation(summary = "공지사항 리스트 API",description = "공지사항 리스트 API 입니다.")
     @GetMapping
-    public ResponseEntity<List<NoticeResponseDto>> getNotices(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
-        List<NoticeResponseDto> notices = noticeService.getNotices(page, size);
+    public ResponseEntity<List<NoticeDetailResponseDto>> getNotices(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
+        List<NoticeDetailResponseDto> notices = noticeService.getNotices(page, size);
         return ResponseEntity.ok(notices);
     }
 
     @Operation(summary = "개별 공지사항 정보 API ",description = "개별 공지사항 정보 조회 API 입니다.")
     @GetMapping("/{noticeId}")
-    public ResponseEntity<NoticeDetailResponseDto> getNoticeDetail(@RequestParam Long noticeId){
+    public ResponseEntity<NoticeDetailResponseDto> getNoticeDetail(@PathVariable Long noticeId){
         NoticeDetailResponseDto noticeDetail = noticeService.getNoticeDetail(noticeId);
         return ResponseEntity.ok(noticeDetail);
     }

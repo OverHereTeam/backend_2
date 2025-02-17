@@ -20,14 +20,15 @@ import java.util.stream.Collectors;
 public class NoticeService {
     private final NoticeRepository noticeRepository;
 
-    public List<NoticeResponseDto> getNotices(int page, int size) {
+    public List<NoticeDetailResponseDto> getNotices(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Notice> noticePage = noticeRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         return noticePage.getContent().stream()
-                .map(notice -> new NoticeResponseDto(
+                .map(notice -> new NoticeDetailResponseDto(
                         notice.getId(),
                         notice.getTitle(),
+                        notice.getContent(),
                         notice.getCreatedAt(),
                         notice.getUpdatedAt()
                 ))

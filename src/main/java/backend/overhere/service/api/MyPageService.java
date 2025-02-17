@@ -1,12 +1,10 @@
 package backend.overhere.service.api;
 
-import backend.overhere.domain.Course;
-import backend.overhere.domain.Like;
-import backend.overhere.domain.NonObstacleInfo;
-import backend.overhere.domain.TouristAttraction;
+import backend.overhere.domain.*;
 import backend.overhere.dto.domain.AttractionBasicResponseDto;
 import backend.overhere.dto.domain.SearchCourseResponseDto;
 import backend.overhere.dto.domain.SearchResponseDto;
+import backend.overhere.repository.CourseLikeRepository;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +23,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class MyPageService {
     private final LikeRepository likeRepository;
+    private final CourseLikeRepository courseLikeRepository;
     private final CourseRepository courseRepository;
 
     public List<SearchResponseDto> loadTouristAttractionsByLike(Long userId,int page, int size){
@@ -42,7 +41,7 @@ public class MyPageService {
         Pageable pageable = PageRequest.of(page, size);
 
         // 사용자 좋아요한 목록을 페이징 처리하여 가져옴
-        Page<Like> likePage = likeRepository.findByUserId(userId, pageable);
+        Page<CourseLike> likePage = courseLikeRepository.findByUserId(userId, pageable);
 
         return likePage.getContent().stream()
                 .map(like -> createSearchCourseResponseDto(like.getCourse()))

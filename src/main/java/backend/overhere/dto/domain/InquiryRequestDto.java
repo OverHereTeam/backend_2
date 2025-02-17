@@ -9,7 +9,10 @@ import lombok.Setter;
 public class InquiryRequestDto {
     private String title;
 
-    @Lob
+    private String inquiryType;
+
+    private Long userId;
+
     private String content;
 
 }

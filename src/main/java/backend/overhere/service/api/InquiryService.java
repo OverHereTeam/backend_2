@@ -3,10 +3,7 @@ package backend.overhere.service.api;
 import backend.overhere.domain.Faq;
 import backend.overhere.domain.Inquiry;
 import backend.overhere.domain.Notice;
-import backend.overhere.dto.domain.FaqRequestDto;
-import backend.overhere.dto.domain.FaqResponseDto;
-import backend.overhere.dto.domain.InquiryRequestDto;
-import backend.overhere.dto.domain.InquiryResponseDto;
+import backend.overhere.dto.domain.*;
 import backend.overhere.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,17 +22,19 @@ public class InquiryService {
 
     private final InquiryRepository inquiryRepository;
 
-    public List<InquiryResponseDto> getInquiries(Long userId, int page, int size){
+    public List<InquiryDetailResponseDto> getInquiries(Long userId, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<Inquiry> inquiryPage = inquiryRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
         return inquiryPage.getContent().stream()
-                .map(inquiry -> InquiryResponseDto.builder().id(inquiry.getId()).title(inquiry.getTitle()).createdAt(inquiry.getCreatedAt()).isAnswered(inquiry.isAnswered()).inquiryType(inquiry.getInquiryType()).build()).collect(Collectors.toList());
+                .map(inquiry -> InquiryDetailResponseDto.builder().id(inquiry.getId()).title(inquiry.getTitle()).createdAt(inquiry.getCreatedAt()).isAnswered(inquiry.isAnswered()).inquiryType(inquiry.getInquiryType()).build()).collect(Collectors.toList());
     }
 
     public InquiryResponseDto addInquiry(InquiryRequestDto request){
         Inquiry inquiry = new Inquiry();
         inquiry.setContent(request.getContent());
         inquiry.setTitle(request.getTitle());
+        inquiry.setAnswered(false);
+        inquiry.setInquiryType(request.getInquiryType());
         inquiryRepository.save(inquiry);
 
         return inquiry.inquirytoInquiryResponseDto();

@@ -42,28 +42,29 @@ public class MyPageController {
 
     @Operation(summary = "1대1 문의 리스트 API",description = "1대1 문의 리스트 API 입니다.")
     @GetMapping("/inquiries")
-    public ResponseEntity<List<InquiryResponseDto>> getInquiries(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
-        List<InquiryResponseDto> inquiries = inquiryService.getInquiries(userDetails.getId(), page, size);
+    public ResponseEntity<List<InquiryDetailResponseDto>> getInquiries(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        List<InquiryDetailResponseDto> inquiries = inquiryService.getInquiries(userDetails.getId(), page, size);
         return ResponseEntity.ok(inquiries);
     }
 
     @Operation(summary = "1대1 문의 추가 API",description = "1대1 문의 추가 API 입니다.")
     @PostMapping("/inquiries")
     public ResponseEntity<InquiryResponseDto> addInquiry(@AuthenticationPrincipal CustomUserDetails userDetails,@Validated @RequestBody InquiryRequestDto requestDto){
+        requestDto.setUserId(userDetails.getId());
         InquiryResponseDto inquiryResponseDto = inquiryService.addInquiry(requestDto);
         return ResponseEntity.ok(inquiryResponseDto);
     }
 
     @Operation(summary = "자주 묻는 질문 리스트 API",description = "자주 묻는 질문 리스트 API 입니다.")
     @GetMapping("/faqs")
-    public ResponseEntity<List<FaqResponseDto>> getFaqs(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
-        List<FaqResponseDto> faqs = faqService.getFaqs(page, size);
+    public ResponseEntity<List<FaqDetailResponseDto>> getFaqs(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        List<FaqDetailResponseDto> faqs = faqService.getFaqs(page, size);
         return ResponseEntity.ok(faqs);
     }
 
     @Operation(summary = "자주 묻는 질문 리스트 추가 API",description = "자주 묻는 질문 리스트 추가 API입니다.")
-    @PreAuthorize("hasRole('ADMIN')") // 관리자만 접근 가능
-    @PostMapping("/fags")
+    //@PreAuthorize("hasRole('ADMIN')") // 관리자만 접근 가능
+    @PostMapping("/faqs")
     public ResponseEntity<FaqResponseDto> addFaq(@Validated @RequestBody FaqRequestDto request){
         FaqResponseDto faqResponseDto = faqService.addFaq(request);
         return ResponseEntity.ok(faqResponseDto);
@@ -71,7 +72,7 @@ public class MyPageController {
 
     @Operation(summary = "개별 자주 묻는 질문 정보 API ",description = "개별 자주 묻는 질문 정보 API입니다.")
     @GetMapping("/faqs/{faqsId}")
-    public ResponseEntity<FaqDetailResponseDto> getNoticeDetail(@RequestParam Long faqsId){
+    public ResponseEntity<FaqDetailResponseDto> getNoticeDetail(@PathVariable Long faqsId){
         FaqDetailResponseDto faqDetail = faqService.getFaqDetail(faqsId);
         return ResponseEntity.ok(faqDetail);
     }

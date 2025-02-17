@@ -13,12 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class NoticeResponseDto {
-    private Long id;
-    private String title;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime updatedAt;
+    private Long noticeId;
 
 }

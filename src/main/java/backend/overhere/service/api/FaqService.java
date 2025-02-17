@@ -20,14 +20,15 @@ import java.util.stream.Collectors;
 public class FaqService {
     private final FaqRepository faqRepository;
 
-    public List<FaqResponseDto> getFaqs(int page, int size) {
+    public List<FaqDetailResponseDto> getFaqs(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Faq> faqPage = faqRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         return faqPage.getContent().stream()
-                .map(faq -> new FaqResponseDto(
+                .map(faq -> new FaqDetailResponseDto(
                         faq.getId(),
                         faq.getTitle(),
+                        faq.getContent(),
                         faq.getCreatedAt(),
                         faq.getUpdatedAt()
                 ))

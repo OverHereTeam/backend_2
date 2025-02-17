@@ -1,9 +1,11 @@
 package backend.overhere.domain;
 
 import backend.overhere.dto.domain.InquiryResponseDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Inquiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +29,7 @@ public class Inquiry {
 
     @CreatedDate
     @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
 
     private boolean isAnswered;
@@ -36,6 +40,6 @@ public class Inquiry {
     private String content;
 
     public InquiryResponseDto inquirytoInquiryResponseDto(){
-        return InquiryResponseDto.builder().id(this.getId()).inquiryType(this.getInquiryType()).createdAt(this.getCreatedAt()).isAnswered(this.isAnswered()).title(this.getTitle()).build();
+        return InquiryResponseDto.builder().inquiryId(this.getId()).build();
     }
 }
