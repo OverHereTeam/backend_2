@@ -86,7 +86,6 @@ public class SearchController {
         }
     }
 
-
     // 공통된 로직을 처리하는 메서드
     private List<TouristSearchResponseDto> convertToSearchResponseDtos(List<?> content) {
         return content.stream().map(item -> {

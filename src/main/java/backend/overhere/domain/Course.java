@@ -25,7 +25,7 @@ public class Course {
 
     private String briefDescription;
 
-    private String overView;
+    private String overview;
 
     private String difficulty;
 
@@ -36,7 +36,7 @@ public class Course {
                 .courseType(this.courseType)
                 .title(this.title)
                 .briefDescription(this.briefDescription)
-                .overView(this.overView)
+                .overView(this.overview)
                 .difficulty(this.difficulty)
                 .distance(this.distance)
                 .build();

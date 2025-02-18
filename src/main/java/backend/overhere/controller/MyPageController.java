@@ -28,8 +28,8 @@ public class MyPageController {
 
     @Operation(summary = "내 관광지 좋아요 API",description = "내 관광지 좋아요 리스트 API 입니다.")
     @GetMapping("/touristAttraction/likes")
-    public ResponseEntity<List<SearchResponseDto>> getTouristAttractionLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size){
-        List<SearchResponseDto> responseDtos = myPageService.loadTouristAttractionsByLike(userDetails.getId(), page, size);
+    public ResponseEntity<List<TouristSearchResponseDto>> getTouristAttractionLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size){
+        List<TouristSearchResponseDto> responseDtos = myPageService.loadTouristAttractionsByLike(userDetails.getId(), page, size);
         return ResponseEntity.ok(responseDtos);
     }
 

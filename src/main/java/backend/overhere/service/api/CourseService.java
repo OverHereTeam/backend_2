@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class CourseService {
     }
     private Specification<Course> hasSearchQuery(String searchQuery ) {
         return (root, query, criteriaBuilder) -> {
-            if (searchQuery == null || searchQuery.isEmpty()) {
+            if (!StringUtils.hasText(searchQuery)) {
                 return criteriaBuilder.conjunction(); // 검색어가 없으면 항상 참
             }
             return criteriaBuilder.or(
@@ -44,6 +45,5 @@ public class CourseService {
             );
         };
     }
-
 
 }

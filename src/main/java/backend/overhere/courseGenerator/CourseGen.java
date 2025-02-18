@@ -67,7 +67,7 @@ public class CourseGen {
                     String courseBriefDescription = courseDetails.path("courseBriefDescription").asText();
                     String courseOverview = courseDetails.path("courseOverview").asText();
                     String difficulty = courseDetails.path("difficulty").asText();
-                    Course course = Course.builder().difficulty(difficulty).briefDescription(courseBriefDescription).overView(courseOverview).build();
+                    Course course = Course.builder().difficulty(difficulty).briefDescription(courseBriefDescription).overview(courseOverview).build();
                     touristAttractionCourseService.createCourseWithAttractions(course,shortestPath);
 
                 }

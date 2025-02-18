@@ -3,7 +3,7 @@ package backend.overhere.service.api;
 import backend.overhere.domain.*;
 import backend.overhere.dto.domain.AttractionBasicResponseDto;
 import backend.overhere.dto.domain.SearchCourseResponseDto;
-import backend.overhere.dto.domain.SearchResponseDto;
+import backend.overhere.dto.domain.TouristSearchResponseDto;
 import backend.overhere.repository.CourseLikeRepository;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.LikeRepository;
@@ -26,7 +26,7 @@ public class MyPageService {
     private final CourseLikeRepository courseLikeRepository;
     private final CourseRepository courseRepository;
 
-    public List<SearchResponseDto> loadTouristAttractionsByLike(Long userId,int page, int size){
+    public List<TouristSearchResponseDto> loadTouristAttractionsByLike(Long userId, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
 
         // 사용자 좋아요한 목록을 페이징 처리하여 가져옴
@@ -49,9 +49,9 @@ public class MyPageService {
     }
 
 
-    private SearchResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
+    private TouristSearchResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
         NonObstacleInfo nonObstacleInfo = touristAttraction.getNonObstacleInfo();
-        return SearchResponseDto.builder()
+        return TouristSearchResponseDto.builder()
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())
                 .areaCode(touristAttraction.getAreaCode())
