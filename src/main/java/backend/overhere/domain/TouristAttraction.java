@@ -38,7 +38,6 @@ public class TouristAttraction {
     @OneToMany(mappedBy = "touristAttraction", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
-
     private String contentId;
 
     private String contentTypeId;
