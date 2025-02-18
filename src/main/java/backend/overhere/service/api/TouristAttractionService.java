@@ -62,7 +62,6 @@ public class TouristAttractionService {
 //
 //    }
 
-
     //Dto 배열 List로 반환
     public List<TouristAttraction> toTouristAttractionList(ResponseDtoUrl3 responseDtoUrl3) {
         List<TouristAttraction> touristAttractionList = new ArrayList<>();

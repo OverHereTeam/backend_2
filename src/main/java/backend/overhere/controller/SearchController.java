@@ -70,7 +70,6 @@ public class SearchController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size)
     {
-
             Page<Course> result = courseService.getCourseSearch(searchQuery, page, size);
             List<CourseResponseDto> dtoList = result.getContent().stream()
                     .map(Course::CoursetoDto)

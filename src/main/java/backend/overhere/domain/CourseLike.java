@@ -1,9 +1,13 @@
 package backend.overhere.domain;
 
 import backend.overhere.dto.domain.CourseLikeResponseDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,6 +26,11 @@ public class CourseLike {
     @ManyToOne(fetch =FetchType.LAZY)
     @JoinColumn(name="course_id")
     private Course course;
+
+    @CreatedDate
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime createdAt;
 
     public CourseLikeResponseDto liketoCourseDto()
     {

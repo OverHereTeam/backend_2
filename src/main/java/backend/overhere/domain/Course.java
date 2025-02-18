@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -28,6 +31,10 @@ public class Course {
     private String overview;
 
     private String difficulty;
+
+    //코스 <-> 좋아요
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseLike> courseLikes = new ArrayList<>();
 
     private double distance;
     public CourseResponseDto CoursetoDto() {

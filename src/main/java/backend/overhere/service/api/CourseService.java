@@ -2,6 +2,7 @@ package backend.overhere.service.api;
 
 import backend.overhere.domain.Course;
 import backend.overhere.domain.Course;
+import backend.overhere.dto.domain.CourseResponseDto;
 import backend.overhere.repository.AttractionRepository;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.TouristAttractionRepository;
@@ -34,6 +35,20 @@ public class CourseService {
 
         return courseRepository.findAll(spec, pageable);
     }
+
+     //좋아요 수가 많은 코스 상위 N개를 조회
+    public List<CourseResponseDto> getMostLikedCourses(int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+        List<Course> courseList = courseRepository.findMostLikedCourses(pageable);
+
+        // 엔티티 -> DTO 변환
+        return courseList.stream()
+                .map(Course::CoursetoDto)
+                .toList();
+    }
+
+
+
     private Specification<Course> hasSearchQuery(String searchQuery ) {
         return (root, query, criteriaBuilder) -> {
             if (!StringUtils.hasText(searchQuery)) {
