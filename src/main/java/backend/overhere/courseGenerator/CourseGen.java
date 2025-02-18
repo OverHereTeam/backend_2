@@ -81,10 +81,7 @@ public class CourseGen {
                 continue;
             }
 
-
-
         }
-
 
     }
 
@@ -194,7 +191,6 @@ public class CourseGen {
         int randomIndex = rand.nextInt(subset.size());  // 0부터 subset.size()-1까지의 랜덤 인덱스
         return subset.get(randomIndex);
     }
-
 
 
 }
