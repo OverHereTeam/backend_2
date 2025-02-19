@@ -48,12 +48,12 @@ public class JwtFilter extends OncePerRequestFilter {
                 // Access Token 만료 검증
                 if (!jwtUtil.isExpired(accessToken)) {
                     // 유효한 토큰 처리
-                    String id = jwtUtil.getId(accessToken);
+                    Long id = jwtUtil.getId(accessToken);
                     String email = jwtUtil.getEmail(accessToken);
                     String role = jwtUtil.getRole(accessToken);
 
                     User user = new User();
-                    user.setId(Long.parseLong(id));
+                    user.setId(id);
                     user.setEmail(email);
                     user.setPassword("temppassword");
                     user.setRole(role);

@@ -19,7 +19,7 @@ public class RefreshToken {
     private Long id;
 
     //Local이면 DB Id , OAuth면 providerId가 이곳에 저장
-    private String userId;
+    private Long userId;
 
     //userId로 refresh 필드값 읽어와서 받은 RefreshToken과 비교
     private String refresh;

@@ -90,15 +90,15 @@ public class TouristAttractionService {
     }
 
     // 지역이 남도, 북도일 경우 조정 >> 남도를 북도 Code로 통일
-    private static String areacodeSetting(String areaCode) {
-        if(areaCode.equals("38")){
-            return "37";
+    private static Integer areacodeSetting(Integer areaCode) {
+        if(areaCode==38){
+            return 37;
         }
-        else if(areaCode.equals("36")){
-            return "35";
+        else if(areaCode==36){
+            return 35;
         }
-        else if (areaCode.equals("34")){
-            return "33";
+        else if (areaCode==34){
+            return 33;
         }
         else{
             return areaCode;

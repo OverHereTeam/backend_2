@@ -46,6 +46,9 @@ public class SearchController {
             @RequestParam(defaultValue = "6") int size) {
 
         Page<NonObstacleInfo> result = nonObstacleInfoService.getNonObstacleInfoByType(type, page, size);
+        if(result.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         List<TouristSearchResponseDto> responseDtos = convertToSearchResponseDtos(result.getContent());
         return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, responseDtos);
     }
@@ -60,6 +63,9 @@ public class SearchController {
             @RequestParam(defaultValue = "12") int size) {
 
         Page<TouristAttraction> result = touristAttractionService.getAttractionSearch(areacode, type, searchParam,page, size);
+        if(result.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         List<TouristSearchResponseDto> responseDtos = convertToSearchResponseDtos(result.getContent());
         return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, responseDtos);
     }
@@ -107,6 +113,19 @@ public class SearchController {
     // 공통된 DTO 변환 메서드
     private TouristSearchResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
         NonObstacleInfo nonObstacleInfo = touristAttraction.getNonObstacleInfo();
+        TouristSearchResponseDto.PageContentResponseDto.builder()
+                .contentTypeId(touristAttraction.getContentTypeId())
+                .title(touristAttraction.getTitle())
+                .areaCode(touristAttraction.getAreaCode())
+                .contentId(touristAttraction.getId())
+                .thumbnailUrl(touristAttraction.getThumbnail1())
+                .helpdog(nonObstacleInfo.getHelpdog())
+                .restroom(nonObstacleInfo.getRestroom())
+                .exits(nonObstacleInfo.getExits())
+                .parking(nonObstacleInfo.getParking())
+                .audioguide(nonObstacleInfo.getAudioguide())
+                .wheelchair(nonObstacleInfo.getWheelchair())
+                .build();
         return TouristSearchResponseDto.builder()
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())

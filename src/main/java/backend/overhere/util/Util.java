@@ -26,7 +26,7 @@ public class Util {
     public static final String SHOPPING = "38";
 
 
-    public static List<String> failedList = new ArrayList<>();
+    public static List<Long> failedList = new ArrayList<>();
 
     public static final ObjectMapper mapper = new ObjectMapper();
 

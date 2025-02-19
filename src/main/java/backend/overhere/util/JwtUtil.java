@@ -24,9 +24,9 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(byteSecretKey);
     }
 
-    public String getId(String token) {
+    public Long getId(String token) {
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("id", String.class);
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("id", Long.class);
     }
 
     public String getEmail(String token) {
@@ -45,7 +45,7 @@ public class JwtUtil {
     }
 
     //Access 토큰
-    public String createJwt(String userId, String role, String email) {
+    public String createJwt(Long userId, String role, String email) {
 
         Claims claims = Jwts.claims();
         claims.put("id", userId);
@@ -61,7 +61,7 @@ public class JwtUtil {
     }
 
     //Refresh 토큰
-    public String createRefreshJwt(String userId){
+    public String createRefreshJwt(Long userId){
         Claims claims = Jwts.claims();
         claims.put("id", userId);
 

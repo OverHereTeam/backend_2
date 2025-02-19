@@ -66,7 +66,7 @@ public class JoinController {
     public ResponseEntity<?> logout(HttpServletRequest request){
         //Refresh Token 뽑기
         String refreshToken = jwtUtil.getRefreshToken(request);
-        String id = jwtUtil.getId(refreshToken);
+        Long id = jwtUtil.getId(refreshToken);
         // 1단계: 해당 refresh 값이 DB에 있는지 확인
         Optional<RefreshToken> refreshTokenOpt = refreshTokenService.findByRefresh(refreshToken);
         System.out.println("================="+!refreshTokenOpt.get().getExpired());
@@ -96,10 +96,10 @@ public class JoinController {
         jwtUtil.isExpired(refresh);
 
 
-        String id = jwtUtil.getId(refresh);
+        Long id = jwtUtil.getId(refresh);
         // DB에서 Refresh Token 조회
         Optional<RefreshToken> refreshTokenOpt = refreshTokenService.findMatchingRefreshToken(id, refresh);
-        Optional<User> userOpt = userService.findById(Long.parseLong(id));
+        Optional<User> userOpt = userService.findById(id);
 
         if (refreshTokenOpt.isEmpty() || userOpt.isEmpty()) {
             //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh Token not found");

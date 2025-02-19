@@ -38,11 +38,11 @@ public class TouristAttraction {
     @OneToMany(mappedBy = "touristAttraction", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
-    private String contentId;
+    private Long contentId;
 
-    private String contentTypeId;
+    private Integer contentTypeId;
 
-    private String areaCode;
+    private Integer areaCode;
 
     private String cat1;
 
@@ -102,7 +102,7 @@ public class TouristAttraction {
         like.setTouristAttraction(null);
     }
 
-    public TouristSearchResponseDto toSearchResponseDto() {
+/*    public TouristSearchResponseDto toSearchResponseDto() {
         return TouristSearchResponseDto.builder()
                 .contentTypeId(this.contentTypeId)
                 .title(this.title)
@@ -111,7 +111,7 @@ public class TouristAttraction {
                 .contentId(this.id)
                 .thumbnailUrl(this.thumbnail1)
                 .build();
-    }
+    }*/
 
 }
 

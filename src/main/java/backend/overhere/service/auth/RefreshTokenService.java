@@ -17,7 +17,7 @@ import java.util.Optional;
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public void addRefresh(String userId, String refresh){
+    public void addRefresh(Long userId, String refresh){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR_OF_DAY,JwtUtil.REFRESH_TOKEN_HOURS);
 
@@ -30,7 +30,7 @@ public class RefreshTokenService {
     }
 
     //User의 Db id로 Refresh 테이블의 userId와 일치하는 토큰이 있는지 확인
-    public Optional<RefreshToken> findMatchingRefreshToken(String userId, String refreshToken) {
+    public Optional<RefreshToken> findMatchingRefreshToken(Long userId, String refreshToken) {
         Optional<RefreshToken> refreshTokenEntity = refreshTokenRepository.findByUserIdAndExpiredFalse(userId)
                 .stream()
                 .filter(token -> token.getRefresh().equals(refreshToken))
@@ -47,7 +47,7 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByRefresh(refresh);
     }
 
-    public RefreshToken save(String refreshToken,String userId) {
+    public RefreshToken save(String refreshToken,Long userId) {
         RefreshToken tokenObj = new RefreshToken();
         tokenObj.setExpired(false);
         tokenObj.setRefresh(refreshToken);
@@ -55,7 +55,7 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(tokenObj);
     }
 
-    public void updateExpiredTokens(String userId) {
+    public void updateExpiredTokens(Long userId) {
         // userId로 expired가 false인 RefreshToken을 조회
         List<RefreshToken> tokens = refreshTokenRepository.findByUserIdAndExpiredFalse(userId);
 

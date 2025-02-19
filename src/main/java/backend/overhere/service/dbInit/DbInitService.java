@@ -131,7 +131,7 @@ public class DbInitService {
     }
 
     //소개정보 조회 api Response Dto 반환
-    public ResponseDtoUrl7 fetchDetail(URI encode, String typeId){
+    public ResponseDtoUrl7 fetchDetail(URI encode, Integer typeId){
         if(typeId.equals(Util.TOURIST)){
             return webClient.get().uri(encode).retrieve().bodyToMono(TouristDto.class).block();
         }
@@ -206,7 +206,7 @@ public class DbInitService {
     }
 
     public DetailInfo settingDetailInfo(ResponseDtoUrl7 responseDtoUrl7, ResponseDtoUrl10 responseDtoUrl10, TouristAttraction touristAttraction){
-        String typeId = touristAttraction.getContentTypeId();
+        Integer typeId = touristAttraction.getContentTypeId();
         ResponseDtoUrl10.Item item2 = responseDtoUrl10.getResponse().getBody().getItems().getItem().get(0);
         DetailInfo detailInfo;
         if(typeId.equals(Util.TOURIST)){

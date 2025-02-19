@@ -33,7 +33,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
 
-        String id = auth.getUsername();
+        Long id = Long.parseLong(auth.getUsername());
         String role = iterator.next().getAuthority();
         String email = auth.getEmail();
 

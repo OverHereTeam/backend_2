@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class RequestDto {
-    private String areaCode;
-    private String numOfRows;
-    private String pageNo;
-    private String contentId;
-    private String contentTypeId;
+    private Integer areaCode;
+    private Integer numOfRows;
+    private Integer pageNo;
+    private Long contentId;
+    private Integer contentTypeId;
 }

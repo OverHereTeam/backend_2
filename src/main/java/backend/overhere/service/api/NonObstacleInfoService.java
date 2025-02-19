@@ -22,17 +22,17 @@ public class NonObstacleInfoService {
         // type 값에 따라 메서드 선택
         switch (type) {
             case HELPDOG:
-                return nonObstacleInfoRepository.findByHelpdogIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByHelpdogIsTrue(pageable);
             case PARKING:
-                return nonObstacleInfoRepository.findByParkingIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByParkingIsTrue(pageable);
             case WHEELCHAIR:
-                return nonObstacleInfoRepository.findByWheelchairIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByWheelchairIsTrue(pageable);
             case RESTROOM:
-                return nonObstacleInfoRepository.findByRestroomIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByRestroomIsTrue(pageable);
             case AUDIOGUIDE:
-                return nonObstacleInfoRepository.findByAudioguideIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByAudioguideIsTrue(pageable);
             case EXITS:
-                return nonObstacleInfoRepository.findByExitsIsNotNull(pageable);
+                return nonObstacleInfoRepository.findByExitsIsTrue(pageable);
             default:
                 throw new IllegalArgumentException("Invalid type: " + type);
         }

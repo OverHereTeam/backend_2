@@ -47,13 +47,13 @@ public class ResponseDtoUrl3 {
     public static class Item {
         private String addr1;
         private String addr2;
-        private String areacode;
+        private Integer areacode;
         private String booktour;
         private String cat1;
         private String cat2;
         private String cat3;
-        private String contentid;
-        private String contenttypeid;
+        private Long contentid;
+        private Integer contenttypeid;
         private String createdtime;
         private String firstimage;
         private String firstimage2;

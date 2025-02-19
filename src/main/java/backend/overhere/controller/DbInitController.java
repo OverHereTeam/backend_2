@@ -36,7 +36,7 @@ public class DbInitController {
     //한번에 초기화
     @Operation(summary = "단위 관광지 초기화 ",description = "Path Variable로 받은 관광지의 정보대로 공공API로부터 초기화시킵니다.")
     @GetMapping("/{areaCode}/{numOfRows}/{pageNo}")
-    public String initTouristAttraction(@PathVariable String areaCode,@PathVariable String numOfRows, @PathVariable String pageNo) throws UnsupportedEncodingException {
+    public String initTouristAttraction(@PathVariable Integer areaCode,@PathVariable Integer numOfRows, @PathVariable Integer pageNo) throws UnsupportedEncodingException {
         RequestDto requestDto = RequestDto.builder().areaCode(areaCode).numOfRows(numOfRows).pageNo(pageNo).build();
         ResponseDtoUrl3 responseDtoUrl3 = dbInitService.fetchTouristAttractionData(util.buildEncodedUrl3(requestDto));
         List<TouristAttraction> touristAttractionList = touristAttractionService.toTouristAttractionList(responseDtoUrl3);
@@ -46,7 +46,7 @@ public class DbInitController {
 
     @Operation(summary = "다수의 관광지 초기화",description = "Path Variable로 받은 다수의 관광지의 정보대로 공공API로부터 초기화시킵니다.")
     @GetMapping("/perOne/{apiAreaCode}/{numOfRows}/{pageNo}")
-    public String initDb(@PathVariable String apiAreaCode, @PathVariable String numOfRows, @PathVariable String pageNo) throws UnsupportedEncodingException {
+    public String initDb(@PathVariable Integer apiAreaCode, @PathVariable Integer numOfRows, @PathVariable Integer pageNo) throws UnsupportedEncodingException {
         try {
             //pageNo에 있는 numOfRows만큼 하나씩 호출
             RequestDto requestDto = RequestDto.builder().areaCode(apiAreaCode).numOfRows(numOfRows).pageNo(pageNo).build();
@@ -85,7 +85,7 @@ public class DbInitController {
 
     @Operation(summary = "관광지 에러 재시도 초기화",description = "하드코딩으로 저장 실패한 요소를 다시 시도합니다. 재빌드 하세요.")
     @GetMapping("/retry/{areaCode}/{numOfRows}/{pageNo}")
-    public String retryByContentId(@PathVariable String areaCode, @PathVariable String numOfRows, @PathVariable String pageNo) throws UnsupportedEncodingException {
+    public String retryByContentId(@PathVariable Integer areaCode, @PathVariable Integer numOfRows, @PathVariable Integer pageNo) throws UnsupportedEncodingException {
         try {
             //재시도해야할 contentId 하드코딩. 이곳을 바꾸시오.
             List<String> retryContentIdList = new ArrayList<>(Arrays.asList());

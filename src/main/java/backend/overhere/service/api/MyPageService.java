@@ -32,9 +32,10 @@ public class MyPageService {
         // 사용자 좋아요한 목록을 페이징 처리하여 가져옴
         Page<Like> likePage = likeRepository.findByUserId(userId, pageable);
 
-        return likePage.getContent().stream()
+        List<TouristSearchResponseDto.PageContentResponseDto> collect = likePage.getContent().stream()
                 .map(like -> createSearchResponseDto(like.getTouristAttraction()))
                 .collect(Collectors.toList());
+
     }
 
     public List<SearchCourseResponseDto> loadCourseByLike(Long userId,int page, int size){
@@ -49,9 +50,9 @@ public class MyPageService {
     }
 
 
-    private TouristSearchResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
+    private TouristSearchResponseDto.PageContentResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
         NonObstacleInfo nonObstacleInfo = touristAttraction.getNonObstacleInfo();
-        return TouristSearchResponseDto.builder()
+        return TouristSearchResponseDto.PageContentResponseDto.builder()
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())
                 .areaCode(touristAttraction.getAreaCode())

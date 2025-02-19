@@ -34,7 +34,7 @@ public class OauthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         // CustomOAuth2UserDetails에서 사용자 정보 추출
         CustomOAuth2UserDetails oAuth2UserDetails = (CustomOAuth2UserDetails) authentication.getPrincipal();
-        String id = oAuth2UserDetails.getName();
+        Long id = Long.parseLong(oAuth2UserDetails.getName());
 
         // 사용자 역할(Role) 가져오기
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

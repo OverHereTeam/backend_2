@@ -10,10 +10,10 @@ import lombok.Setter;
 @Setter
 public class AttractionInfoResponseDto {
     // 관광지 유형
-    private String contentTypeId;
+    private Integer contentTypeId;
 
     // 관광지 Id
-    private String contentId;
+    private Long contentId;
 
     // 관광지 주소
     private String address1;
@@ -53,7 +53,7 @@ public class AttractionInfoResponseDto {
     public static AttractionInfoResponseDto from(TouristAttraction attraction) {
         return AttractionInfoResponseDto.builder()
                 .contentTypeId(attraction.getContentTypeId())
-                .contentId(String.valueOf(attraction.getId()))
+                .contentId(attraction.getId())
                 .address1(attraction.getAddress1())
                 .address2(attraction.getAddress2())
                 .tel(attraction.getTel())
