@@ -25,6 +25,7 @@ import java.util.Iterator;
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -44,7 +45,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         refreshTokenService.updateExpiredTokens(id);
         refreshTokenService.addRefresh(id,refreshToken);
 
-        ResponseDto.settingResponse(response, HttpStatus.OK,ResponseStatus.LOCAL_LOGIN_SUCCESS,accessToken,refreshToken);
+        // 응답 헤더 및 쿠키 설정
+        if (accessToken != null) {
+            response.addHeader("Authorization", "Bearer " + accessToken);
+        }
 
+
+        response.setHeader("Set-Cookie","Refresh="+refreshToken+"; Path=/; Max-Age=259200; HttpOnly");
+        ResponseDto responseDto = new ResponseDto(ResponseStatus.LOCAL_LOGIN_SUCCESS.getMessage());
+        String json = objectMapper.writeValueAsString(responseDto);
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.getWriter().write(json);
     }
 }

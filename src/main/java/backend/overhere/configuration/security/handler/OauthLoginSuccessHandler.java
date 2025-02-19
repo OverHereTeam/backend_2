@@ -47,7 +47,13 @@ public class OauthLoginSuccessHandler implements AuthenticationSuccessHandler {
         // Refresh Token 저장
         refreshTokenService.addRefresh(id, refreshToken);
 
-        ResponseDto.settingResponse(response,HttpStatus.FOUND,ResponseStatus.OAUTH_LOGIN_SUCCESS,null,refreshToken);
+        response.setHeader("Set-Cookie","Refresh="+refreshToken+"; Path=/; Max-Age=259200; HttpOnly");
+        String json = mapper.writeValueAsString(new ResponseDto(ResponseStatus.OAUTH_LOGIN_SUCCESS.getMessage()));
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.getWriter().write(json);
+
         response.sendRedirect("http://localhost:3000/refresh");
     }
 }
