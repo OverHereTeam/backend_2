@@ -1,24 +1,23 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.page;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class FaqDetailResponseDto {
+public class NoticeDetailPageResponseDto {
     private Integer totalPages;
-    private List<PageFaqDetailResponseDto> contents;
+    private List<PageNoticeDetailResponseDto> contents;
 
     @Getter
     @Builder
-    public static class PageFaqDetailResponseDto {
-        private Long faqId;
+    public static class PageNoticeDetailResponseDto {
+        private Long id;
         private String title;
         private String content;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

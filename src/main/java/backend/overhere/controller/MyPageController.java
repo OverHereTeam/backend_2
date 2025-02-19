@@ -2,6 +2,10 @@ package backend.overhere.controller;
 
 import backend.overhere.configuration.security.userDetails.CustomUserDetails;
 import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.page.FaqDetailPageResponseDto;
+import backend.overhere.dto.domain.page.InquiryDetailPageResponseDto;
+import backend.overhere.dto.domain.page.SearchCoursePageResponseDto;
+import backend.overhere.dto.domain.page.TouristSearchPageResponseDto;
 import backend.overhere.service.api.FaqService;
 import backend.overhere.service.api.InquiryService;
 import backend.overhere.service.api.MyPageService;
@@ -9,12 +13,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/mypage")
@@ -28,22 +29,22 @@ public class MyPageController {
 
     @Operation(summary = "내 관광지 좋아요 API",description = "내 관광지 좋아요 리스트 API 입니다.")
     @GetMapping("/touristAttraction/likes")
-    public ResponseEntity<TouristSearchResponseDto> getTouristAttractionLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size){
-        TouristSearchResponseDto responseDtos = myPageService.loadTouristAttractionsByLike(userDetails.getId(), page, size);
+    public ResponseEntity<TouristSearchPageResponseDto> getTouristAttractionLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size){
+        TouristSearchPageResponseDto responseDtos = myPageService.loadTouristAttractionsByLike(userDetails.getId(), page, size);
         return ResponseEntity.ok(responseDtos);
     }
 
     @Operation(summary = "내 코스 좋아요 API",description = "내 코스 좋아요 리스트 API 입니다.")
     @GetMapping("/course/likes")
-    public ResponseEntity<SearchCourseResponseDto> getCourseLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
-        SearchCourseResponseDto searchCourseResponseDtos = myPageService.loadCourseByLike(userDetails.getId(), page, size);
-        return ResponseEntity.ok(searchCourseResponseDtos);
+    public ResponseEntity<SearchCoursePageResponseDto> getCourseLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
+        SearchCoursePageResponseDto searchCoursePageResponseDtos = myPageService.loadCourseByLike(userDetails.getId(), page, size);
+        return ResponseEntity.ok(searchCoursePageResponseDtos);
     }
 
     @Operation(summary = "1대1 문의 리스트 API",description = "1대1 문의 리스트 API 입니다.")
     @GetMapping("/inquiries")
-    public ResponseEntity<InquiryDetailResponseDto> getInquiries(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
-        InquiryDetailResponseDto inquiries = inquiryService.getInquiries(userDetails.getId(), page, size);
+    public ResponseEntity<InquiryDetailPageResponseDto> getInquiries(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        InquiryDetailPageResponseDto inquiries = inquiryService.getInquiries(userDetails.getId(), page, size);
         return ResponseEntity.ok(inquiries);
     }
 
@@ -57,8 +58,8 @@ public class MyPageController {
 
     @Operation(summary = "자주 묻는 질문 리스트 API",description = "자주 묻는 질문 리스트 API 입니다.")
     @GetMapping("/faqs")
-    public ResponseEntity<FaqDetailResponseDto> getFaqs(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
-        FaqDetailResponseDto faqs = faqService.getFaqs(page, size);
+    public ResponseEntity<FaqDetailPageResponseDto> getFaqs(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        FaqDetailPageResponseDto faqs = faqService.getFaqs(page, size);
         return ResponseEntity.ok(faqs);
     }
 

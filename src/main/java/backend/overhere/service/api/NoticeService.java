@@ -2,6 +2,7 @@ package backend.overhere.service.api;
 
 import backend.overhere.domain.Notice;
 import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.page.NoticeDetailPageResponseDto;
 import backend.overhere.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,14 +20,14 @@ import java.util.stream.Collectors;
 public class NoticeService {
     private final NoticeRepository noticeRepository;
 
-    public NoticeDetailResponseDto getNotices(int page, int size) {
+    public NoticeDetailPageResponseDto getNotices(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Notice> noticePage = noticeRepository.findAllByOrderByCreatedAtDesc(pageable);
 
-        List<NoticeDetailResponseDto.PageNoticeDetailResponseDto> collect = noticePage.getContent().stream()
-                .map(notice -> NoticeDetailResponseDto.PageNoticeDetailResponseDto.builder().id(notice.getId()).title(notice.getTitle()).content(notice.getContent()).createdAt(notice.getCreatedAt()).updatedAt(notice.getUpdatedAt()).build())
+        List<NoticeDetailPageResponseDto.PageNoticeDetailResponseDto> collect = noticePage.getContent().stream()
+                .map(notice -> NoticeDetailPageResponseDto.PageNoticeDetailResponseDto.builder().id(notice.getId()).title(notice.getTitle()).content(notice.getContent()).createdAt(notice.getCreatedAt()).updatedAt(notice.getUpdatedAt()).build())
                 .collect(Collectors.toList());
-        return new NoticeDetailResponseDto(noticePage.getTotalPages(), collect);
+        return new NoticeDetailPageResponseDto(noticePage.getTotalPages(), collect);
     }
 
     public SingleNoticeDetailResponseDto getNoticeSingleDetail(Long id){

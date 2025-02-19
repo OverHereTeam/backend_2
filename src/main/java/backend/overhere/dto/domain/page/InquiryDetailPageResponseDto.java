@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.page;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class InquiryDetailResponseDto {
+public class InquiryDetailPageResponseDto {
     private Integer totalPages;
     private List<PageInquiryDetailResponseDto> contents;
 

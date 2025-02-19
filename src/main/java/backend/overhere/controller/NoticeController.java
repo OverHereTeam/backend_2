@@ -1,6 +1,7 @@
 package backend.overhere.controller;
 
 import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.page.NoticeDetailPageResponseDto;
 import backend.overhere.service.api.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,8 +21,8 @@ public class NoticeController {
 
     @Operation(summary = "공지사항 리스트 API",description = "공지사항 리스트 API 입니다.")
     @GetMapping
-    public ResponseEntity<NoticeDetailResponseDto> getNotices(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
-        NoticeDetailResponseDto notices = noticeService.getNotices(page, size);
+    public ResponseEntity<NoticeDetailPageResponseDto> getNotices(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        NoticeDetailPageResponseDto notices = noticeService.getNotices(page, size);
         return ResponseEntity.ok(notices);
     }
 

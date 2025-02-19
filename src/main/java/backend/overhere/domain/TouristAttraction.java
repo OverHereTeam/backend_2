@@ -1,6 +1,5 @@
 package backend.overhere.domain;
 
-import backend.overhere.dto.domain.TouristSearchResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 

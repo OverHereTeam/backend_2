@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class TouristSearchResponseDto {
+public class TouristSearchPageResponseDto {
 
     private Integer totalPages;
     private List<PageTouristResponseDto> contents;

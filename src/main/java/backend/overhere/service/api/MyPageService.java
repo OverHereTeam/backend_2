@@ -2,8 +2,8 @@ package backend.overhere.service.api;
 
 import backend.overhere.domain.*;
 import backend.overhere.dto.domain.AttractionBasicResponseDto;
-import backend.overhere.dto.domain.SearchCourseResponseDto;
-import backend.overhere.dto.domain.TouristSearchResponseDto;
+import backend.overhere.dto.domain.page.SearchCoursePageResponseDto;
+import backend.overhere.dto.domain.page.TouristSearchPageResponseDto;
 import backend.overhere.repository.CourseLikeRepository;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.LikeRepository;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,35 +25,35 @@ public class MyPageService {
     private final CourseLikeRepository courseLikeRepository;
     private final CourseRepository courseRepository;
 
-    public TouristSearchResponseDto loadTouristAttractionsByLike(Long userId, int page, int size){
+    public TouristSearchPageResponseDto loadTouristAttractionsByLike(Long userId, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
 
         // 사용자 좋아요한 목록을 페이징 처리하여 가져옴
         Page<Like> likePage = likeRepository.findByUserId(userId, pageable);
 
-        List<TouristSearchResponseDto.PageTouristResponseDto> collect = likePage.getContent().stream()
+        List<TouristSearchPageResponseDto.PageTouristResponseDto> collect = likePage.getContent().stream()
                 .map(like -> createSearchResponseDto(like.getTouristAttraction()))
                 .collect(Collectors.toList());
 
-        return new TouristSearchResponseDto(likePage.getTotalPages(),collect);
+        return new TouristSearchPageResponseDto(likePage.getTotalPages(),collect);
     }
 
-    public SearchCourseResponseDto loadCourseByLike(Long userId,int page, int size){
+    public SearchCoursePageResponseDto loadCourseByLike(Long userId, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
 
         // 사용자 좋아요한 목록을 페이징 처리하여 가져옴
         Page<CourseLike> likePage = courseLikeRepository.findByUserId(userId, pageable);
 
-        List<SearchCourseResponseDto.PageCourseResponseDto> collect = likePage.getContent().stream()
+        List<SearchCoursePageResponseDto.PageCourseResponseDto> collect = likePage.getContent().stream()
                 .map(like -> createSearchCourseResponseDto(like.getCourse()))
                 .collect(Collectors.toList());
-        return new SearchCourseResponseDto(likePage.getTotalPages(),collect);
+        return new SearchCoursePageResponseDto(likePage.getTotalPages(),collect);
     }
 
 
-    private TouristSearchResponseDto.PageTouristResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
+    private TouristSearchPageResponseDto.PageTouristResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
         NonObstacleInfo nonObstacleInfo = touristAttraction.getNonObstacleInfo();
-        return TouristSearchResponseDto.PageTouristResponseDto.builder()
+        return TouristSearchPageResponseDto.PageTouristResponseDto.builder()
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())
                 .areaCode(touristAttraction.getAreaCode())
@@ -69,7 +68,7 @@ public class MyPageService {
                 .build();
     }
 
-    private SearchCourseResponseDto.PageCourseResponseDto createSearchCourseResponseDto(Course course) {
+    private SearchCoursePageResponseDto.PageCourseResponseDto createSearchCourseResponseDto(Course course) {
         // 특정 Course에 연결된 관광지를 가져옴
         List<TouristAttraction> attractions = courseRepository.findTouristAttractionsByCourseId(course.getId());
 
@@ -78,7 +77,7 @@ public class MyPageService {
                 .map(this::convertToAttractionBasicResponseDto)
                 .collect(Collectors.toList());
 
-        return SearchCourseResponseDto.PageCourseResponseDto.builder()
+        return SearchCoursePageResponseDto.PageCourseResponseDto.builder()
                 .id(course.getId())
                 .courseType(course.getCourseType())
                 .title(course.getTitle())

@@ -1,9 +1,8 @@
 package backend.overhere.service.api;
 
-import backend.overhere.domain.Faq;
 import backend.overhere.domain.Inquiry;
-import backend.overhere.domain.Notice;
 import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.page.InquiryDetailPageResponseDto;
 import backend.overhere.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,13 +21,13 @@ public class InquiryService {
 
     private final InquiryRepository inquiryRepository;
 
-    public InquiryDetailResponseDto getInquiries(Long userId, int page, int size){
+    public InquiryDetailPageResponseDto getInquiries(Long userId, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<Inquiry> inquiryPage = inquiryRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
-        List<InquiryDetailResponseDto.PageInquiryDetailResponseDto> collect = inquiryPage.getContent().stream()
-                .map(inquiry -> InquiryDetailResponseDto.PageInquiryDetailResponseDto.builder().id(inquiry.getId()).title(inquiry.getTitle()).createdAt(inquiry.getCreatedAt()).isAnswered(inquiry.isAnswered()).inquiryType(inquiry.getInquiryType()).build())
+        List<InquiryDetailPageResponseDto.PageInquiryDetailResponseDto> collect = inquiryPage.getContent().stream()
+                .map(inquiry -> InquiryDetailPageResponseDto.PageInquiryDetailResponseDto.builder().id(inquiry.getId()).title(inquiry.getTitle()).createdAt(inquiry.getCreatedAt()).isAnswered(inquiry.isAnswered()).inquiryType(inquiry.getInquiryType()).build())
                 .collect(Collectors.toList());
-        return new InquiryDetailResponseDto(inquiryPage.getTotalPages(),collect);
+        return new InquiryDetailPageResponseDto(inquiryPage.getTotalPages(),collect);
     }
 
     public InquiryResponseDto addInquiry(InquiryRequestDto request){

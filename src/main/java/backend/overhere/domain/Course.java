@@ -1,5 +1,6 @@
 package backend.overhere.domain;
 
+import backend.overhere.dto.domain.page.CoursePageResponseDto;
 import backend.overhere.dto.domain.CourseResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,8 +44,20 @@ public class Course {
 
 
     private double distance;
-    public CourseResponseDto.PageCourseResponseDto CoursetoDto() {
-        return CourseResponseDto.PageCourseResponseDto.builder()
+    public CoursePageResponseDto.PageCourseResponseDto CoursePageToDto() {
+        return CoursePageResponseDto.PageCourseResponseDto.builder()
+                .courseId(this.id)
+                .courseType(this.courseType)
+                .title(this.title)
+                .briefDescription(this.briefDescription)
+                .overView(this.overview)
+                .difficulty(this.difficulty)
+                .distance(this.distance)
+                .build();
+    }
+
+    public CourseResponseDto CoursetoDto() {
+        return CourseResponseDto.builder()
                 .courseId(this.id)
                 .courseType(this.courseType)
                 .title(this.title)
