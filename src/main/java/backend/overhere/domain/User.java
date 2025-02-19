@@ -26,10 +26,11 @@ public class User {
 
     private String password;
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CourseLike> courseLikes = new ArrayList<>();
     //enum
     private String role;
 

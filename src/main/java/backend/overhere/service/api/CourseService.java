@@ -1,7 +1,9 @@
 package backend.overhere.service.api;
 
+import backend.overhere.configuration.Jpa.specification.CourseSpecifications;
 import backend.overhere.domain.Course;
 import backend.overhere.domain.Course;
+import backend.overhere.dto.domain.CourseResponseDto;
 import backend.overhere.repository.AttractionRepository;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.TouristAttractionRepository;
@@ -20,6 +22,7 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final TouristAttractionRepository touristAttractionRepository;
+    private final CourseSpecifications courseSpecifications;
 
     //List 전부 Save
     public void saveCourses(List<Course> courseList) {
@@ -30,20 +33,29 @@ public class CourseService {
         Pageable pageable = PageRequest.of(page, size);
 
         Specification<Course> spec = Specification.where(null);
-        spec = spec.and(hasSearchQuery(searchQuery));
+        spec = spec.and(courseSpecifications.searchByQuery(searchQuery));
 
         return courseRepository.findAll(spec, pageable);
     }
-    private Specification<Course> hasSearchQuery(String searchQuery ) {
-        return (root, query, criteriaBuilder) -> {
-            if (!StringUtils.hasText(searchQuery)) {
-                return criteriaBuilder.conjunction(); // 검색어가 없으면 항상 참
-            }
-            return criteriaBuilder.or(
-                    criteriaBuilder.like(root.get("title"), "%" + searchQuery + "%"),
-                    criteriaBuilder.like(root.get("overview"), "%" + searchQuery + "%")
-            );
-        };
+
+     //좋아요 수가 많은 코스 상위 N개를 조회
+    public List<CourseResponseDto> getMostLikedCourses(int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+        List<Course> courseList = courseRepository.findMostLikedCourses(pageable);
+
+        // 엔티티 -> DTO 변환
+        return courseList.stream()
+                .map(Course::CoursetoDto)
+                .toList();
+    }
+
+    public Page<CourseResponseDto> getRecommendedCoursesByRegion(String region, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Course> coursePage = courseRepository.findAll(
+                courseSpecifications.recommendByRegion(region),
+                pageable
+        );
+        return coursePage.map(Course::CoursetoDto);
     }
 
 }
