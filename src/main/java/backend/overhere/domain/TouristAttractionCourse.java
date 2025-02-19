@@ -18,11 +18,11 @@ public class TouristAttractionCourse {  //관광지 -코스 사이의 중간 테
     @Column(name="tourist_attraction_course_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "tourist_attraction_id") // 외래 키로 TouristAttraction 연결
     private TouristAttraction touristAttraction;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name= "course_id")
     private Course course;
 

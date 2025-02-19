@@ -1,5 +1,6 @@
 package backend.overhere.service.api;
 
+import backend.overhere.configuration.Jpa.specification.CourseSpecifications;
 import backend.overhere.domain.Course;
 import backend.overhere.domain.Course;
 import backend.overhere.dto.domain.CourseResponseDto;
@@ -21,6 +22,7 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final TouristAttractionRepository touristAttractionRepository;
+    private final CourseSpecifications courseSpecifications;
 
     //List 전부 Save
     public void saveCourses(List<Course> courseList) {
@@ -31,7 +33,7 @@ public class CourseService {
         Pageable pageable = PageRequest.of(page, size);
 
         Specification<Course> spec = Specification.where(null);
-        spec = spec.and(hasSearchQuery(searchQuery));
+        spec = spec.and(courseSpecifications.searchByQuery(searchQuery));
 
         return courseRepository.findAll(spec, pageable);
     }
@@ -47,18 +49,13 @@ public class CourseService {
                 .toList();
     }
 
-
-
-    private Specification<Course> hasSearchQuery(String searchQuery ) {
-        return (root, query, criteriaBuilder) -> {
-            if (!StringUtils.hasText(searchQuery)) {
-                return criteriaBuilder.conjunction(); // 검색어가 없으면 항상 참
-            }
-            return criteriaBuilder.or(
-                    criteriaBuilder.like(root.get("title"), "%" + searchQuery + "%"),
-                    criteriaBuilder.like(root.get("overview"), "%" + searchQuery + "%")
-            );
-        };
+    public Page<CourseResponseDto> getRecommendedCoursesByRegion(String region, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Course> coursePage = courseRepository.findAll(
+                courseSpecifications.recommendByRegion(region),
+                pageable
+        );
+        return coursePage.map(Course::CoursetoDto);
     }
 
 }

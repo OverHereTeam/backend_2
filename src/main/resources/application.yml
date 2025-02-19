@@ -1,3 +1,4 @@
+# src/resources/application.yml
 springdoc:
   swagger-ui:
     path: /swagger-ui.html  # Swagger UI 접근 경로
