@@ -70,29 +70,21 @@ public class SearchController {
         return ResponseEntity.ok(responseDtos);
     }
 
-    @GetMapping("/course")
-    public ResponseEntity<?> searchCourse(
+    @Operation(summary = "제목기반 코스 검색 API ",description = "검색할 코스 제목을 쿼리파라미터로 넘겨서 코스 검색하는 기능")
+    @GetMapping("/course") //제목기반 코스 검색
+    public ResponseEntity<CourseResponseDto> searchCourse(
             @RequestParam String searchQuery,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size)
     {
-        try {
             Page<Course> result = courseService.getCourseSearch(searchQuery, page, size);
             List<CourseResponseDto.PageCourseResponseDto> dto = result.getContent().stream()
                     .map(Course::CoursetoDto)
                     .toList();
 
-            if (dto.isEmpty()) {
-                return ResponseEntity.noContent().build(); // 204 No Content
-            }
-
             CourseResponseDto dtoList = new CourseResponseDto(result.getTotalPages(), dto);
-
             return ResponseEntity.ok(dtoList); // 200 OK
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("서버 내부 오류: " + e.getMessage()); // 500 Internal Server Error 반환
-        }
+
     }
 
     // 공통된 로직을 처리하는 메서드

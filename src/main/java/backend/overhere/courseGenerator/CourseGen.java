@@ -58,6 +58,7 @@ public class CourseGen {
                 for (TouristAttraction spot : shortestPath) {
                     System.out.println("ID: " + spot.getId() + ", x: " + spot.getMapx() + ", y: " + spot.getMapy());
                 }
+
                 String response = gptApiClient.sendRequest(shortestPath);
                 if(response!=null){
                     // responseText는 실제 JSON 문자열이므로, 이를 다시 JsonNode로 파싱
@@ -81,10 +82,7 @@ public class CourseGen {
                 continue;
             }
 
-
-
         }
-
 
     }
 
@@ -194,7 +192,6 @@ public class CourseGen {
         int randomIndex = rand.nextInt(subset.size());  // 0부터 subset.size()-1까지의 랜덤 인덱스
         return subset.get(randomIndex);
     }
-
 
 
 }

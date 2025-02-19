@@ -1,3 +1,4 @@
+# src/resources/application.yml
 springdoc:
   swagger-ui:
     path: /swagger-ui.html  # Swagger UI 접근 경로
@@ -7,6 +8,9 @@ springdoc:
 
 
 spring:
+  # .env import
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: backend
   security:
