@@ -1,6 +1,5 @@
 package backend.overhere.service.api;
 
-import backend.overhere.domain.Inquiry;
 import backend.overhere.domain.Notice;
 import backend.overhere.dto.domain.*;
 import backend.overhere.repository.NoticeRepository;
@@ -20,24 +19,25 @@ import java.util.stream.Collectors;
 public class NoticeService {
     private final NoticeRepository noticeRepository;
 
-    public List<NoticeDetailResponseDto> getNotices(int page, int size) {
+    public NoticeDetailResponseDto getNotices(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Notice> noticePage = noticeRepository.findAllByOrderByCreatedAtDesc(pageable);
 
-        return noticePage.getContent().stream()
-                .map(notice -> new NoticeDetailResponseDto(
-                        notice.getId(),
-                        notice.getTitle(),
-                        notice.getContent(),
-                        notice.getCreatedAt(),
-                        notice.getUpdatedAt()
-                ))
+        List<NoticeDetailResponseDto.PageNoticeDetailResponseDto> collect = noticePage.getContent().stream()
+                .map(notice -> NoticeDetailResponseDto.PageNoticeDetailResponseDto.builder().id(notice.getId()).title(notice.getTitle()).content(notice.getContent()).createdAt(notice.getCreatedAt()).updatedAt(notice.getUpdatedAt()).build())
                 .collect(Collectors.toList());
+        return new NoticeDetailResponseDto(noticePage.getTotalPages(), collect);
     }
 
-    public NoticeDetailResponseDto getNoticeDetail(Long id){
+    public SingleNoticeDetailResponseDto getNoticeSingleDetail(Long id){
         Notice notice = noticeRepository.findById(id).orElse(null);
-        return new NoticeDetailResponseDto(notice.getId(),notice.getTitle(),notice.getContent(),notice.getCreatedAt(),notice.getUpdatedAt());
+        return SingleNoticeDetailResponseDto.builder()
+                .id(notice.getId())
+                .title(notice.getTitle())
+                .content(notice.getContent())
+                .createdAt(notice.getCreatedAt())
+                .updatedAt(notice.getUpdatedAt())
+                .build();
     }
 
     public NoticeResponseDto addNotice(NoticeRequestDto request){

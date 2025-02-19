@@ -132,26 +132,27 @@ public class DbInitService {
 
     //소개정보 조회 api Response Dto 반환
     public ResponseDtoUrl7 fetchDetail(URI encode, Integer typeId){
-        if(typeId.equals(Util.TOURIST)){
+        String type = String.valueOf(typeId);
+        if(type.equals(Util.TOURIST)){
             return webClient.get().uri(encode).retrieve().bodyToMono(TouristDto.class).block();
         }
-        else if(typeId.equals(Util.ACCOMMODATION)){
+        else if(type.equals(Util.ACCOMMODATION)){
             return webClient.get().uri(encode).retrieve().bodyToMono(AccommodationDto.class).block();
         }
-        else if(typeId.equals(Util.CULTURE_FACILITY)){
+        else if(type.equals(Util.CULTURE_FACILITY)){
             return webClient.get().uri(encode).retrieve().bodyToMono(CultureFacilityDto.class).block();
         }
-        else if(typeId.equals(Util.LEPORTS)){
+        else if(type.equals(Util.LEPORTS)){
             return webClient.get().uri(encode).retrieve().bodyToMono(LeportsDto.class).block();
         }
-        else if(typeId.equals(Util.FESTIVAL)){
+        else if(type.equals(Util.FESTIVAL)){
             return webClient.get().uri(encode).retrieve().bodyToMono(FestivalDto.class).block();
         }
-        else if(typeId.equals(Util.RESTAURANT)){
+        else if(type.equals(Util.RESTAURANT)){
             return webClient.get().uri(encode).retrieve().bodyToMono(RestaurantDto.class).block();
         }
         else {
-            log.error("ContentType id {} 해당 없음",typeId);
+            log.error("ContentType id {} 해당 없음",type);
             return null;
         }
     }
@@ -206,7 +207,7 @@ public class DbInitService {
     }
 
     public DetailInfo settingDetailInfo(ResponseDtoUrl7 responseDtoUrl7, ResponseDtoUrl10 responseDtoUrl10, TouristAttraction touristAttraction){
-        Integer typeId = touristAttraction.getContentTypeId();
+        String typeId = String.valueOf(touristAttraction.getContentTypeId());
         ResponseDtoUrl10.Item item2 = responseDtoUrl10.getResponse().getBody().getItems().getItem().get(0);
         DetailInfo detailInfo;
         if(typeId.equals(Util.TOURIST)){

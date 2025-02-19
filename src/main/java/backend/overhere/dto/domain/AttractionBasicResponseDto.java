@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AttractionBasicResponseDto {
     private String title;
-    private String contentId; //관광지 ID
+    private Long contentId; //관광지 ID
 
 }

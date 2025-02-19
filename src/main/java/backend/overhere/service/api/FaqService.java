@@ -20,24 +20,24 @@ import java.util.stream.Collectors;
 public class FaqService {
     private final FaqRepository faqRepository;
 
-    public List<FaqDetailResponseDto> getFaqs(int page, int size) {
+    public FaqDetailResponseDto getFaqs(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Faq> faqPage = faqRepository.findAllByOrderByCreatedAtDesc(pageable);
 
-        return faqPage.getContent().stream()
-                .map(faq -> new FaqDetailResponseDto(
-                        faq.getId(),
-                        faq.getTitle(),
-                        faq.getContent(),
-                        faq.getCreatedAt(),
-                        faq.getUpdatedAt()
-                ))
+        List<FaqDetailResponseDto.PageFaqDetailResponseDto> collect = faqPage.getContent().stream()
+                .map(faq -> FaqDetailResponseDto.PageFaqDetailResponseDto.builder().faqId(faq.getId()).title(faq.getTitle()).content(faq.getTitle()).createdAt(faq.getCreatedAt()).updatedAt(faq.getUpdatedAt()).build())
                 .collect(Collectors.toList());
+        return new FaqDetailResponseDto(faqPage.getTotalPages(),collect);
     }
 
-    public FaqDetailResponseDto getFaqDetail(Long id){
+    public SingleFaqDetailResponseDto getFaqDetail(Long id){
         Faq faq = faqRepository.findById(id).orElse(null);
-        return new FaqDetailResponseDto(faq.getId(),faq.getTitle(),faq.getContent(),faq.getCreatedAt(),faq.getUpdatedAt());
+        return SingleFaqDetailResponseDto.builder().faqId(faq.getId())
+                .title(faq.getTitle())
+                .content(faq.getContent())
+                .createdAt(faq.getCreatedAt())
+                .updatedAt(faq.getUpdatedAt())
+                .build();
     }
 
     public FaqResponseDto addFaq(FaqRequestDto request){

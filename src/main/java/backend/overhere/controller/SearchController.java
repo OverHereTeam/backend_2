@@ -40,7 +40,7 @@ public class SearchController {
     // 관광지 더 보러가기를 페이지 이동으로 하느냐 스크롤로 하느냐에 따라 달라짐
     @Operation(summary = "무장애 기반 관광지 검색 API",description = "무장애 기반 관광지 검색 API 입니다.")
     @GetMapping("/non-obstacle")
-    public ResponseEntity<ResponseDto<List<TouristSearchResponseDto>>> searchTouristAttractionsByType(
+    public ResponseEntity<TouristSearchResponseDto> searchTouristAttractionsByType(
             @RequestParam ObstacleType type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size) {
@@ -49,13 +49,13 @@ public class SearchController {
         if(result.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        List<TouristSearchResponseDto> responseDtos = convertToSearchResponseDtos(result.getContent());
-        return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, responseDtos);
+        TouristSearchResponseDto responseDtos = convertToNonObstacleInfoSearchResponseDtos(result.getContent(), result);
+        return ResponseEntity.ok(responseDtos);
     }
 
     @Operation(summary = "관광지 검색 API",description = "지역,유형,검색어를 기반으로 검색합니다.")
     @GetMapping("/tourist-attraction")
-    public ResponseEntity<ResponseDto<List<TouristSearchResponseDto>>> searchTouristAttractions(
+    public ResponseEntity<TouristSearchResponseDto> searchTouristAttractions(
             @RequestParam(required = false) String areacode,
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String searchParam,
@@ -66,9 +66,10 @@ public class SearchController {
         if(result.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        List<TouristSearchResponseDto> responseDtos = convertToSearchResponseDtos(result.getContent());
-        return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, responseDtos);
+        TouristSearchResponseDto responseDtos = convertTouristAttractionToSearchResponseDtos(result.getContent(), result);
+        return ResponseEntity.ok(responseDtos);
     }
+
     @GetMapping("/course")
     public ResponseEntity<?> searchCourse(
             @RequestParam String searchQuery,
@@ -77,13 +78,15 @@ public class SearchController {
     {
         try {
             Page<Course> result = courseService.getCourseSearch(searchQuery, page, size);
-            List<CourseResponseDto> dtoList = result.getContent().stream()
+            List<CourseResponseDto.PageCourseResponseDto> dto = result.getContent().stream()
                     .map(Course::CoursetoDto)
                     .toList();
 
-            if (dtoList.isEmpty()) {
+            if (dto.isEmpty()) {
                 return ResponseEntity.noContent().build(); // 204 No Content
             }
+
+            CourseResponseDto dtoList = new CourseResponseDto(result.getTotalPages(), dto);
 
             return ResponseEntity.ok(dtoList); // 200 OK
         } catch (Exception e) {
@@ -93,8 +96,8 @@ public class SearchController {
     }
 
     // 공통된 로직을 처리하는 메서드
-    private List<TouristSearchResponseDto> convertToSearchResponseDtos(List<?> content) {
-        return content.stream().map(item -> {
+    private TouristSearchResponseDto convertTouristAttractionToSearchResponseDtos(List<?> content,Page<TouristAttraction> result) {
+        List<TouristSearchResponseDto.PageTouristResponseDto> collect = content.stream().map(item -> {
             // TouristAttraction 객체가 포함된 경우
             if (item instanceof TouristAttraction) {
                 TouristAttraction touristAttraction = (TouristAttraction) item;
@@ -108,25 +111,26 @@ public class SearchController {
             }
             return null;
         }).collect(Collectors.toList());
+        return new TouristSearchResponseDto(result.getTotalPages(),collect);
     }
 
+    // 공통된 로직을 처리하는 메서드
+    private TouristSearchResponseDto convertToNonObstacleInfoSearchResponseDtos(List<?> content,Page<NonObstacleInfo> result) {
+        List<TouristSearchResponseDto.PageTouristResponseDto> collect = content.stream().map(item -> {
+            // NonObstacleInfo 객체가 포함된 경우
+            NonObstacleInfo nonObstacleInfo = (NonObstacleInfo) item;
+            TouristAttraction touristAttraction = nonObstacleInfo.getTouristAttraction();
+            return createSearchResponseDto(touristAttraction);
+        }).collect(Collectors.toList());
+        return new TouristSearchResponseDto(result.getTotalPages(),collect);
+    }
+
+
+
     // 공통된 DTO 변환 메서드
-    private TouristSearchResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
+    private TouristSearchResponseDto.PageTouristResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
         NonObstacleInfo nonObstacleInfo = touristAttraction.getNonObstacleInfo();
-        TouristSearchResponseDto.PageContentResponseDto.builder()
-                .contentTypeId(touristAttraction.getContentTypeId())
-                .title(touristAttraction.getTitle())
-                .areaCode(touristAttraction.getAreaCode())
-                .contentId(touristAttraction.getId())
-                .thumbnailUrl(touristAttraction.getThumbnail1())
-                .helpdog(nonObstacleInfo.getHelpdog())
-                .restroom(nonObstacleInfo.getRestroom())
-                .exits(nonObstacleInfo.getExits())
-                .parking(nonObstacleInfo.getParking())
-                .audioguide(nonObstacleInfo.getAudioguide())
-                .wheelchair(nonObstacleInfo.getWheelchair())
-                .build();
-        return TouristSearchResponseDto.builder()
+        return TouristSearchResponseDto.PageTouristResponseDto.builder()
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())
                 .areaCode(touristAttraction.getAreaCode())

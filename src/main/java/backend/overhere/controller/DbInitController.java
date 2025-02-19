@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name="관광지 DB 초기화 API", description = "공공 API를 통한 로컬 DB 초기화에 대한 설명입니다.")
 @Slf4j
@@ -61,11 +61,12 @@ public class DbInitController {
                 requestDto.setContentId(touristAttraction.getContentId());
                 requestDto.setContentTypeId(touristAttraction.getContentTypeId());
 
-                if(touristAttraction.getContentTypeId().equals(Util.SHOPPING) || touristAttraction.getContentTypeId().equals(Util.ACCOMMODATION)){
-                    if(touristAttraction.getContentTypeId().equals(Util.SHOPPING)){
+                String type = String.valueOf(touristAttraction.getContentTypeId());
+                if(type.equals(Util.SHOPPING) || type.equals(Util.ACCOMMODATION)){
+                    if(type.equals(Util.SHOPPING)){
                         log.warn("ContentId={} 는 쇼핑, 스킵함",touristAttraction.getContentId());
                     }
-                    else if(touristAttraction.getContentTypeId().equals(Util.ACCOMMODATION)){
+                    else if(type.equals(Util.ACCOMMODATION)){
                         log.warn("ContentId={} 는 숙소, 스킵함",touristAttraction.getContentId());
                     }
                     continue;

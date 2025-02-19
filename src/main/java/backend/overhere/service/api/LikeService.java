@@ -27,7 +27,6 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
     private final TouristAttractionRepository touristAttractionRepository;
-    private final CourseRepository courseRepository;
 
     // 좋아요 추가 (생성)
     public TouristAttractionLikeResponseDto addTouristAttractionLike(TouristAttractionLikeRequestDto requestDto) {

@@ -1,9 +1,6 @@
 package backend.overhere.controller;
 
-import backend.overhere.dto.domain.InquiryResponseDto;
-import backend.overhere.dto.domain.NoticeDetailResponseDto;
-import backend.overhere.dto.domain.NoticeRequestDto;
-import backend.overhere.dto.domain.NoticeResponseDto;
+import backend.overhere.dto.domain.*;
 import backend.overhere.service.api.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -25,16 +20,16 @@ public class NoticeController {
 
     @Operation(summary = "공지사항 리스트 API",description = "공지사항 리스트 API 입니다.")
     @GetMapping
-    public ResponseEntity<List<NoticeDetailResponseDto>> getNotices(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
-        List<NoticeDetailResponseDto> notices = noticeService.getNotices(page, size);
+    public ResponseEntity<NoticeDetailResponseDto> getNotices(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size) {
+        NoticeDetailResponseDto notices = noticeService.getNotices(page, size);
         return ResponseEntity.ok(notices);
     }
 
     @Operation(summary = "개별 공지사항 정보 API ",description = "개별 공지사항 정보 조회 API 입니다.")
     @GetMapping("/{noticeId}")
-    public ResponseEntity<NoticeDetailResponseDto> getNoticeDetail(@PathVariable Long noticeId){
-        NoticeDetailResponseDto noticeDetail = noticeService.getNoticeDetail(noticeId);
-        return ResponseEntity.ok(noticeDetail);
+    public ResponseEntity<SingleNoticeDetailResponseDto> getNoticeDetail(@PathVariable Long noticeId){
+        SingleNoticeDetailResponseDto singleNoticeDetailResponseDto = noticeService.getNoticeSingleDetail(noticeId);
+        return ResponseEntity.ok(singleNoticeDetailResponseDto);
     }
 
     @Operation(summary = "공지사항 추가 API ",description = "공지사항 추가 API 입니다.")

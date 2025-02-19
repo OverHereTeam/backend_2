@@ -28,22 +28,22 @@ public class MyPageController {
 
     @Operation(summary = "내 관광지 좋아요 API",description = "내 관광지 좋아요 리스트 API 입니다.")
     @GetMapping("/touristAttraction/likes")
-    public ResponseEntity<List<TouristSearchResponseDto>> getTouristAttractionLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size){
-        List<TouristSearchResponseDto> responseDtos = myPageService.loadTouristAttractionsByLike(userDetails.getId(), page, size);
+    public ResponseEntity<TouristSearchResponseDto> getTouristAttractionLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "6") int size){
+        TouristSearchResponseDto responseDtos = myPageService.loadTouristAttractionsByLike(userDetails.getId(), page, size);
         return ResponseEntity.ok(responseDtos);
     }
 
     @Operation(summary = "내 코스 좋아요 API",description = "내 코스 좋아요 리스트 API 입니다.")
     @GetMapping("/course/likes")
-    public ResponseEntity<List<SearchCourseResponseDto>> getCourseLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
-        List<SearchCourseResponseDto> searchCourseResponseDtos = myPageService.loadCourseByLike(userDetails.getId(), page, size);
+    public ResponseEntity<SearchCourseResponseDto> getCourseLikes(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size){
+        SearchCourseResponseDto searchCourseResponseDtos = myPageService.loadCourseByLike(userDetails.getId(), page, size);
         return ResponseEntity.ok(searchCourseResponseDtos);
     }
 
     @Operation(summary = "1대1 문의 리스트 API",description = "1대1 문의 리스트 API 입니다.")
     @GetMapping("/inquiries")
-    public ResponseEntity<List<InquiryDetailResponseDto>> getInquiries(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
-        List<InquiryDetailResponseDto> inquiries = inquiryService.getInquiries(userDetails.getId(), page, size);
+    public ResponseEntity<InquiryDetailResponseDto> getInquiries(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        InquiryDetailResponseDto inquiries = inquiryService.getInquiries(userDetails.getId(), page, size);
         return ResponseEntity.ok(inquiries);
     }
 
@@ -57,8 +57,8 @@ public class MyPageController {
 
     @Operation(summary = "자주 묻는 질문 리스트 API",description = "자주 묻는 질문 리스트 API 입니다.")
     @GetMapping("/faqs")
-    public ResponseEntity<List<FaqDetailResponseDto>> getFaqs(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
-        List<FaqDetailResponseDto> faqs = faqService.getFaqs(page, size);
+    public ResponseEntity<FaqDetailResponseDto> getFaqs(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        FaqDetailResponseDto faqs = faqService.getFaqs(page, size);
         return ResponseEntity.ok(faqs);
     }
 
@@ -72,8 +72,8 @@ public class MyPageController {
 
     @Operation(summary = "개별 자주 묻는 질문 정보 API ",description = "개별 자주 묻는 질문 정보 API입니다.")
     @GetMapping("/faqs/{faqsId}")
-    public ResponseEntity<FaqDetailResponseDto> getNoticeDetail(@PathVariable Long faqsId){
-        FaqDetailResponseDto faqDetail = faqService.getFaqDetail(faqsId);
+    public ResponseEntity<SingleFaqDetailResponseDto> getNoticeDetail(@PathVariable Long faqsId){
+        SingleFaqDetailResponseDto faqDetail = faqService.getFaqDetail(faqsId);
         return ResponseEntity.ok(faqDetail);
     }
 

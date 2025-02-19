@@ -48,7 +48,7 @@ public class LikeController {
 
     // 좋아요 업데이트 (PUT: /api/v1/likes/{touristAttractionId})
     @Operation(summary = "관광지 좋아요 업데이트 API",description = "관광지 좋아요 업데이트 API 입니다.")
-    @PutMapping("/{touristAttractionId}")
+    @PutMapping("/touristAttraction/{touristAttractionId}")
     public ResponseEntity<TouristAttractionLikeResponseDto> updateTouristAttractionLikes(@PathVariable Long touristAttractionId,
                                                                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
         TouristAttractionLikeRequestDto requestDto = new TouristAttractionLikeRequestDto();
@@ -61,7 +61,7 @@ public class LikeController {
 
     // 좋아요 삭제 (DELETE: /api/v1/likes/{touristAttractionId})
     @Operation(summary = "관광지 좋아요 삭제 API",description = "관광지 좋아요 삭제 API 입니다.")
-    @DeleteMapping("/{touristAttractionId}")
+    @DeleteMapping("/touristAttraction/{touristAttractionId}")
     public ResponseEntity<Void> deleteTouristAttractionLikes(@PathVariable Long touristAttractionId,
                                                              @AuthenticationPrincipal CustomUserDetails userDetails) {
         TouristAttractionLikeRequestDto requestDto = new TouristAttractionLikeRequestDto();
@@ -79,5 +79,38 @@ public class LikeController {
         requestDto.setUserId(userDetails.getId());
         CourseLikeResponseDto response = courseLikeService.addCourseLike(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    // 사용자별 좋아요 전체 조회 (GET: /api/v1/likes)
+    @GetMapping("/course")
+    @Operation(summary = "코스 좋아요 전체 조회 API",description = "코스 좋아요 전체 조회 API 입니다.")
+    public ResponseEntity<List<CourseLikeResponseDto>> getCourseLikes(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<CourseLikeResponseDto> likes = courseLikeService.loadCourseLikeAllByUserId(userDetails.getId());
+        return ResponseEntity.ok(likes);
+    }
+
+    // 좋아요 업데이트 (PUT: /api/v1/likes/{courseId})
+    @Operation(summary = "코스 좋아요 업데이트 API",description = "코스 좋아요 업데이트 API 입니다.")
+    @PutMapping("/course/{courseId}")
+    public ResponseEntity<CourseLikeResponseDto> updateCourseLikes(@PathVariable Long courseId,
+                                                                                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+        CourseLikeRequestDto requestDto = new CourseLikeRequestDto();
+        requestDto.setUserId(userDetails.getId());
+        requestDto.setCourseId(courseId);
+        CourseLikeResponseDto response = courseLikeService.updateCourseLike(requestDto);
+        // 업데이트 결과에 따라 response가 null일 수 있음 (예: 삭제된 경우)
+        return ResponseEntity.ok(response);
+    }
+
+    // 좋아요 삭제 (DELETE: /api/v1/likes/{courseId})
+    @Operation(summary = "코스 좋아요 삭제 API",description = "코스 좋아요 삭제 API 입니다.")
+    @DeleteMapping("/course/{courseId}")
+    public ResponseEntity<Void> deleteCourseLikes(@PathVariable Long courseId,
+                                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
+        CourseLikeRequestDto requestDto = new CourseLikeRequestDto();
+        requestDto.setUserId(userDetails.getId());
+        requestDto.setCourseId(courseId);
+        courseLikeService.deleteCourseLike(requestDto);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -28,6 +28,8 @@ public class CourseLike {
         return CourseLikeResponseDto.builder()
                 .likeId(this.id)
                 .username(this.user.getNickname())
+                .courseId(this.course.getId())
                 .build();
     }
+
 }

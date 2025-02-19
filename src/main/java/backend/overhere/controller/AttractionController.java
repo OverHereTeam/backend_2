@@ -48,7 +48,4 @@ public class AttractionController {
         return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS,response);
     }
 
-
-
-
 }

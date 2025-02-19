@@ -40,7 +40,7 @@ public class GptApiClient {
             TouristAttraction touristSpot4 = selectedSpots.get(3);
             TouristAttraction touristSpot5 = selectedSpots.get(4);
 
-            String text = generateJson("prompt.txt", touristSpot1.getTitle(), touristSpot1.getOverview(), touristSpot1.getContentTypeId(), touristSpot2.getTitle(), touristSpot2.getOverview(), touristSpot2.getContentTypeId(), touristSpot3.getTitle(), touristSpot3.getOverview(), touristSpot3.getContentTypeId(), touristSpot4.getTitle(), touristSpot4.getOverview(), touristSpot4.getContentTypeId(), touristSpot5.getTitle(), touristSpot5.getOverview(), touristSpot5.getContentTypeId());
+            String text = generateJson("prompt.txt", touristSpot1, touristSpot2, touristSpot3, touristSpot4,touristSpot5);
 
 
             // GPT 요청에 필요한 메시지 목록을 생성
@@ -98,7 +98,7 @@ public class GptApiClient {
         // 기본 생성자, 게터/세터는 Jackson이 자동으로 처리할 수 있도록 필요할 때 추가
     }
     // 템플릿 파일을 읽고, 동적으로 값을 삽입하는 메서드
-    public static String generateJson(String templateFilePath, String... values) {
+    public static String generateJson(String templateFilePath, TouristAttraction... values) {
         try {
             // 템플릿 파일 읽기
             BufferedReader reader = new BufferedReader(new FileReader(templateFilePath));
@@ -110,7 +110,14 @@ public class GptApiClient {
             reader.close();
 
             // 템플릿에 값 삽입
-            return String.format(content.toString(), (Object[]) values);
+            return String.format(content.toString(),
+                    values[0].getTitle(), values[0].getOverview(), values[0].getContentTypeId(),
+                    values[1].getTitle(), values[1].getOverview(), values[1].getContentTypeId(),
+                    values[2].getTitle(), values[2].getOverview(), values[2].getContentTypeId(),
+                    values[3].getTitle(), values[3].getOverview(), values[3].getContentTypeId(),
+                    values[4].getTitle(), values[4].getOverview(), values[4].getContentTypeId()
+            );
+
 
         } catch (IOException e) {
             e.printStackTrace();

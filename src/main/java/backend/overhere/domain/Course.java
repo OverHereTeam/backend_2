@@ -30,8 +30,8 @@ public class Course {
     private String difficulty;
 
     private double distance;
-    public CourseResponseDto CoursetoDto() {
-        return CourseResponseDto.builder()
+    public CourseResponseDto.PageCourseResponseDto CoursetoDto() {
+        return CourseResponseDto.PageCourseResponseDto.builder()
                 .courseId(this.id)
                 .courseType(this.courseType)
                 .title(this.title)
@@ -41,4 +41,6 @@ public class Course {
                 .distance(this.distance)
                 .build();
     }
+
+
 }

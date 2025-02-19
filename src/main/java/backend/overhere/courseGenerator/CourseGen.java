@@ -34,7 +34,7 @@ public class CourseGen {
     private final TouristAttractionRepository touristAttractionRepository;
     @Operation(summary = "코스 DB 초기화 API",description = "코스를 관광지 데이터를 기반으로 만들고 Course 테이블의 over_view, distance, course_type, brief_description 데이터를 GPT를 통해 파싱후 자동 저장합니다.")
     @RequestMapping("/course-generator")
-    public void coureGen(@RequestParam String areacode,@RequestParam int iter) {
+    public void coureGen(@RequestParam Integer areacode,@RequestParam int iter) {
 
         for(int i=0; i<iter; i++) {
             try {
@@ -67,7 +67,8 @@ public class CourseGen {
                     String courseBriefDescription = courseDetails.path("courseBriefDescription").asText();
                     String courseOverview = courseDetails.path("courseOverview").asText();
                     String difficulty = courseDetails.path("difficulty").asText();
-                    Course course = Course.builder().difficulty(difficulty).briefDescription(courseBriefDescription).overview(courseOverview).build();
+                    String title = courseDetails.path("title").asText();
+                    Course course = Course.builder().title(title).difficulty(difficulty).briefDescription(courseBriefDescription).overview(courseOverview).build();
                     touristAttractionCourseService.createCourseWithAttractions(course,shortestPath);
 
                 }

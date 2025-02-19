@@ -14,13 +14,13 @@ public interface TouristAttractionRepository extends JpaRepository<TouristAttrac
     public TouristAttraction findTouristAttractionByContentId(Long contentId);
 
     // area_code를 기반으로 데이터를 가져오는 메서드 (페이징 포함)
-    Page<TouristAttraction> findByAreaCode(String areaCode, Pageable pageable);
+    Page<TouristAttraction> findByAreaCode(Integer areaCode, Pageable pageable);
 
-    List<TouristAttraction> findByAreaCode(String areaCode);
+    List<TouristAttraction> findByAreaCode(Integer areaCode);
 
     Page<TouristAttraction> findByContentTypeId(String type, Pageable pageable);
 
-    Page<TouristAttraction> findByAreaCodeAndContentTypeId(String areaCode, String type,Pageable pageable);
+    Page<TouristAttraction> findByAreaCodeAndContentTypeId(Integer areaCode, String type,Pageable pageable);
 
     // 이름순 내림차순으로 정렬하면서 페이징 처리 (메서드 이름을 통한 쿼리 유추)
     Page<TouristAttraction> findAllByOrderByTitleDesc(Pageable pageable);

@@ -1,22 +1,31 @@
 package backend.overhere.dto.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
-@Builder
+@AllArgsConstructor
 @Getter
 public class SearchCourseResponseDto {
-    private Long id;
 
-    private String courseType;
+    private Integer totalPages;
+    private List<PageCourseResponseDto> contents;
 
-    private String title;
+    @Getter
+    @Builder
+    public static class PageCourseResponseDto {
+        private Long id;
 
-    private String briefDescription;
+        private String courseType;
 
-    private double distance;
+        private String title;
 
-    private List<AttractionBasicResponseDto> attractions;
+        private String briefDescription;
+
+        private double distance;
+
+        private List<AttractionBasicResponseDto> attractions;
+    }
 }

@@ -26,33 +26,35 @@ public class MyPageService {
     private final CourseLikeRepository courseLikeRepository;
     private final CourseRepository courseRepository;
 
-    public List<TouristSearchResponseDto> loadTouristAttractionsByLike(Long userId, int page, int size){
+    public TouristSearchResponseDto loadTouristAttractionsByLike(Long userId, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
 
         // 사용자 좋아요한 목록을 페이징 처리하여 가져옴
         Page<Like> likePage = likeRepository.findByUserId(userId, pageable);
 
-        List<TouristSearchResponseDto.PageContentResponseDto> collect = likePage.getContent().stream()
+        List<TouristSearchResponseDto.PageTouristResponseDto> collect = likePage.getContent().stream()
                 .map(like -> createSearchResponseDto(like.getTouristAttraction()))
                 .collect(Collectors.toList());
 
+        return new TouristSearchResponseDto(likePage.getTotalPages(),collect);
     }
 
-    public List<SearchCourseResponseDto> loadCourseByLike(Long userId,int page, int size){
+    public SearchCourseResponseDto loadCourseByLike(Long userId,int page, int size){
         Pageable pageable = PageRequest.of(page, size);
 
         // 사용자 좋아요한 목록을 페이징 처리하여 가져옴
         Page<CourseLike> likePage = courseLikeRepository.findByUserId(userId, pageable);
 
-        return likePage.getContent().stream()
+        List<SearchCourseResponseDto.PageCourseResponseDto> collect = likePage.getContent().stream()
                 .map(like -> createSearchCourseResponseDto(like.getCourse()))
                 .collect(Collectors.toList());
+        return new SearchCourseResponseDto(likePage.getTotalPages(),collect);
     }
 
 
-    private TouristSearchResponseDto.PageContentResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
+    private TouristSearchResponseDto.PageTouristResponseDto createSearchResponseDto(TouristAttraction touristAttraction) {
         NonObstacleInfo nonObstacleInfo = touristAttraction.getNonObstacleInfo();
-        return TouristSearchResponseDto.PageContentResponseDto.builder()
+        return TouristSearchResponseDto.PageTouristResponseDto.builder()
                 .contentTypeId(touristAttraction.getContentTypeId())
                 .title(touristAttraction.getTitle())
                 .areaCode(touristAttraction.getAreaCode())
@@ -67,22 +69,16 @@ public class MyPageService {
                 .build();
     }
 
-    private SearchCourseResponseDto createSearchCourseResponseDto(Course course) {
+    private SearchCourseResponseDto.PageCourseResponseDto createSearchCourseResponseDto(Course course) {
         // 특정 Course에 연결된 관광지를 가져옴
         List<TouristAttraction> attractions = courseRepository.findTouristAttractionsByCourseId(course.getId());
-
-        // 관광지가 없으면 예외 발생
-        if (attractions.isEmpty()) {
-            throw new NoSuchElementException("해당 코스에 등록된 관광지가 없습니다.");
-        }
 
         // DTO 변환
         List<AttractionBasicResponseDto> attractionDtos = attractions.stream()
                 .map(this::convertToAttractionBasicResponseDto)
                 .collect(Collectors.toList());
 
-        // SearchCourseResponseDto 빌드
-        return SearchCourseResponseDto.builder()
+        return SearchCourseResponseDto.PageCourseResponseDto.builder()
                 .id(course.getId())
                 .courseType(course.getCourseType())
                 .title(course.getTitle())
@@ -90,6 +86,7 @@ public class MyPageService {
                 .distance(course.getDistance())
                 .attractions(attractionDtos) // 변환된 DTO 리스트 설정
                 .build();
+
     }
 
     private AttractionBasicResponseDto convertToAttractionBasicResponseDto(TouristAttraction attraction) {

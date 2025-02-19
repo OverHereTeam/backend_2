@@ -12,7 +12,7 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken,Long>
 
     void deleteByRefresh(String refresh);
 
-    Optional<RefreshToken> findByUserId(String userId);
+    Optional<RefreshToken> findByUserId(Long userId);
 
     // refresh 값으로 RefreshToken을 조회
     Optional<RefreshToken> findByRefresh(String refresh);

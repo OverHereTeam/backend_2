@@ -11,11 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 public class TouristSearchResponseDto {
 
-    private Long totalPages;
-    private List<PageContentResponseDto> contents;
+    private Integer totalPages;
+    private List<PageTouristResponseDto> contents;
 
+    @Getter
     @Builder
-    public static class PageContentResponseDto {
+    public static class PageTouristResponseDto {
         private String title;
         private Integer areaCode;
         private String overView;

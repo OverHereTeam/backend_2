@@ -22,11 +22,13 @@ public class InquiryService {
 
     private final InquiryRepository inquiryRepository;
 
-    public List<InquiryDetailResponseDto> getInquiries(Long userId, int page, int size){
+    public InquiryDetailResponseDto getInquiries(Long userId, int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<Inquiry> inquiryPage = inquiryRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
-        return inquiryPage.getContent().stream()
-                .map(inquiry -> InquiryDetailResponseDto.builder().id(inquiry.getId()).title(inquiry.getTitle()).createdAt(inquiry.getCreatedAt()).isAnswered(inquiry.isAnswered()).inquiryType(inquiry.getInquiryType()).build()).collect(Collectors.toList());
+        List<InquiryDetailResponseDto.PageInquiryDetailResponseDto> collect = inquiryPage.getContent().stream()
+                .map(inquiry -> InquiryDetailResponseDto.PageInquiryDetailResponseDto.builder().id(inquiry.getId()).title(inquiry.getTitle()).createdAt(inquiry.getCreatedAt()).isAnswered(inquiry.isAnswered()).inquiryType(inquiry.getInquiryType()).build())
+                .collect(Collectors.toList());
+        return new InquiryDetailResponseDto(inquiryPage.getTotalPages(),collect);
     }
 
     public InquiryResponseDto addInquiry(InquiryRequestDto request){
