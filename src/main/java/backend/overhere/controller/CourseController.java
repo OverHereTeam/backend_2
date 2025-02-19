@@ -28,7 +28,7 @@ public class CourseController {
      * @param limit 상위 몇 개 코스를 가져올지 (기본값 5)
      */
     @Operation(summary = "베스트 코스찾기 ",description = "좋아요가 많은 코스를 5개 반환 limit로 늘릴 수 있음")
-    @GetMapping("/like-based")
+    @GetMapping("/best")
     public ResponseEntity<List<CourseResponseDto>> recommendCourses(
             @RequestParam(defaultValue = "5") int limit) {
 
@@ -48,7 +48,7 @@ public class CourseController {
      * 특정 지역 이름(관광지 title 기준)을 파라미터로 받아 해당 지역에 속하는 관광지를 포함한 코스 중,
      * 좋아요 수를 기준으로 정렬하여 페이징된 결과를 반환한다.
      */
-    @GetMapping("/recommend/region")
+    @GetMapping("/region")
     @Operation(summary = "지역별 코스찾기 ",description = "지역별로 좋아요가 많은 코스를 페이징해서 반환")
     public ResponseEntity<Page<CourseResponseDto>> getRecommendedCoursesByRegion(
             @RequestParam String region,
