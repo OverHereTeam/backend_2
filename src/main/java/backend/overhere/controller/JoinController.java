@@ -61,7 +61,7 @@ public class JoinController {
     //AccessToken은 프론트쪽에서 지워버리고 RefreshToken만 받아 DB에서 삭제
     @Operation(summary = "관광지 에러 재시도 초기화",description = "하드코딩으로 저장 실패한 요소를 다시 시도합니다. 재빌드 하세요.")
     @GetMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request){
+    public ResponseEntity<Void> logout(HttpServletRequest request){
         //Refresh Token 뽑기
         String refreshToken = jwtUtil.getRefreshToken(request);
         Long id = jwtUtil.getId(refreshToken);
@@ -73,7 +73,7 @@ public class JoinController {
             // 2단계: 값이 있다면 삭제
             refreshTokenService.updateExpiredTokens(id);
             //return ResponseEntity.ok("Refresh token Expired successfully");
-            return ResponseDto.settingResponse(HttpStatus.OK,ResponseStatus.LOGOUT_SUCCESS);
+            return ResponseEntity.noContent().build();
         } else {
             // 값이 없으면 삭제할 것이 없다는 응답
             //return ResponseEntity.status(404).body("Refresh token not found");
@@ -83,7 +83,7 @@ public class JoinController {
 
     @Operation(summary = "Access Token 재발급 API",description = "유효한 Refresh Token을 받고 Access Token을 재발급합니다.")
     @GetMapping("/refresh")
-    public ResponseEntity<?> refresh(HttpServletRequest request,HttpServletResponse response){
+    public ResponseEntity<Void> refresh(HttpServletRequest request,HttpServletResponse response){
         String refresh= jwtUtil.getRefreshToken(request);
 
         if(refresh==null){
@@ -117,7 +117,7 @@ public class JoinController {
 
         response.setHeader("Authorization","Bearer "+ newAccessToken);
         response.addCookie(util.createCookie("Refresh",newRefreshToken));
-        return ResponseDto.settingResponse(HttpStatus.CREATED, ResponseStatus.TOKEN_CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 }

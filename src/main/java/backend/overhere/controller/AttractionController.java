@@ -28,24 +28,23 @@ public class AttractionController {
 
     @Operation(summary = "관광지 기본 정보",description = "Path Variable로 받은 관광지의 기본 정보를 응답합니다.")
     @GetMapping("/{touristAttractionId}/info")
-    public ResponseEntity<ResponseDto<AttractionInfoResponseDto>> getTouristAttractionInfo(@PathVariable Long touristAttractionId){
+    public ResponseEntity<AttractionInfoResponseDto> getTouristAttractionInfo(@PathVariable Long touristAttractionId){
         AttractionInfoResponseDto response = attractionService.loadAttractionInfo(touristAttractionId);
-        ResponseEntity<ResponseDto<AttractionInfoResponseDto>> responseDtoResponseEntity = ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, response);
-        return responseDtoResponseEntity;
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "관광지 상세 정보",description = "Path Variable로 받은 관광지의 상세 정보를 응답합니다.")
     @GetMapping("/{touristAttractionId}/detail")
-    public ResponseEntity<ResponseDto<AttractionDetailResponseDto>> getTouristAttractionDetail(@PathVariable Long touristAttractionId){
+    public ResponseEntity<AttractionDetailResponseDto> getTouristAttractionDetail(@PathVariable Long touristAttractionId){
         AttractionDetailResponseDto response = attractionService.loadAttractionDetail(touristAttractionId);
-        return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS,response);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "관광지 이미지 정보",description = "Path Variable로 받은 관광지의 이미지 정보를 응답합니다.")
     @GetMapping("/{touristAttractionId}/gallery")
-    public ResponseEntity<ResponseDto<List<GalleryResponseDto>>> getTouristAttractionGallery(@PathVariable Long touristAttractionId){
+    public ResponseEntity<List<GalleryResponseDto>> getTouristAttractionGallery(@PathVariable Long touristAttractionId){
         List<GalleryResponseDto> response = attractionService.loadGallery(touristAttractionId);
-        return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS,response);
+        return ResponseEntity.ok(response);
     }
 
 }
