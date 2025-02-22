@@ -8,7 +8,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AttractionInfoResponseDto {
+public class  AttractionInfoResponseDto {
     // 관광지 유형
     private String contentTypeId;
 

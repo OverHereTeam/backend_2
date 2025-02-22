@@ -30,18 +30,18 @@ public class CourseController {
     @Operation(summary = "베스트 코스찾기 ",description = "좋아요가 많은 코스를 5개 반환 limit로 늘릴 수 있음")
     @GetMapping("/best")
     public ResponseEntity<List<CourseResponseDto>> recommendCourses(
-            @RequestParam(defaultValue = "5") int limit) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size )
+    {
 
         // 좋아요 순 코스 조회
-        List<CourseResponseDto> recommended = courseService.getMostLikedCourses(limit);
-
+        List<CourseResponseDto> recommended = courseService.getMostLikedCourses(page,size);
         // 결과가 없으면 204 No Content, 있으면 200 OK
         if (recommended.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(recommended);
     }
-
 
      /**
      * 지역별 추천 코스 API
@@ -52,9 +52,34 @@ public class CourseController {
     @Operation(summary = "지역별 코스찾기 ",description = "지역별로 좋아요가 많은 코스를 페이징해서 반환")
     public ResponseEntity<Page<CourseResponseDto>> getRecommendedCoursesByRegion(
             @RequestParam String region,
+            @RequestParam String courseType,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "6") int size) {
         Page<CourseResponseDto> result = courseService.getRecommendedCoursesByRegion(region, page, size);
+        if (result.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+
+    /**
+     * 지역코드와 코스타입을 기반으로 추천 코스 조회 API
+     * @param areacode 관광지의 areaCode
+     * @param courseType 코스 유형
+     * @param page 페이지 번호
+     * @param size 페이지 크기
+     * @return 추천 코스 페이징 결과
+     */
+
+    @Operation(summary = "지역코드랑 ,코스타입 필터링 코스찾기 ",description = "지역코드,코스타입 별로 좋아요가 많은 코스를 페이징해서 반환")
+    @GetMapping("/recommend/areacode")
+    public ResponseEntity<Page<CourseResponseDto>> getRecommendedCoursesByAreacode(
+            @RequestParam String areacode,
+            @RequestParam String courseType,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Page<CourseResponseDto> result = courseService.getRecommendedCoursesByAreacode(areacode, courseType, page, size);
         if (result.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

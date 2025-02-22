@@ -44,6 +44,39 @@ public class CourseSpecifications {
         };
     }
 
+
+    /**
+     * 특정 지역코드(관광지의 areaCode)와 코스타입(courseType) 조건 및 좋아요 수가 1건 초과(최소 2건 이상)
+     * 인 코스를 선택하는 명세.
+     */
+    public Specification<Course> recommendByAreacodeAndCourseType(String areacode, String courseType) {
+        return (root, query, cb) -> {
+            if (!Long.class.equals(query.getResultType())) {
+                // Course의 courseType 조건
+                Predicate courseTypePredicate = cb.equal(root.get("courseType"), courseType);
+                // TouristAttractionCourse → TouristAttraction 조인하여 areaCode 조건 적용
+                Join<Object, Object> tacJoin = root.join("touristAttractionCourses", JoinType.INNER);
+                Join<Object, Object> taJoin = tacJoin.join("touristAttraction", JoinType.INNER);
+                Predicate areaPredicate = cb.equal(taJoin.get("areaCode"), areacode);
+
+                // 서브쿼리: 좋아요 수 > 1 (즉 최소 2건 이상)
+                Subquery<Long> subquery = query.subquery(Long.class);
+                Root<CourseLike> clRoot = subquery.from(CourseLike.class);
+                subquery.select(cb.count(clRoot));
+                subquery.where(cb.equal(clRoot.get("course"), root));
+                Predicate likesPredicate = cb.greaterThan(subquery, 1L);
+
+                // 정렬: 좋아요 수 내림차순, 동률이면 제목 오름차순
+                Join<Object, Object> clJoin = root.join("courseLikes", JoinType.LEFT);
+                query.groupBy(root);
+                Expression<Long> likeCount = cb.count(clJoin.get("id"));
+                query.orderBy(cb.desc(likeCount), cb.asc(root.get("title")));
+
+                return cb.and(courseTypePredicate, areaPredicate, likesPredicate);
+            }
+            return cb.conjunction();
+        };
+    }
     /**
      * 검색어를 기반으로 Course의 제목(title)과 개요(overview)를 LIKE 조건으로 검색하는 Specification 반환
      */

@@ -39,8 +39,8 @@ public class CourseService {
     }
 
      //좋아요 수가 많은 코스 상위 N개를 조회
-    public List<CourseResponseDto> getMostLikedCourses(int limit) {
-        Pageable pageable = PageRequest.of(0, limit);
+    public List<CourseResponseDto> getMostLikedCourses(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         List<Course> courseList = courseRepository.findMostLikedCourses(pageable);
 
         // 엔티티 -> DTO 변환
@@ -53,6 +53,15 @@ public class CourseService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Course> coursePage = courseRepository.findAll(
                 courseSpecifications.recommendByRegion(region),
+                pageable
+        );
+        return coursePage.map(Course::CoursetoDto);
+    }
+
+    public Page<CourseResponseDto> getRecommendedCoursesByAreacode(String areacode, String courseType, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Course> coursePage = courseRepository.findAll(
+                courseSpecifications.recommendByAreacodeAndCourseType(areacode, courseType),
                 pageable
         );
         return coursePage.map(Course::CoursetoDto);
