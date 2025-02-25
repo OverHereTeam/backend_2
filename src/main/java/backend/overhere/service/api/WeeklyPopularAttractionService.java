@@ -1,6 +1,7 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.WeeklyPopularTouristAttraction;
+import backend.overhere.dto.domain.attractiondto.WeeklyPopularAttractionResponseDto;
 import backend.overhere.repository.LikeRepository;
 import backend.overhere.repository.WeeklyPopularTouristAttractionRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +81,23 @@ public class WeeklyPopularAttractionService {
         }
         // 집계 결과 저장
         weeklyPopularRepo.saveAll(popularList);
+    }
+    public List<WeeklyPopularAttractionResponseDto> getPopularAttractionsByArea(String areaCode) {
+        List<WeeklyPopularTouristAttraction> attractions = weeklyPopularRepo.findByAreaCodeOrderByWeeklyLikeCountDescTitleAsc(areaCode);
+        return attractions.stream()
+                .map(entity -> WeeklyPopularAttractionResponseDto.builder()
+                        .touristAttractionId(entity.getTouristAttractionId())
+                        .areaCode(entity.getAreaCode())
+                        .title(entity.getTitle())
+                        .thumbnailUrl(entity.getThumbnailUrl())
+                        .weeklyLikeCount(entity.getWeeklyLikeCount())
+                        .helpdog(entity.getHelpdog())
+                        .parking(entity.getParking())
+                        .wheelchair(entity.getWheelchair())
+                        .restroom(entity.getRestroom())
+                        .audioguide(entity.getAudioguide())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
 
