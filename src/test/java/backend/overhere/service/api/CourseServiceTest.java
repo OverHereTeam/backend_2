@@ -1,33 +1,28 @@
 package backend.overhere.service.api;
 
 import backend.overhere.configuration.Jpa.specification.CourseSpecifications;
-import backend.overhere.configuration.security.handler.OauthLoginSuccessHandler;
 import backend.overhere.domain.Course;
 import backend.overhere.domain.CourseLike;
 import backend.overhere.domain.TouristAttraction;
 import backend.overhere.domain.TouristAttractionCourse;
-import backend.overhere.dto.domain.CourseResponseDto;
+import backend.overhere.dto.domain.coursedto.CourseResponseDto;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.TouristAttractionRepository;
-import backend.overhere.util.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -101,7 +96,6 @@ public class CourseServiceTest {
                 .courseType("관광 코스")
                 .title("서울 야경 투어")
                 .briefDescription("서울 야경")
-                .overview("서울의 아름다운 야경")
                 .difficulty("쉬움")
                 .distance(3.5)
                 .build();
@@ -116,7 +110,6 @@ public class CourseServiceTest {
                 .courseType("관광 코스")
                 .title("역사 탐방 코스")
                 .briefDescription("역사 탐방")
-                .overview("역사적인 장소를 탐방")
                 .difficulty("보통")
                 .distance(4.2)
                 .build();
@@ -133,7 +126,6 @@ public class CourseServiceTest {
                 .courseType("관광 코스")
                 .title("가나다 코스")
                 .briefDescription("가나다")
-                .overview("가나다 설명")
                 .difficulty("어려움")
                 .distance(2.0)
                 .build();
@@ -150,7 +142,7 @@ public class CourseServiceTest {
         courseRepository.saveAll(Arrays.asList(course1, course2, course3));
 
         // When: 좋아요 기반 상위 3개 코스 조회
-        List<CourseResponseDto> result = courseService.getMostLikedCourses(3);
+        List<CourseResponseDto> result = courseService.getMostLikedCourses(0,3);
 
         // Then:
         // course2와 course3는 좋아요 5건으로 동률인데, 제목 오름차순("가나다 코스" < "역사 탐방 코스")가 적용되어 course3가 먼저 나온다.
@@ -175,7 +167,6 @@ public class CourseServiceTest {
                 .courseType("관광 코스")
                 .title("서울 야경 투어")
                 .briefDescription("야경 감상")
-                .overview("서울의 야경")
                 .difficulty("쉬움")
                 .distance(3.5)
                 .build();
@@ -194,7 +185,6 @@ public class CourseServiceTest {
                 .courseType("관광 코스")
                 .title("역사 탐방 코스")
                 .briefDescription("역사 탐방")
-                .overview("역사적인 명소")
                 .difficulty("보통")
                 .distance(4.2)
                 .build();
@@ -217,7 +207,6 @@ public class CourseServiceTest {
                 .courseType("관광 코스")
                 .title("서울 문화 코스")
                 .briefDescription("문화 체험")
-                .overview("서울의 문화")
                 .difficulty("보통")
                 .distance(3.0)
                 .build();

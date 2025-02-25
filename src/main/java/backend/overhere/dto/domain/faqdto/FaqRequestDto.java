@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.faqdto;
 
 import jakarta.persistence.Lob;
 import lombok.Getter;

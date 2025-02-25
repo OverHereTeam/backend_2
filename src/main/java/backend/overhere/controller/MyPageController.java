@@ -2,6 +2,12 @@ package backend.overhere.controller;
 
 import backend.overhere.configuration.security.userDetails.CustomUserDetails;
 import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.faqdto.FaqDetailResponseDto;
+import backend.overhere.dto.domain.faqdto.FaqRequestDto;
+import backend.overhere.dto.domain.faqdto.FaqResponseDto;
+import backend.overhere.dto.domain.noticedto.InquiryDetailResponseDto;
+import backend.overhere.dto.domain.noticedto.InquiryRequestDto;
+import backend.overhere.dto.domain.noticedto.InquiryResponseDto;
 import backend.overhere.service.api.FaqService;
 import backend.overhere.service.api.InquiryService;
 import backend.overhere.service.api.MyPageService;
@@ -9,7 +15,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +54,7 @@ public class MyPageController {
 
     @Operation(summary = "1대1 문의 추가 API",description = "1대1 문의 추가 API 입니다.")
     @PostMapping("/inquiries")
-    public ResponseEntity<InquiryResponseDto> addInquiry(@AuthenticationPrincipal CustomUserDetails userDetails,@Validated @RequestBody InquiryRequestDto requestDto){
+    public ResponseEntity<InquiryResponseDto> addInquiry(@AuthenticationPrincipal CustomUserDetails userDetails, @Validated @RequestBody InquiryRequestDto requestDto){
         requestDto.setUserId(userDetails.getId());
         InquiryResponseDto inquiryResponseDto = inquiryService.addInquiry(requestDto);
         return ResponseEntity.ok(inquiryResponseDto);

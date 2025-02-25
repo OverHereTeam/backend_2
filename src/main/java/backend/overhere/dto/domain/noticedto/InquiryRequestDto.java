@@ -1,6 +1,5 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.noticedto;
 
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 

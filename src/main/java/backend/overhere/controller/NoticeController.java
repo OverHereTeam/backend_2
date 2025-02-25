@@ -1,9 +1,8 @@
 package backend.overhere.controller;
 
-import backend.overhere.dto.domain.InquiryResponseDto;
-import backend.overhere.dto.domain.NoticeDetailResponseDto;
-import backend.overhere.dto.domain.NoticeRequestDto;
-import backend.overhere.dto.domain.NoticeResponseDto;
+import backend.overhere.dto.domain.noticedto.NoticeDetailResponseDto;
+import backend.overhere.dto.domain.noticedto.NoticeRequestDto;
+import backend.overhere.dto.domain.noticedto.NoticeResponseDto;
 import backend.overhere.service.api.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

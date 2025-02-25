@@ -2,6 +2,7 @@ package backend.overhere.domain;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
 public class RefreshToken {
 
     @Id
@@ -25,5 +27,7 @@ public class RefreshToken {
     private String refresh;
 
     private Boolean expired;
+
+
 
 }

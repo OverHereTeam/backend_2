@@ -1,6 +1,6 @@
 package backend.overhere.domain;
 
-import backend.overhere.dto.domain.CourseResponseDto;
+import backend.overhere.dto.domain.coursedto.CourseResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

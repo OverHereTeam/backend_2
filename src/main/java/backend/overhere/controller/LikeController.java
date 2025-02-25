@@ -1,8 +1,8 @@
 package backend.overhere.controller;
 
 import backend.overhere.configuration.security.userDetails.CustomUserDetails;
-import backend.overhere.dto.domain.CourseLikeRequestDto;
-import backend.overhere.dto.domain.CourseLikeResponseDto;
+import backend.overhere.dto.domain.coursedto.CourseLikeRequestDto;
+import backend.overhere.dto.domain.coursedto.CourseLikeResponseDto;
 import backend.overhere.dto.domain.TouristAttractionLikeRequestDto;
 import backend.overhere.dto.domain.TouristAttractionLikeResponseDto;
 import backend.overhere.service.api.CourseLikeService;

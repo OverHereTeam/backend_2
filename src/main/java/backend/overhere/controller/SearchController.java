@@ -7,7 +7,7 @@ import backend.overhere.domain.TouristAttraction;
 import backend.overhere.domain.enums.ObstacleType;
 import backend.overhere.dto.ResponseDto;
 
-import backend.overhere.dto.domain.CourseResponseDto;
+import backend.overhere.dto.domain.coursedto.CourseResponseDto;
 import backend.overhere.dto.domain.TouristSearchResponseDto;
 import backend.overhere.service.api.CourseService;
 import backend.overhere.service.api.NonObstacleInfoService;

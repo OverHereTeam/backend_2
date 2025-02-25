@@ -1,7 +1,8 @@
 package backend.overhere.controller;
 
 
-import backend.overhere.dto.domain.CourseResponseDto;
+import backend.overhere.dto.domain.coursedto.CourseDetailResponse;
+import backend.overhere.dto.domain.coursedto.CourseResponseDto;
 import backend.overhere.service.api.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,7 +26,7 @@ public class CourseController {
 
     /**
      * 단순 좋아요 수가 많은 코스를 추천
-     * @param limit 상위 몇 개 코스를 가져올지 (기본값 5)
+     * @param 상위 몇 개 코스를 가져올지 (기본값 5)
      */
     @Operation(summary = "베스트 코스찾기 ",description = "좋아요가 많은 코스를 5개 반환 limit로 늘릴 수 있음")
     @GetMapping("/best")
@@ -41,6 +42,11 @@ public class CourseController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(recommended);
+    }
+    //
+    @GetMapping("/detail")
+    public ResponseEntity<CourseDetailResponse> detail(@RequestParam Long courseId) {
+
     }
 
      /**

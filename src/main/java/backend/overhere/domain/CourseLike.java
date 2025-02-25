@@ -1,6 +1,6 @@
 package backend.overhere.domain;
 
-import backend.overhere.dto.domain.CourseLikeResponseDto;
+import backend.overhere.dto.domain.coursedto.CourseLikeResponseDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;

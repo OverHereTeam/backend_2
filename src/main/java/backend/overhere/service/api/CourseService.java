@@ -2,9 +2,7 @@ package backend.overhere.service.api;
 
 import backend.overhere.configuration.Jpa.specification.CourseSpecifications;
 import backend.overhere.domain.Course;
-import backend.overhere.domain.Course;
-import backend.overhere.dto.domain.CourseResponseDto;
-import backend.overhere.repository.AttractionRepository;
+import backend.overhere.dto.domain.coursedto.CourseResponseDto;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.TouristAttractionRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 

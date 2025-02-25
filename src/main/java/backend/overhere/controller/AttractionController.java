@@ -2,15 +2,13 @@ package backend.overhere.controller;
 
 import backend.overhere.common.ResponseStatus;
 import backend.overhere.dto.ResponseDto;
-import backend.overhere.dto.domain.AttractionDetailResponseDto;
-import backend.overhere.dto.domain.AttractionInfoResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionDetailResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionInfoResponseDto;
 import backend.overhere.dto.domain.GalleryResponseDto;
 import backend.overhere.service.api.AttractionService;
-import backend.overhere.service.api.NonObstacleInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

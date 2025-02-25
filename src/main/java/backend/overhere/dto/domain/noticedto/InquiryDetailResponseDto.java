@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.noticedto;
 
 import lombok.Builder;
 import lombok.Getter;

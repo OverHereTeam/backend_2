@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.attractiondto;
 
 import backend.overhere.domain.TouristAttraction;
 import lombok.Builder;

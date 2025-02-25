@@ -1,5 +1,6 @@
 package backend.overhere.dto.domain;
 
+import backend.overhere.dto.domain.attractiondto.AttractionBasicResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 

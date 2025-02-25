@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.coursedto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +15,6 @@ public class CourseResponseDto {
     private String title;
 
     private String briefDescription;
-
-    private String overView;
 
     private String difficulty;
 

@@ -1,7 +1,7 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.*;
-import backend.overhere.dto.domain.AttractionBasicResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionBasicResponseDto;
 import backend.overhere.dto.domain.SearchCourseResponseDto;
 import backend.overhere.dto.domain.TouristSearchResponseDto;
 import backend.overhere.repository.CourseLikeRepository;
