@@ -1,13 +1,18 @@
 package backend.overhere.controller;
 
 
+import backend.overhere.common.ResponseStatus;
+import backend.overhere.dto.ResponseDto;
 import backend.overhere.dto.domain.coursedto.CourseDetailResponse;
 import backend.overhere.dto.domain.coursedto.CourseResponseDto;
+import backend.overhere.dto.domain.coursedto.WeeklyPopularCourseResponseDto;
 import backend.overhere.service.api.CourseService;
+import backend.overhere.service.api.WeeklyPopularCourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +28,7 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
-
+    private final WeeklyPopularCourseService weeklyPopularCourseService;
     /**
      * 단순 좋아요 수가 많은 코스를 추천
      */
@@ -95,5 +100,14 @@ public class CourseController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(result);
+    }
+
+
+    @Operation(summary = "인기 코스 추천", description = "지난 일주일간 좋아요 집계 기반 인기 코스 상위 10개" +
+            "id를 비롯한 핵심정보(사진은 없음)와, 해당 코스와 관련된 모든 관광지의 title 리스트를 추천한다.")
+    @GetMapping("/popular")
+    public ResponseEntity<ResponseDto<List<WeeklyPopularCourseResponseDto>>> getPopularCourses() {
+        List<WeeklyPopularCourseResponseDto> response = weeklyPopularCourseService.getPopularCourses();
+        return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, response);
     }
 }

@@ -1,5 +1,6 @@
-package backend.overhere.service.api;
+package backend.overhere.service.api.scheduler;
 
+import backend.overhere.service.api.WeeklyPopularAttractionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
