@@ -1,5 +1,6 @@
 package backend.overhere.dto.domain.attractiondto;
 
+import backend.overhere.domain.NonObstacleInfo;
 import lombok.*;
 
 @Getter
@@ -9,14 +10,12 @@ import lombok.*;
 @NoArgsConstructor
 public class TouristAttractionSummaryDto {
     
-    private Long TouristId;
-    private String Title;
-    private String Description;
-    
-    private Boolean helpdog;
-    private Boolean parking;
-    private Boolean wheelchair;
-    private Boolean restroom;
-    private Boolean audioguide;
-    private String exits;
+    private Long touristId;
+    private String title;
+    private String detailInfo;
+    private String imageUrl;
+    private NonObstacleInfo nonObstacleInfo;
+
+
+
 }

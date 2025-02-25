@@ -32,7 +32,4 @@ public class CourseDetailResponse {
 
     private List<TouristAttractionSummaryDto> touristSummary = new ArrayList<>();
 
-
-
-
 }

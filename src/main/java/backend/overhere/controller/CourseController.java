@@ -26,7 +26,6 @@ public class CourseController {
 
     /**
      * 단순 좋아요 수가 많은 코스를 추천
-     * @param 상위 몇 개 코스를 가져올지 (기본값 5)
      */
     @Operation(summary = "베스트 코스찾기 ",description = "좋아요가 많은 코스를 5개 반환 limit로 늘릴 수 있음")
     @GetMapping("/best")
@@ -43,10 +42,16 @@ public class CourseController {
         }
         return ResponseEntity.ok(recommended);
     }
-    //
+
+    @Operation(summary = "코스 상세 api ",description = "코스 id기반으로 코스 상세정보 불러옴 TouristAttractionSummaryDto" +
+            "내용 기반으로 관광지 내용 구성하기  ")
     @GetMapping("/detail")
     public ResponseEntity<CourseDetailResponse> detail(@RequestParam Long courseId) {
-
+        CourseDetailResponse courseDetail = courseService.getCourseDetail(courseId);
+        if(courseDetail==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(courseDetail);
     }
 
      /**
