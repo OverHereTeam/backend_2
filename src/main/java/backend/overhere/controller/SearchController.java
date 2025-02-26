@@ -8,7 +8,7 @@ import backend.overhere.domain.enums.ObstacleType;
 import backend.overhere.dto.ResponseDto;
 
 import backend.overhere.dto.domain.coursedto.CourseResponseDto;
-import backend.overhere.dto.domain.TouristSearchResponseDto;
+
 import backend.overhere.dto.domain.page.CoursePageResponseDto;
 import backend.overhere.dto.domain.page.TouristSearchPageResponseDto;
 import backend.overhere.service.api.CourseService;
