@@ -3,11 +3,13 @@ package backend.overhere;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.nio.file.Paths;
 import java.util.Objects;
 
 @SpringBootApplication
+@EnableScheduling // 크론잡 을 위해
 public class Backend2Application {
 
 	public static void main(String[] args) {

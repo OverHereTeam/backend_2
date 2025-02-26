@@ -1,11 +1,8 @@
 package backend.overhere.service.api;
 
-import backend.overhere.domain.Course;
 import backend.overhere.domain.Like;
 import backend.overhere.domain.TouristAttraction;
 import backend.overhere.domain.User;
-import backend.overhere.dto.domain.CourseLikeRequestDto;
-import backend.overhere.dto.domain.CourseLikeResponseDto;
 import backend.overhere.dto.domain.TouristAttractionLikeResponseDto;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.LikeRepository;

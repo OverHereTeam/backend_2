@@ -1,7 +1,9 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.Inquiry;
-import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.noticedto.InquiryDetailResponseDto;
+import backend.overhere.dto.domain.noticedto.InquiryRequestDto;
+import backend.overhere.dto.domain.noticedto.InquiryResponseDto;
 import backend.overhere.dto.domain.page.InquiryDetailPageResponseDto;
 import backend.overhere.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;

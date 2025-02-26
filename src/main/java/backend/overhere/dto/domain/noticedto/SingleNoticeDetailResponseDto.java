@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.noticedto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

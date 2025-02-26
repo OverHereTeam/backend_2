@@ -1,5 +1,7 @@
 package backend.overhere.domain;
 
+import backend.overhere.dto.domain.TouristSearchResponseDto;
+import backend.overhere.dto.domain.attractiondto.TouristAttractionSummaryDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -101,7 +103,7 @@ public class TouristAttraction {
         like.setTouristAttraction(null);
     }
 
-/*    public TouristSearchResponseDto toSearchResponseDto() {
+    public TouristSearchResponseDto toSearchResponseDto() {
         return TouristSearchResponseDto.builder()
                 .contentTypeId(this.contentTypeId)
                 .title(this.title)
@@ -110,7 +112,15 @@ public class TouristAttraction {
                 .contentId(this.id)
                 .thumbnailUrl(this.thumbnail1)
                 .build();
-    }*/
+    }
+    public TouristAttractionSummaryDto toSummaryDto() {
+        return TouristAttractionSummaryDto.builder()
+                .touristId(this.id)
+                .title(this.title)
+                .detailInfo(this.overview)
+                .imageUrl(this.thumbnail1)
+                .build();
+    }
 
 }
 

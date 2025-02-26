@@ -1,11 +1,9 @@
 package backend.overhere.service.api;
 
-import backend.overhere.domain.DetailInfo;
 import backend.overhere.domain.Gallery;
-import backend.overhere.domain.NonObstacleInfo;
 import backend.overhere.domain.TouristAttraction;
-import backend.overhere.dto.domain.AttractionDetailResponseDto;
-import backend.overhere.dto.domain.AttractionInfoResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionDetailResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionInfoResponseDto;
 import backend.overhere.dto.domain.GalleryResponseDto;
 import backend.overhere.exception.DataAccessException;
 import backend.overhere.repository.AttractionRepository;
@@ -15,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

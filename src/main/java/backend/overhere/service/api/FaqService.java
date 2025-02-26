@@ -1,7 +1,9 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.Faq;
-import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.faqdto.FaqRequestDto;
+import backend.overhere.dto.domain.faqdto.FaqResponseDto;
+import backend.overhere.dto.domain.faqdto.SingleFaqDetailResponseDto;
 import backend.overhere.dto.domain.page.FaqDetailPageResponseDto;
 import backend.overhere.repository.FaqRepository;
 import lombok.RequiredArgsConstructor;

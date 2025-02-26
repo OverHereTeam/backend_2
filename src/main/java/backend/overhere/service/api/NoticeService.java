@@ -1,7 +1,9 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.Notice;
-import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.noticedto.NoticeRequestDto;
+import backend.overhere.dto.domain.noticedto.NoticeResponseDto;
+import backend.overhere.dto.domain.noticedto.SingleNoticeDetailResponseDto;
 import backend.overhere.dto.domain.page.NoticeDetailPageResponseDto;
 import backend.overhere.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;

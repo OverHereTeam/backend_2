@@ -1,25 +1,20 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.faqdto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class NoticeRequestDto {
-    private Long id;
+public class SingleFaqDetailResponseDto {
+    private Long faqId;
     private String title;
+    private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime updatedAt;
-
-    private String content;
 }

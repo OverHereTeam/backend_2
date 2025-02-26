@@ -1,7 +1,8 @@
 package backend.overhere.domain;
 
+import backend.overhere.dto.domain.coursedto.CourseDetailResponse;
+import backend.overhere.dto.domain.coursedto.CourseResponseDto;
 import backend.overhere.dto.domain.page.CoursePageResponseDto;
-import backend.overhere.dto.domain.CourseResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,11 +63,9 @@ public class Course {
                 .courseType(this.courseType)
                 .title(this.title)
                 .briefDescription(this.briefDescription)
-                .overView(this.overview)
                 .difficulty(this.difficulty)
                 .distance(this.distance)
                 .build();
     }
-
 
 }

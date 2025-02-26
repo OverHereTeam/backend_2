@@ -1,7 +1,9 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.*;
-import backend.overhere.dto.domain.AttractionBasicResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionBasicResponseDto;
+import backend.overhere.dto.domain.SearchCourseResponseDto;
+import backend.overhere.dto.domain.TouristSearchResponseDto;
 import backend.overhere.dto.domain.page.SearchCoursePageResponseDto;
 import backend.overhere.dto.domain.page.TouristSearchPageResponseDto;
 import backend.overhere.repository.CourseLikeRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service

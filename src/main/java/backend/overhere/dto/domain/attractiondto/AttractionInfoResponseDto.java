@@ -1,4 +1,4 @@
-package backend.overhere.dto.domain;
+package backend.overhere.dto.domain.attractiondto;
 
 import backend.overhere.domain.TouristAttraction;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AttractionInfoResponseDto {
+public class  AttractionInfoResponseDto {
     // 관광지 유형
     private Integer contentTypeId;
 

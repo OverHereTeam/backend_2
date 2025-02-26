@@ -1,6 +1,9 @@
 package backend.overhere.controller;
 
-import backend.overhere.dto.domain.*;
+
+import backend.overhere.dto.domain.noticedto.NoticeRequestDto;
+import backend.overhere.dto.domain.noticedto.NoticeResponseDto;
+import backend.overhere.dto.domain.noticedto.SingleNoticeDetailResponseDto;
 import backend.overhere.dto.domain.page.NoticeDetailPageResponseDto;
 import backend.overhere.service.api.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController

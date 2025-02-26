@@ -4,10 +4,11 @@ import backend.overhere.domain.Course;
 import backend.overhere.domain.CourseLike;
 import backend.overhere.domain.Like;
 import backend.overhere.domain.User;
-import backend.overhere.dto.domain.CourseLikeRequestDto;
-import backend.overhere.dto.domain.CourseLikeResponseDto;
+
 import backend.overhere.dto.domain.TouristAttractionLikeRequestDto;
 import backend.overhere.dto.domain.TouristAttractionLikeResponseDto;
+import backend.overhere.dto.domain.coursedto.CourseLikeRequestDto;
+import backend.overhere.dto.domain.coursedto.CourseLikeResponseDto;
 import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.CourseLikeRepository;
 import backend.overhere.repository.UserRepository;

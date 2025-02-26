@@ -2,8 +2,7 @@ package backend.overhere.domain;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 //RefreshToken이 발급되는 경우는
 // 1) 다시 로그인 할때
@@ -11,6 +10,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RefreshToken {
 
     @Id
@@ -25,5 +27,7 @@ public class RefreshToken {
     private String refresh;
 
     private Boolean expired;
+
+
 
 }

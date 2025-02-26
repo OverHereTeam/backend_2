@@ -1,7 +1,12 @@
 package backend.overhere.controller;
 
 import backend.overhere.configuration.security.userDetails.CustomUserDetails;
-import backend.overhere.dto.domain.*;
+import backend.overhere.dto.domain.faqdto.FaqDetailResponseDto;
+import backend.overhere.dto.domain.faqdto.FaqRequestDto;
+import backend.overhere.dto.domain.faqdto.FaqResponseDto;
+import backend.overhere.dto.domain.faqdto.SingleFaqDetailResponseDto;
+import backend.overhere.dto.domain.noticedto.InquiryRequestDto;
+import backend.overhere.dto.domain.noticedto.InquiryResponseDto;
 import backend.overhere.dto.domain.page.FaqDetailPageResponseDto;
 import backend.overhere.dto.domain.page.InquiryDetailPageResponseDto;
 import backend.overhere.dto.domain.page.SearchCoursePageResponseDto;

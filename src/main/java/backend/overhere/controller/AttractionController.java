@@ -2,11 +2,12 @@ package backend.overhere.controller;
 
 import backend.overhere.common.ResponseStatus;
 import backend.overhere.dto.ResponseDto;
-import backend.overhere.dto.domain.AttractionDetailResponseDto;
-import backend.overhere.dto.domain.AttractionInfoResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionDetailResponseDto;
+import backend.overhere.dto.domain.attractiondto.AttractionInfoResponseDto;
 import backend.overhere.dto.domain.GalleryResponseDto;
+import backend.overhere.dto.domain.attractiondto.WeeklyPopularAttractionResponseDto;
 import backend.overhere.service.api.AttractionService;
-import backend.overhere.service.api.NonObstacleInfoService;
+import backend.overhere.service.api.WeeklyPopularAttractionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -47,4 +48,11 @@ public class AttractionController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "지역별 인기 관광지", description = "프론트에서 지역 코드를 요청 파라미터로 전달하면 해당 지역의 지난 일주일간 집계된 상위 20개 인기 관광지를 응답한다.")
+    @GetMapping("/popular")
+    public ResponseEntity<List<WeeklyPopularAttractionResponseDto>>getWeeklyPopularAttractions(
+            @RequestParam("areaCode") String areaCode) {
+        List<WeeklyPopularAttractionResponseDto> response = weeklyPopularAttractionService.getPopularAttractionsByArea(areaCode);
+        return ResponseEntity.ok(response);
+    }
 }
