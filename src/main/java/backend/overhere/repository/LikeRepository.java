@@ -36,8 +36,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
             "GROUP BY ta.tourist_attraction_id, ta.area_code, ta.title, ta.thumbnail1, " +
             "noi.helpdog, noi.parking, noi.wheelchair, noi.restroom, noi.audioguide " +
             "ORDER BY weeklyLikeCount DESC, ta.title ASC ",
-            nativeQuery = true)//tourist_attraction과 non_obstacle_info를 JOIN하여 NonObstacleInfo의 boolean 컬럼들을 함께 조회한다.
-    List<Object[]> findWeeklyPopularAttractionsByAreaCode(@Param("areaCode") String areaCode,
+            nativeQuery = true)
+    List<Object[]> findWeeklyPopularAttractionsByAreaCode(@Param("areaCode") Integer areaCode,
                                                           @Param("startDate") LocalDateTime startDate,
                                                           @Param("endDate") LocalDateTime endDate,
                                                           Pageable pageable);

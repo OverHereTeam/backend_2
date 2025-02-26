@@ -91,7 +91,7 @@ public class CourseController {
     @Operation(summary = "지역코드랑 ,코스타입 필터링 코스찾기 ",description = "지역코드,코스타입 별로 좋아요가 많은 코스를 페이징해서 반환")
     @GetMapping("/recommend/areacode")
     public ResponseEntity<Page<CourseResponseDto>> getRecommendedCoursesByAreacode(
-            @RequestParam String areacode,
+            @RequestParam Integer areacode,
             @RequestParam String courseType,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size) {
@@ -106,8 +106,8 @@ public class CourseController {
     @Operation(summary = "인기 코스 추천", description = "지난 일주일간 좋아요 집계 기반 인기 코스 상위 10개" +
             "id를 비롯한 핵심정보(사진은 없음)와, 해당 코스와 관련된 모든 관광지의 title 리스트를 추천한다.")
     @GetMapping("/popular")
-    public ResponseEntity<ResponseDto<List<WeeklyPopularCourseResponseDto>>> getPopularCourses() {
+    public ResponseEntity<List<WeeklyPopularCourseResponseDto>> getPopularCourses() {
         List<WeeklyPopularCourseResponseDto> response = weeklyPopularCourseService.getPopularCourses();
-        return ResponseDto.settingResponse(HttpStatus.OK, ResponseStatus.SUCCESS, response);
+        return ResponseEntity.ok(response);
     }
 }

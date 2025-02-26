@@ -90,7 +90,7 @@ public class CourseService {
         return coursePage.map(Course::CoursetoDto);
     }
 
-    public Page<CourseResponseDto> getRecommendedCoursesByAreacode(String areacode, String courseType, int page, int size) {
+    public Page<CourseResponseDto> getRecommendedCoursesByAreacode(Integer areacode, String courseType, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Course> coursePage = courseRepository.findAll(
                 courseSpecifications.recommendByAreacodeAndCourseType(areacode, courseType),

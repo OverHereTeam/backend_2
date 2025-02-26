@@ -26,6 +26,7 @@ public class AttractionController {
     //tourist_attraction
     //non_obstacle_info
     private final AttractionService attractionService;
+    private final WeeklyPopularAttractionService weeklyPopularAttractionService;
 
     @Operation(summary = "관광지 기본 정보",description = "Path Variable로 받은 관광지의 기본 정보를 응답합니다.")
     @GetMapping("/{touristAttractionId}/info")
@@ -51,7 +52,7 @@ public class AttractionController {
     @Operation(summary = "지역별 인기 관광지", description = "프론트에서 지역 코드를 요청 파라미터로 전달하면 해당 지역의 지난 일주일간 집계된 상위 20개 인기 관광지를 응답한다.")
     @GetMapping("/popular")
     public ResponseEntity<List<WeeklyPopularAttractionResponseDto>>getWeeklyPopularAttractions(
-            @RequestParam("areaCode") String areaCode) {
+            @RequestParam("areaCode") Integer areaCode) {
         List<WeeklyPopularAttractionResponseDto> response = weeklyPopularAttractionService.getPopularAttractionsByArea(areaCode);
         return ResponseEntity.ok(response);
     }

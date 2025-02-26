@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class WeeklyPopularAttractionResponseDto {
     private Long touristAttractionId;
-    private String areaCode;
+    private Integer areaCode;
     private String title;
     private String thumbnailUrl;
     private Long weeklyLikeCount;

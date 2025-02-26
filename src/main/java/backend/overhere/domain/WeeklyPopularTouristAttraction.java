@@ -19,7 +19,7 @@ public class WeeklyPopularTouristAttraction {
     private Long id;
 
     // 지역 코드 (ex. areacode)
-    private String areaCode;
+    private Integer areaCode;
 
     // 관광지 id
     private Long touristAttractionId;

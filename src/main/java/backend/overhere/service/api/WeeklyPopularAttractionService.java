@@ -23,8 +23,8 @@ public class WeeklyPopularAttractionService {
     private final WeeklyPopularTouristAttractionRepository weeklyPopularRepo;
 
     // 고정된 지역 코드 리스트
-    private final List<String> fixedAreaCodes = Arrays.asList(
-            "1", "2", "3", "4", "5", "6", "7", "8", "31", "32", "33", "34", "35", "36", "37", "38", "39"
+    private final List<Integer> fixedAreaCodes = Arrays.asList(
+            1, 2, 3, 4, 5, 6, 7, 8, 31, 32, 33, 34, 35, 36, 37, 38, 39
     );
     public void updateWeeklyPopularAttractions() {
         // 지난 일주일 기간 계산
@@ -37,7 +37,7 @@ public class WeeklyPopularAttractionService {
         List<WeeklyPopularTouristAttraction> popularList = new ArrayList<>();
 
         // 고정된 지역 코드 리스트 순회
-        for (String areaCode : fixedAreaCodes) {
+        for (Integer areaCode : fixedAreaCodes) {
             Pageable top20 = PageRequest.of(0, 20);
             List<Object[]> results = likeRepository.findWeeklyPopularAttractionsByAreaCode(areaCode, startDate, endDate, top20);
 
@@ -54,7 +54,7 @@ public class WeeklyPopularAttractionService {
             // [9] audioguide
             for (Object[] row : results) {
                 Long touristAttractionId = ((Number) row[0]).longValue();
-                String area = (String) row[1];
+                Integer area = (Integer) row[1];
                 String title = (String) row[2];
                 String thumbnailUrl = (String) row[3];
                 Long likeCount = ((Number) row[4]).longValue();
@@ -82,7 +82,7 @@ public class WeeklyPopularAttractionService {
         // 집계 결과 저장
         weeklyPopularRepo.saveAll(popularList);
     }
-    public List<WeeklyPopularAttractionResponseDto> getPopularAttractionsByArea(String areaCode) {
+    public List<WeeklyPopularAttractionResponseDto> getPopularAttractionsByArea(Integer areaCode) {
         List<WeeklyPopularTouristAttraction> attractions = weeklyPopularRepo.findByAreaCodeOrderByWeeklyLikeCountDescTitleAsc(areaCode);
         return attractions.stream()
                 .map(entity -> WeeklyPopularAttractionResponseDto.builder()

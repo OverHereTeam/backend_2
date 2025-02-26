@@ -49,7 +49,7 @@ public class CourseSpecifications {
      * 특정 지역코드(관광지의 areaCode)와 코스타입(courseType) 조건 및 좋아요 수가 1건 초과(최소 2건 이상)
      * 인 코스를 선택하는 명세.
      */
-    public Specification<Course> recommendByAreacodeAndCourseType(String areacode, String courseType) {
+    public Specification<Course> recommendByAreacodeAndCourseType(Integer areacode, String courseType) {
         return (root, query, cb) -> {
             if (!Long.class.equals(query.getResultType())) {
                 // Course의 courseType 조건
@@ -57,6 +57,7 @@ public class CourseSpecifications {
                 // TouristAttractionCourse → TouristAttraction 조인하여 areaCode 조건 적용
                 Join<Object, Object> tacJoin = root.join("touristAttractionCourses", JoinType.INNER);
                 Join<Object, Object> taJoin = tacJoin.join("touristAttraction", JoinType.INNER);
+                // 기존에는 String 비교였으나, 이제는 Integer 타입 비교로 수정한다.
                 Predicate areaPredicate = cb.equal(taJoin.get("areaCode"), areacode);
 
                 // 서브쿼리: 좋아요 수 > 1 (즉 최소 2건 이상)
@@ -78,7 +79,7 @@ public class CourseSpecifications {
         };
     }
 
-    public Specification<Course> recommendByAreacodeAndNonobstacle(String areacode, String courseType) {
+    public Specification<Course> recommendByAreacodeAndNonobstacle(Integer areacode, String courseType) {
         return (root, query, cb) -> {
             if (!Long.class.equals(query.getResultType())) {
                 // Course의 courseType 조건
@@ -86,6 +87,7 @@ public class CourseSpecifications {
                 // TouristAttractionCourse → TouristAttraction 조인하여 areaCode 조건 적용
                 Join<Object, Object> tacJoin = root.join("touristAttractionCourses", JoinType.INNER);
                 Join<Object, Object> taJoin = tacJoin.join("touristAttraction", JoinType.INNER);
+                // areaCode 필드가 Integer 타입이므로 Integer 값과 비교
                 Predicate areaPredicate = cb.equal(taJoin.get("areaCode"), areacode);
 
                 // 서브쿼리: 좋아요 수 > 1 (즉 최소 2건 이상)
