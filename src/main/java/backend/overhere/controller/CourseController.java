@@ -103,7 +103,7 @@ public class CourseController {
     }
 
 
-    @Operation(summary = "인기 코스 추천", description = "지난 일주일간 좋아요 집계 기반 인기 코스 상위 10개" +
+    @Operation(summary = "일주일간 인기 코스 추천", description = "지난 일주일간 좋아요 집계 기반 인기 코스 상위 10개" +
             "id를 비롯한 핵심정보(사진은 없음)와, 해당 코스와 관련된 모든 관광지의 title 리스트를 추천한다.")
     @GetMapping("/popular")
     public ResponseEntity<List<WeeklyPopularCourseResponseDto>> getPopularCourses() {

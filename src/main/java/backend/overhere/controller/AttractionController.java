@@ -49,7 +49,7 @@ public class AttractionController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "지역별 인기 관광지", description = "프론트에서 지역 코드를 요청 파라미터로 전달하면 해당 지역의 지난 일주일간 집계된 상위 20개 인기 관광지를 응답한다.")
+    @Operation(summary = "일주일간 지역별 인기 관광지", description = "프론트에서 지역 코드를 요청 파라미터로 전달하면 해당 지역의 지난 일주일간 집계된 상위 20개 인기 관광지를 응답한다.")
     @GetMapping("/popular")
     public ResponseEntity<List<WeeklyPopularAttractionResponseDto>>getWeeklyPopularAttractions(
             @RequestParam("areaCode") Integer areaCode) {
