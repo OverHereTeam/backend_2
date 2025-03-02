@@ -88,7 +88,7 @@ public class TouristAttractionService {
         return touristAttractionList;
     }
 
-    // 지역이 남도, 북도일 경우 조정 >> 남도를 북도 Code로 통일
+    // 지역이 남도, 북도일 경우 조정 >> 남도를 북도 Code로 통일 , 대전/대구/광주/부산/울산/세종을 각 도 로 통일
     private static Integer areacodeSetting(Integer areaCode) {
         if(areaCode==38){
             return 37;
@@ -97,6 +97,24 @@ public class TouristAttractionService {
             return 35;
         }
         else if (areaCode==34){
+            return 33;
+        }
+        else if (areaCode==3) {
+            return 33;
+        }
+        else if (areaCode==4) {
+            return 35;
+        }
+        else if (areaCode==5) {
+            return 37;
+        }
+        else if (areaCode==6) {
+            return 35;
+        }
+        else if (areaCode==7) {
+            return 35;
+        }
+        else if (areaCode==8) {
             return 33;
         }
         else{
