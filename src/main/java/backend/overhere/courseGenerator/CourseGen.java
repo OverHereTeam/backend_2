@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +25,7 @@ import static backend.overhere.util.Util.*;
 
 @RestController
 @RequestMapping("/api/v1/course")
-@Tag(name="관광지 DB 초기화 API", description = "공공 API를 통한 로컬 DB 초기화에 대한 설명입니다.")
+@Tag(name="코스 생성 API", description = "코스 자동 생성 API입니다.")
 @RequiredArgsConstructor
 @Slf4j
 public class CourseGen {
@@ -39,58 +39,63 @@ public class CourseGen {
     private final GptApiClient gptApiClient;
     private final TouristAttractionService touristAttractionService;
     private final TouristAttractionRepository touristAttractionRepository;
-    @Operation(summary = "코스 DB 초기화 API",description = "코스를 관광지 데이터를 기반으로 만들고 Course 테이블의 over_view, distance, course_type, brief_description 데이터를 GPT를 통해 파싱후 자동 저장합니다.")
+
+    @Operation(summary = "코스 DB 초기화 API", description = "코스를 관광지 데이터를 기반으로 만들고 Course 테이블의 데이터를 GPT를 통해 파싱후 자동 저장합니다.")
     @GetMapping("/generator")
-    public void coureGen(@RequestParam Integer areacode,@RequestParam int iter) {
+    public ResponseEntity<?> courseGen(
+            @RequestParam Integer areacode,
+            @RequestParam int iter) {
+        try {
+            for(int i=0; i<iter; i++) {
+                try {
+                    // 예시 관광지 데이터 (DB에서 로드된 데이터라고 가정)
+                    List<TouristAttraction> allTouristSpots = new ArrayList<>();
 
-        for(int i=0; i<iter; i++) {
-            try {
-                // 예시 관광지 데이터 (DB에서 로드된 데이터라고 가정)
-                List<TouristAttraction> allTouristSpots = new ArrayList<>();
-
-                // 추가적인 관광지들을 DB에서 로드하여 allTouristSpots에 추가할 수 있음
-                List<TouristAttraction> attractionList = touristAttractionRepository.findByAreaCode(areacode);
+                    // 추가적인 관광지들을 DB에서 로드하여 allTouristSpots에 추가할 수 있음
+                    List<TouristAttraction> attractionList = touristAttractionRepository.findByAreaCode(areacode);
 
 
-                // 부분집합 선택
-                List<TouristAttraction> selectedSpots = selectTouristSpots(attractionList, THRESHOLD);
-                System.out.println("Selected Tourist Spots:");
-                for (TouristAttraction spot : selectedSpots) {
-                    System.out.println("ID: " + spot.getId() + ", x: " + spot.getMapx() + ", y: " + spot.getMapy());
+                    // 부분집합 선택
+                    List<TouristAttraction> selectedSpots = selectTouristSpots(attractionList, THRESHOLD);
+                    System.out.println("Selected Tourist Spots:");
+                    for (TouristAttraction spot : selectedSpots) {
+                        System.out.println("ID: " + spot.getId() + ", x: " + spot.getMapx() + ", y: " + spot.getMapy());
+                    }
+
+                    // 최단 경로 구하기 (그리디 알고리즘)
+                    List<TouristAttraction> shortestPath = findShortestPath(selectedSpots);
+                    System.out.println("\nShortest Path:");
+                    for (TouristAttraction spot : shortestPath) {
+                        System.out.println("ID: " + spot.getId() + ", x: " + spot.getMapx() + ", y: " + spot.getMapy());
+                    }
+
+                    String response = gptApiClient.sendRequest(shortestPath);
+                    if(response!=null){
+                        // responseText는 실제 JSON 문자열이므로, 이를 다시 JsonNode로 파싱
+                        JsonNode courseDetails = objectMapper.readTree(response);
+
+                        // 각 필드 추출 (****CourseType도 해야되는데 아직 안함*******)
+                        String courseBriefDescription = courseDetails.path("courseBriefDescription").asText();
+                        String courseOverview = courseDetails.path("courseOverview").asText();
+                        String difficulty = courseDetails.path("difficulty").asText();
+                        String title = courseDetails.path("title").asText();
+                        Course course = Course.builder().title(title).difficulty(difficulty).briefDescription(courseBriefDescription).overview(courseOverview).build();
+                        touristAttractionCourseService.createCourseWithAttractions(course,shortestPath);
+
+                    }
+                    else {
+                        throw new RuntimeException("response==null");
+                    }
                 }
-
-                // 최단 경로 구하기 (그리디 알고리즘)
-                List<TouristAttraction> shortestPath = findShortestPath(selectedSpots);
-                System.out.println("\nShortest Path:");
-                for (TouristAttraction spot : shortestPath) {
-                    System.out.println("ID: " + spot.getId() + ", x: " + spot.getMapx() + ", y: " + spot.getMapy());
-                }
-
-                String response = gptApiClient.sendRequest(shortestPath);
-                if(response!=null){
-                    // responseText는 실제 JSON 문자열이므로, 이를 다시 JsonNode로 파싱
-                    JsonNode courseDetails = objectMapper.readTree(response);
-
-                    // 각 필드 추출 (****CourseType도 해야되는데 아직 안함*******)
-                    String courseBriefDescription = courseDetails.path("courseBriefDescription").asText();
-                    String courseOverview = courseDetails.path("courseOverview").asText();
-                    String difficulty = courseDetails.path("difficulty").asText();
-                    String title = courseDetails.path("title").asText();
-                    Course course = Course.builder().title(title).difficulty(difficulty).briefDescription(courseBriefDescription).overview(courseOverview).build();
-                    touristAttractionCourseService.createCourseWithAttractions(course,shortestPath);
-
-                }
-                else {
-                    throw new RuntimeException("response==null");
+                catch (Exception e) {
+                    System.out.println("실패");
+                    continue;
                 }
             }
-            catch (Exception e) {
-                System.out.println("실패");
-                continue;
-            }
-
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Course generation failed: " + e.getMessage());
         }
-
     }
 
     @AllArgsConstructor
