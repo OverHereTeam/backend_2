@@ -32,6 +32,9 @@ public class Course {
 
     private String overview;
 
+    @Column(columnDefinition = "BIGINT NOT NULL DEFAULT 0")
+    private Long view = 0L;
+
     private String difficulty;
 
     // ★ 코스 ↔ 좋아요 양방향 매핑

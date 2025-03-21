@@ -11,6 +11,7 @@ import backend.overhere.filter.LoginFilter;
 import backend.overhere.service.auth.CustomUserDetailService;
 import backend.overhere.service.auth.Oauth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,7 +48,6 @@ public class SecurityConfig {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 
@@ -69,10 +69,20 @@ public class SecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
 
+//        http
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/v3/api-docs/**","/swagger-resources/**","/swagger-ui/**","/api/v1/auth/login","/","/api/v1/auth/join","/api/v1/auth/refresh","/error","/favicon.ico").permitAll()
+//                        .anyRequest().authenticated());
+
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/v3/api-docs/**","/swagger-resources/**","/swagger-ui/**","/api/v1/auth/login","/","/api/v1/auth/join","/api/v1/auth/refresh","/error","/favicon.ico").permitAll()
-                        .anyRequest().authenticated());
+                        // 🔥 인증이 필요한 엔드포인트 설정
+                        .requestMatchers("/api/v1/mypage/**", "/api/v1/likes/**").authenticated()
+
+                        // 🔥 나머지 엔드포인트는 인증 없이 접근 가능
+                        .anyRequest().permitAll()
+                );
+
 
         http
                 .addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);

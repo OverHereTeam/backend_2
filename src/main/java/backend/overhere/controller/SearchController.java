@@ -40,6 +40,7 @@ public class SearchController {
 
     // 지역, 유형을 가지고 해당 데이터들 페이징 기능
     // 관광지 더 보러가기를 페이지 이동으로 하느냐 스크롤로 하느냐에 따라 달라짐
+    // 지역이 필요할듯
     @Operation(summary = "무장애 기반 관광지 검색 API",description = "무장애 기반 관광지 검색 API 입니다.")
     @GetMapping("/non-obstacle")
     public ResponseEntity<TouristSearchPageResponseDto> searchTouristAttractionsByType(
@@ -88,6 +89,8 @@ public class SearchController {
             return ResponseEntity.ok(dtoList); // 200 OK
 
     }
+
+
 
     // 공통된 로직을 처리하는 메서드
     private TouristSearchPageResponseDto convertTouristAttractionToSearchResponseDtos(List<?> content, Page<TouristAttraction> result) {

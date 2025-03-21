@@ -3,6 +3,7 @@ package backend.overhere.controller;
 
 import backend.overhere.dto.domain.noticedto.NoticeRequestDto;
 import backend.overhere.dto.domain.noticedto.NoticeResponseDto;
+import backend.overhere.dto.domain.noticedto.NoticeSearchResponseDto;
 import backend.overhere.dto.domain.noticedto.SingleNoticeDetailResponseDto;
 import backend.overhere.dto.domain.page.NoticeDetailPageResponseDto;
 import backend.overhere.service.api.NoticeService;
@@ -40,9 +41,17 @@ public class NoticeController {
 
     @Operation(summary = "공지사항 추가 API ",description = "공지사항 추가 API 입니다.")
     @PostMapping
-    public ResponseEntity<NoticeResponseDto> addNotice(@Validated @RequestBody NoticeRequestDto requestDto){
+    public ResponseEntity<NoticeResponseDto> addNotice(@RequestBody NoticeRequestDto requestDto){
         NoticeResponseDto noticeResponseDto = noticeService.addNotice(requestDto);
         return ResponseEntity.ok(noticeResponseDto);
+    }
+
+    @Operation(summary = "공지사항 검색 API", description = "제목에 검색어가 포함된 공지사항을 검색합니다.")
+    @GetMapping("/search")
+    public ResponseEntity<List<NoticeSearchResponseDto>> searchNotices(
+            @RequestParam String keyword) {
+        List<NoticeSearchResponseDto> searchResults = noticeService.searchNoticesByTitle(keyword);
+        return ResponseEntity.ok(searchResults);
     }
 
 }

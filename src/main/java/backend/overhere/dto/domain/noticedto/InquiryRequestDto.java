@@ -10,8 +10,6 @@ public class InquiryRequestDto {
 
     private String inquiryType;
 
-    private Long userId;
-
     private String content;
 
 }

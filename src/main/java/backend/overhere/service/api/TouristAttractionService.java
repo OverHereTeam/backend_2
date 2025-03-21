@@ -145,7 +145,22 @@ public class TouristAttractionService {
         };
     }
 
-
-
+    public static String convertAreaCodeToRegion(Integer areaCode) {
+        if (areaCode == null) return "알 수 없음";
+        
+        // 먼저 지역 코드 통일
+        Integer standardizedAreaCode = areacodeSetting(areaCode);
+        
+        return switch (standardizedAreaCode) {
+            case 1 -> "서울";
+            case 31 -> "경기도";
+            case 32 -> "강원도";
+            case 33 -> "충청도";
+            case 35 -> "경상도";
+            case 37 -> "전라도";
+            case 39 -> "제주도";
+            default -> "알 수 없음";
+        };
+    }
 
 }

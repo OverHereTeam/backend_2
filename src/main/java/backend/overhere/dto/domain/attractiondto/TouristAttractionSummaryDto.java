@@ -1,6 +1,7 @@
 package backend.overhere.dto.domain.attractiondto;
 
 import backend.overhere.domain.NonObstacleInfo;
+import backend.overhere.dto.domain.NonObstacleInfoDto;
 import lombok.*;
 
 @Getter
@@ -14,8 +15,6 @@ public class TouristAttractionSummaryDto {
     private String title;
     private String detailInfo;
     private String imageUrl;
-    private NonObstacleInfo nonObstacleInfo;
-
-
+    private NonObstacleInfoDto nonObstacleInfo;
 
 }

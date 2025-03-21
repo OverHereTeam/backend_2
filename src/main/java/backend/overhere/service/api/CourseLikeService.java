@@ -13,6 +13,9 @@ import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.CourseLikeRepository;
 import backend.overhere.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,7 @@ public class CourseLikeService {
     private final UserRepository userRepository;
     private final CourseLikeRepository courseLikeRepository;
     private final CourseRepository courseRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     // 좋아요 추가 (생성)
     public CourseLikeResponseDto addCourseLike(CourseLikeRequestDto requestDto) {

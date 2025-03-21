@@ -15,21 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseDetailResponse {
-
     private Long courseId;
     private String courseType;
-
     private Long likeNumber;
-
     private String title;
-
-    private String overView; //상세설명
-
+    private Long view;
+    private String overView;
     private String difficulty;
-
-    private double distance;
-
-
+    private Double distance;
+    private String region; // 지역 정보 추가
+    private String thumbnailUrl; // 첫 번째 관광지의 썸네일 URL
     private List<TouristAttractionSummaryDto> touristSummary = new ArrayList<>();
-
 }

@@ -54,9 +54,8 @@ public class MyPageController {
 
     @Operation(summary = "1대1 문의 추가 API",description = "1대1 문의 추가 API 입니다.")
     @PostMapping("/inquiries")
-    public ResponseEntity<InquiryResponseDto> addInquiry(@AuthenticationPrincipal CustomUserDetails userDetails,@Validated @RequestBody InquiryRequestDto requestDto){
-        requestDto.setUserId(userDetails.getId());
-        InquiryResponseDto inquiryResponseDto = inquiryService.addInquiry(requestDto);
+    public ResponseEntity<InquiryResponseDto> addInquiry(@AuthenticationPrincipal CustomUserDetails userDetails,@RequestBody InquiryRequestDto requestDto){
+        InquiryResponseDto inquiryResponseDto = inquiryService.addInquiry(userDetails.getId(),requestDto);
         return ResponseEntity.ok(inquiryResponseDto);
     }
 
@@ -70,7 +69,7 @@ public class MyPageController {
     @Operation(summary = "자주 묻는 질문 리스트 추가 API",description = "자주 묻는 질문 리스트 추가 API입니다.")
     //@PreAuthorize("hasRole('ADMIN')") // 관리자만 접근 가능
     @PostMapping("/faqs")
-    public ResponseEntity<FaqResponseDto> addFaq(@Validated @RequestBody FaqRequestDto request){
+    public ResponseEntity<FaqResponseDto> addFaq(@RequestBody FaqRequestDto request){
         FaqResponseDto faqResponseDto = faqService.addFaq(request);
         return ResponseEntity.ok(faqResponseDto);
     }
