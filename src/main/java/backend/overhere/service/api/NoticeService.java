@@ -3,6 +3,7 @@ package backend.overhere.service.api;
 import backend.overhere.domain.Notice;
 import backend.overhere.dto.domain.noticedto.NoticeRequestDto;
 import backend.overhere.dto.domain.noticedto.NoticeResponseDto;
+import backend.overhere.dto.domain.noticedto.NoticeSearchResponseDto;
 import backend.overhere.dto.domain.noticedto.SingleNoticeDetailResponseDto;
 import backend.overhere.dto.domain.page.NoticeDetailPageResponseDto;
 import backend.overhere.repository.NoticeRepository;
@@ -50,6 +51,14 @@ public class NoticeService {
         noticeRepository.save(notice);
 
         return notice.noticetoNoticeResponseDto();
+    }
+
+    // 검색 메서드 추가
+    public List<NoticeSearchResponseDto> searchNoticesByTitle(String keyword) {
+        List<Notice> notices = noticeRepository.findByTitleContaining(keyword);
+        return notices.stream()
+                .map(NoticeSearchResponseDto::from)
+                .collect(Collectors.toList());
     }
 
 

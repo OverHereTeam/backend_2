@@ -48,6 +48,7 @@ public class CourseController {
         return ResponseEntity.ok(recommended);
     }
 
+    //순환참조 발생
     @Operation(summary = "코스 상세 api ",description = "코스 id기반으로 코스 상세정보 불러옴 TouristAttractionSummaryDto" +
             "내용 기반으로 관광지 내용 구성하기  ")
     @GetMapping("/detail")

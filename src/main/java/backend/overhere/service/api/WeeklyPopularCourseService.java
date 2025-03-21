@@ -1,8 +1,12 @@
 package backend.overhere.service.api;
 
+import backend.overhere.domain.Course;
+import backend.overhere.domain.TouristAttraction;
+import backend.overhere.domain.TouristAttractionCourse;
 import backend.overhere.domain.WeeklyPopularCourse;
 import backend.overhere.dto.domain.coursedto.WeeklyPopularCourseResponseDto;
 import backend.overhere.repository.CourseLikeRepository;
+import backend.overhere.repository.CourseRepository;
 import backend.overhere.repository.WeeklyPopularCourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +26,8 @@ public class WeeklyPopularCourseService {
 
     private final CourseLikeRepository courseLikeRepository;
     private final WeeklyPopularCourseRepository weeklyPopularCourseRepo;
+    private final CourseRepository courseRepository; // 추가
+    private final TouristAttractionService touristAttractionService;
 
     // 집계 업데이트 메서드 (매주 실행)
     public void updateWeeklyPopularCourses() {
@@ -63,17 +70,50 @@ public class WeeklyPopularCourseService {
         weeklyPopularCourseRepo.saveAll(popularList);
     }
 
-    // 인기 코스 반환 메서드
     public List<WeeklyPopularCourseResponseDto> getPopularCourses() {
         List<WeeklyPopularCourse> courses = weeklyPopularCourseRepo.findAllByOrderByWeeklyLikeCountDescTitleAsc();
+
         return courses.stream()
-                .map(entity -> WeeklyPopularCourseResponseDto.builder()
-                        .courseId(entity.getCourseId())
-                        .courseType(entity.getCourseType())
-                        .title(entity.getTitle())
-                        .weeklyLikeCount(entity.getWeeklyLikeCount())
-                        .touristAttractionNames(entity.getTouristAttractionNames())
-                        .build())
+                .map(entity -> {
+                    // Course 엔티티 조회
+                    Course course = courseRepository.findById(entity.getCourseId())
+                            .orElseThrow(() -> new NoSuchElementException("Course not found with id: " + entity.getCourseId()));
+
+                    // 해당 코스의 첫 번째 관광지의 areaCode를 region으로 사용
+                    Integer areaCode = course.getTouristAttractionCourses().stream()
+                            .findFirst()
+                            .map(tac -> tac.getTouristAttraction().getAreaCode())
+                            .orElse(null);
+
+                    // 썸네일 URL 찾기 - 첫 번째 유효한 썸네일을 사용
+                    String thumbnailUrl = "";
+                    for (TouristAttractionCourse tac : course.getTouristAttractionCourses()) {
+                        TouristAttraction ta = tac.getTouristAttraction();
+                        if (ta != null && ta.getThumbnail1() != null && !ta.getThumbnail1().isEmpty()) {
+                            thumbnailUrl = ta.getThumbnail1();
+                            break;
+                        }
+                    }
+
+                    // CourseInfo 객체 생성
+                    WeeklyPopularCourseResponseDto.CourseInfo courseInfo = WeeklyPopularCourseResponseDto.CourseInfo.builder()
+                            .distance(String.format("%.1f", course.getDistance()))
+                            .difficulty(course.getDifficulty())
+                            .number(String.valueOf(course.getTouristAttractionCourses().size()))
+                            .build();
+
+                    // WeeklyPopularCourseResponseDto 생성 및 반환
+                    return WeeklyPopularCourseResponseDto.builder()
+                            .courseId(entity.getCourseId())
+                            .courseType(entity.getCourseType())
+                            .title(entity.getTitle())
+                            .weeklyLikeCount(entity.getWeeklyLikeCount())
+                            .courseInfo(courseInfo)
+                            .touristAttractionNames(entity.getTouristAttractionNames())
+                            .region(TouristAttractionService.convertAreaCodeToRegion(areaCode))
+                            .thumbnailUrl(thumbnailUrl)  // 썸네일 URL 추가
+                            .build();
+                })
                 .collect(Collectors.toList());
     }
 }

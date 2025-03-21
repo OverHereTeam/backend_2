@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -27,8 +28,7 @@ public class Like {
     @JoinColumn(name="tourist_attraction_id")
     private TouristAttraction touristAttraction;
 
-
-    @CreatedDate
+    @CreationTimestamp
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
