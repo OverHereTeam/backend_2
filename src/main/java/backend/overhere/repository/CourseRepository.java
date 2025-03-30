@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> {
+public interface CourseRepository extends JpaRepository<Course, Long>, CourseRepositoryCustom {
     @Query("SELECT ca.touristAttraction FROM TouristAttractionCourse ca WHERE ca.course.id = :courseId")
     List<TouristAttraction> findTouristAttractionsByCourseId(Long courseId);
 

@@ -1,0 +1,53 @@
+package backend.overhere.domain;
+
+import static com.querydsl.core.types.PathMetadataFactory.*;
+
+import com.querydsl.core.types.dsl.*;
+
+import com.querydsl.core.types.PathMetadata;
+import javax.annotation.processing.Generated;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
+
+
+/**
+ * QGallery is a Querydsl query type for Gallery
+ */
+@Generated("com.querydsl.codegen.DefaultEntitySerializer")
+public class QGallery extends EntityPathBase<Gallery> {
+
+    private static final long serialVersionUID = -310093032L;
+
+    private static final PathInits INITS = PathInits.DIRECT2;
+
+    public static final QGallery gallery = new QGallery("gallery");
+
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final StringPath imageUrl = createString("imageUrl");
+
+    public final QTouristAttraction touristAttraction;
+
+    public QGallery(String variable) {
+        this(Gallery.class, forVariable(variable), INITS);
+    }
+
+    public QGallery(Path<? extends Gallery> path) {
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+    }
+
+    public QGallery(PathMetadata metadata) {
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QGallery(PathMetadata metadata, PathInits inits) {
+        this(Gallery.class, metadata, inits);
+    }
+
+    public QGallery(Class<? extends Gallery> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.touristAttraction = inits.isInitialized("touristAttraction") ? new QTouristAttraction(forProperty("touristAttraction"), inits.get("touristAttraction")) : null;
+    }
+
+}
+
