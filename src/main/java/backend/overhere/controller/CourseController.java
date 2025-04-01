@@ -2,9 +2,11 @@ package backend.overhere.controller;
 
 
 import backend.overhere.common.ResponseStatus;
+import backend.overhere.domain.Course;
 import backend.overhere.dto.ResponseDto;
 import backend.overhere.dto.domain.coursedto.CourseDetailResponse;
 import backend.overhere.dto.domain.coursedto.CourseResponseDto;
+import backend.overhere.dto.domain.coursedto.NonObstacleRequestDto;
 import backend.overhere.dto.domain.coursedto.WeeklyPopularCourseResponseDto;
 import backend.overhere.service.api.CourseService;
 import backend.overhere.service.api.WeeklyPopularCourseService;
@@ -14,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -110,5 +109,23 @@ public class CourseController {
     public ResponseEntity<List<WeeklyPopularCourseResponseDto>> getPopularCourses() {
         List<WeeklyPopularCourseResponseDto> response = weeklyPopularCourseService.getPopularCourses();
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "지역코드와 무장애 정보 기반 코스찾기",
+            description = "지역코드와 무장애 시설 정보를 기반으로 좋아요가 많은 코스를 페이징해서 반환")
+    @PostMapping("/recommend/nonobstacle")
+    public ResponseEntity<Page<CourseResponseDto>> getRecommendedCoursesByNonobstacle(
+            @RequestParam Integer areacode,
+            @RequestBody NonObstacleRequestDto nonObstacleRequestDto,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+
+        Page<CourseResponseDto> result = courseService.getRecommendedCoursesByAreacodeAndNonobstacle(
+                areacode, nonObstacleRequestDto, page, size);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(result);
     }
 }

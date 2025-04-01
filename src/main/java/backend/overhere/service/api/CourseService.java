@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final TouristAttractionRepository touristAttractionRepository;
-    private final CourseRepositoryCustom courseRepositoryCustom;
 
     // List 전부 Save
     public void saveCourses(List<Course> courseList) {
@@ -37,7 +36,7 @@ public class CourseService {
     // QueryDSL을 사용한 검색
     public Page<Course> getCourseSearch(String searchQuery, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Course> courses = courseRepositoryCustom.searchByQuery(searchQuery);
+        List<Course> courses = courseRepository.searchByQuery(searchQuery);
         return new PageImpl<>(courses, pageable, courses.size());
     }
 
@@ -119,21 +118,21 @@ public class CourseService {
 
     public Page<CourseResponseDto> getRecommendedCoursesByRegion(String region, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Course> courses = courseRepositoryCustom.recommendByRegion(region);
+        List<Course> courses = courseRepository.recommendByRegion(region);
         return new PageImpl<>(courses.stream().map(Course::CoursetoDto).collect(Collectors.toList()), pageable, courses.size());
     }
 
     // 지역코드와 코스타입을 기반으로 추천 코스 조회
     public Page<CourseResponseDto> getRecommendedCoursesByAreacode(Integer areacode, String courseType, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Course> courses = courseRepositoryCustom.recommendByAreacodeAndCourseType(areacode, courseType);
+        List<Course> courses = courseRepository.recommendByAreacodeAndCourseType(areacode, courseType);
         return new PageImpl<>(courses.stream().map(Course::CoursetoDto).collect(Collectors.toList()), pageable, courses.size());
     }
 
     // 지역코드와 비장애물 정보를 기반으로 추천 코스 조회
     public Page<CourseResponseDto> getRecommendedCoursesByAreacodeAndNonobstacle(Integer areacode, NonObstacleRequestDto nonObstacleRequestDto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Course> courses = courseRepositoryCustom.recommendByAreacodeAndNonobstacle(areacode, nonObstacleRequestDto);
+        List<Course> courses = courseRepository.recommendByAreacodeAndNonobstacle(areacode, nonObstacleRequestDto);
         return new PageImpl<>(courses.stream().map(Course::CoursetoDto).collect(Collectors.toList()), pageable, courses.size());
     }
 }

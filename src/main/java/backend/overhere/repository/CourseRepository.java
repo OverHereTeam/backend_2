@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+//querydsl 사용을 위해
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long>, CourseRepositoryCustom {
     @Query("SELECT ca.touristAttraction FROM TouristAttractionCourse ca WHERE ca.course.id = :courseId")
@@ -23,6 +24,5 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "GROUP BY c " +
             "ORDER BY COUNT(cl.id) DESC, c.title ASC")
     List<Course> findMostLikedCourses(Pageable pageable);
-
 
 }

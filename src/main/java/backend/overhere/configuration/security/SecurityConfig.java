@@ -6,7 +6,7 @@ import backend.overhere.configuration.security.handler.LoginFailureHandler;
 import backend.overhere.configuration.security.handler.LoginSuccessHandler;
 import backend.overhere.configuration.security.handler.OauthLoginFailureHandler;
 import backend.overhere.configuration.security.handler.OauthLoginSuccessHandler;
-import backend.overhere.filter.JwtFilter;
+//import backend.overhere.filter.JwtFilter;
 import backend.overhere.filter.LoginFilter;
 import backend.overhere.service.auth.CustomUserDetailService;
 import backend.overhere.service.auth.Oauth2UserService;
@@ -37,7 +37,7 @@ public class SecurityConfig {
     private final CustomUserDetailService loginService;
     private final Oauth2UserService oauth2UserService;
     private final ObjectMapper objectMapper;
-    private final JwtFilter jwtFilter;
+    //.private final JwtFilter jwtFilter;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final CorsConfigurationSource corsConfigurationSource;
 
@@ -76,19 +76,15 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        // 🔥 인증이 필요한 엔드포인트 설정
-                        .requestMatchers("/api/v1/mypage/**", "/api/v1/likes/**").authenticated()
-
-                        // 🔥 나머지 엔드포인트는 인증 없이 접근 가능
                         .anyRequest().permitAll()
                 );
 
 
-        http
-                .addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        http
-                .addFilterAfter(jwtFilter, LoginFilter.class);
+//        http
+//                .addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+//
+//        http
+//                .addFilterAfter(jwtFilter, LoginFilter.class);
 
         http
                 .oauth2Login(oauth -> oauth

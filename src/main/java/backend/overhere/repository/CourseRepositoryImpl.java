@@ -53,7 +53,7 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
                 .orderBy(course.courseLikes.size().desc(), course.title.asc())
                 .fetch();
     }
-
+    //
     @Override
     public List<Course> recommendByAreacodeAndNonobstacle(Integer areacode, NonObstacleRequestDto nonObstacleRequestDto) {
         QCourse course = QCourse.course;
