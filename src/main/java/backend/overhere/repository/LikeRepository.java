@@ -41,6 +41,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
                                                           @Param("startDate") LocalDateTime startDate,
                                                           @Param("endDate") LocalDateTime endDate,
                                                           Pageable pageable);
+
+    boolean existsByTouristAttractionIdAndUserId(Long touristAttractionId, Long userId);
 }
 
 

@@ -1,6 +1,7 @@
 package backend.overhere.controller;
 
 import backend.overhere.common.ResponseStatus;
+import backend.overhere.configuration.security.userDetails.CustomUserDetails;
 import backend.overhere.dto.ResponseDto;
 import backend.overhere.dto.domain.attractiondto.AttractionDetailResponseDto;
 import backend.overhere.dto.domain.attractiondto.AttractionInfoResponseDto;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +39,8 @@ public class AttractionController {
 
     @Operation(summary = "관광지 상세 정보",description = "Path Variable로 받은 관광지의 상세 정보를 응답합니다.")
     @GetMapping("/{touristAttractionId}/detail")
-    public ResponseEntity<AttractionDetailResponseDto> getTouristAttractionDetail(@PathVariable Long touristAttractionId){
-        AttractionDetailResponseDto response = attractionService.loadAttractionDetail(touristAttractionId);
+    public ResponseEntity<AttractionDetailResponseDto> getTouristAttractionDetail(@AuthenticationPrincipal CustomUserDetails userDetails,@PathVariable Long touristAttractionId){
+        AttractionDetailResponseDto response = attractionService.loadAttractionDetail(touristAttractionId,userDetails.getId());
         return ResponseEntity.ok(response);
     }
 

@@ -19,8 +19,9 @@ public class AttractionDetailResponseDto {
     private Boolean signGuide;
     private Boolean stroller;
     private Boolean lactationroom;
+    private Boolean isLike;
 
-    public static AttractionDetailResponseDto from(TouristAttraction attraction) {
+    public static AttractionDetailResponseDto from(TouristAttraction attraction, boolean isLike) {
         DetailInfo detailInfo = attraction.getDetailInfo();
         return AttractionDetailResponseDto.builder()
                 .contentId(attraction.getId())
@@ -32,6 +33,7 @@ public class AttractionDetailResponseDto {
                 .signGuide(detailInfo.getSignguide())
                 .stroller(detailInfo.getStroller())
                 .lactationroom(detailInfo.getLactationroom())
+                .isLike(isLike)
                 .build();
     }
 
