@@ -1,6 +1,7 @@
 package backend.overhere.service.api;
 
 import backend.overhere.domain.User;
+import backend.overhere.dto.LoginInformationDto;
 import backend.overhere.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,10 @@ public class UserService {
     }
     public User findByEmailAndProvider(String email,String provider){
         return userRepository.findByEmailAndProvider(email,provider);
+    }
+
+    public LoginInformationDto findUserDtoById(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return LoginInformationDto.of(user);
     }
 }
