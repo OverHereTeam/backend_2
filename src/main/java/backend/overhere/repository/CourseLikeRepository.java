@@ -39,4 +39,10 @@ public interface CourseLikeRepository extends JpaRepository<CourseLike, Long> {
 
     Optional<CourseLike> findByUserAndCourse(User user, Course course);
     Optional<CourseLike> findByUserIdAndCourseId(Long userId, Long courseId);
+
+    // 특정 유저의 모든 코스 좋아요 조회
+    List<CourseLike> findAllByUser(User user);
+
+    // 특정 유저의 모든 코스 좋아요 삭제
+    void deleteAllByUser(User user);
 }

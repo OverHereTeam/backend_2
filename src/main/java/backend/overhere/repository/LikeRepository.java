@@ -43,6 +43,9 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
                                                           Pageable pageable);
 
     boolean existsByTouristAttractionIdAndUserId(Long touristAttractionId, Long userId);
+
+    // 특정 유저의 모든 관광지 좋아요 삭제
+    void deleteAllByUser(User user);
 }
 
 

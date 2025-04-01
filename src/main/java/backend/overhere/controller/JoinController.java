@@ -1,6 +1,7 @@
 package backend.overhere.controller;
 
 import backend.overhere.common.ResponseStatus;
+import backend.overhere.configuration.security.userDetails.CustomUserDetails;
 import backend.overhere.dto.ResponseDto;
 import backend.overhere.dto.SignUpRequestDto;
 import backend.overhere.dto.SignUpResponseDto;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -119,5 +121,11 @@ public class JoinController {
         response.addCookie(util.createCookie("Refresh",newRefreshToken));
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteUser(@AuthenticationPrincipal CustomUserDetails userDetails){
+        joinService.withdrawUser(userDetails.getId());
+        return ResponseEntity.ok().build();
     }
 }
