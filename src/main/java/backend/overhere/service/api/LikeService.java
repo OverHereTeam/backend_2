@@ -87,6 +87,10 @@ public class LikeService {
                 && likeRepository.existsByUserAndTouristAttraction(user, touristAttraction);
     }
 
+    public boolean isAttractionLike(Long attractionId,Long userId) {
+        return likeRepository.existsByTouristAttractionIdAndUserId(attractionId, userId);
+    }
+
 }
 
 

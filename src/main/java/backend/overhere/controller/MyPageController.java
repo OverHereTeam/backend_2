@@ -1,6 +1,7 @@
 package backend.overhere.controller;
 
 import backend.overhere.configuration.security.userDetails.CustomUserDetails;
+import backend.overhere.dto.LoginInformationDto;
 import backend.overhere.dto.domain.faqdto.FaqRequestDto;
 import backend.overhere.dto.domain.faqdto.FaqResponseDto;
 import backend.overhere.dto.domain.faqdto.SingleFaqDetailResponseDto;
@@ -13,6 +14,7 @@ import backend.overhere.dto.domain.page.TouristSearchPageResponseDto;
 import backend.overhere.service.api.FaqService;
 import backend.overhere.service.api.InquiryService;
 import backend.overhere.service.api.MyPageService;
+import backend.overhere.service.api.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final InquiryService inquiryService;
     private final FaqService faqService;
+    private final UserService userService;
 
     @Operation(summary = "내 관광지 좋아요 API",description = "내 관광지 좋아요 리스트 API 입니다.")
     @GetMapping("/touristAttraction/likes")
@@ -82,6 +85,10 @@ public class MyPageController {
     }
 
 
+    @GetMapping
+    public ResponseEntity<LoginInformationDto> getUser(@AuthenticationPrincipal CustomUserDetails userDetails){
+        return ResponseEntity.ok(userService.findUserDtoById(userDetails.getId()));
+    }
 
 
 }

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class AttractionService {
     private final AttractionRepository attractionRepository;
     private final NonObstacleInfoRepository nonObstacleInfoRepository;
+    private final LikeService likeService;
 
 
     public AttractionInfoResponseDto loadAttractionInfo(Long touristAttractionId) {
@@ -51,9 +52,10 @@ public class AttractionService {
         return AttractionInfoResponseDto.from(touristAttraction);
     }
 
-    public AttractionDetailResponseDto loadAttractionDetail(Long touristAttractionId) {
+    public AttractionDetailResponseDto loadAttractionDetail(Long touristAttractionId,Long userId) {
         TouristAttraction touristAttraction = attractionRepository.findById(touristAttractionId)
                 .orElseThrow(() -> new DataAccessException("TouristAttraction not found"));
+        boolean isLike = likeService.isAttractionLike(touristAttractionId, userId);
 
 /*        DetailInfo detailInfo = touristAttraction.getDetailInfo();
 
@@ -68,7 +70,7 @@ public class AttractionService {
                 .stroller(detailInfo.getStroller())
                 .lactationroom(detailInfo.getLactationroom())
                 .build();*/
-        return AttractionDetailResponseDto.from(touristAttraction);
+        return AttractionDetailResponseDto.from(touristAttraction,isLike);
     }
 
 
