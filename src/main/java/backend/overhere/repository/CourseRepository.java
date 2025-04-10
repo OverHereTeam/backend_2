@@ -25,4 +25,8 @@ public interface CourseRepository extends JpaRepository<Course, Long>, CourseRep
             "ORDER BY COUNT(cl.id) DESC, c.title ASC")
     List<Course> findMostLikedCourses(Pageable pageable);
 
+
+    // ID 리스트에 해당하는 코스 전부 삭제
+    void deleteAllByIdIn(List<Long> ids);
+
 }
