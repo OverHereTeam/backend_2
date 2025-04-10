@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+//querydsl 사용을 위해
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> {
+public interface CourseRepository extends JpaRepository<Course, Long>, CourseRepositoryCustom {
     @Query("SELECT ca.touristAttraction FROM TouristAttractionCourse ca WHERE ca.course.id = :courseId")
     List<TouristAttraction> findTouristAttractionsByCourseId(Long courseId);
 
@@ -23,6 +24,7 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
             "GROUP BY c " +
             "ORDER BY COUNT(cl.id) DESC, c.title ASC")
     List<Course> findMostLikedCourses(Pageable pageable);
+
 
     // ID 리스트에 해당하는 코스 전부 삭제
     void deleteAllByIdIn(List<Long> ids);
